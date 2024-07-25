@@ -1,10 +1,10 @@
-import { getCamberFront } from "./getCamberFront";
+import { getCamberRear } from "./getCamberRear";
 
-function getWheelSpacer() {
-    let wheelSpacerInput = document.getElementById('wheelSpacer') as HTMLInputElement;
+function getWheelSpacerRear() {
+    let wheelSpacerInput = document.getElementById('rearWheelSpacer') as HTMLInputElement;
     let wheelSpacer = wheelSpacerInput?.value ? parseFloat(wheelSpacerInput?.value) : 0;
 
-    let camberAngle = getCamberFront();
+    let camberAngle = getCamberRear();
 
     let camberAngleRadians = camberAngle * (Math.PI / 180);
 
@@ -13,4 +13,4 @@ function getWheelSpacer() {
     return adjustedSpacer;
 }
 
-export { getWheelSpacer };
+export { getWheelSpacerRear };
