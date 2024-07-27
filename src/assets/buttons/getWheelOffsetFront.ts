@@ -1,7 +1,7 @@
 import { getCamberFront } from "./getCamberFront";
 
-function getWheelOffset() {
-    let wheelOffsetInput = document.getElementById('wheelOffset') as HTMLInputElement;
+function getWheelOffsetFront() {
+    let wheelOffsetInput = document.getElementById('frontWheelOffset') as HTMLInputElement;
     let wheelOffset = wheelOffsetInput?.value ? parseFloat(wheelOffsetInput?.value) : 0;
 
     let camberAngle = getCamberFront();
@@ -13,4 +13,4 @@ function getWheelOffset() {
     return adjustedOffset;
 }
 
-export { getWheelOffset };
+export { getWheelOffsetFront };
