@@ -1,0 +1,286 @@
+[
+    {
+        "label": "contextlib",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "contextlib",
+        "description": "contextlib",
+        "detail": "contextlib",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "logging",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "logging",
+        "description": "logging",
+        "detail": "logging",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "shutil",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "shutil",
+        "description": "shutil",
+        "detail": "shutil",
+        "documentation": {}
+    },
+    {
+        "label": "subprocess",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "subprocess",
+        "description": "subprocess",
+        "detail": "subprocess",
+        "documentation": {}
+    },
+    {
+        "label": "tempfile",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "tempfile",
+        "description": "tempfile",
+        "detail": "tempfile",
+        "documentation": {}
+    },
+    {
+        "label": "urllib.parse",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "urllib.parse",
+        "description": "urllib.parse",
+        "detail": "urllib.parse",
+        "documentation": {}
+    },
+    {
+        "label": "Request",
+        "importPath": "urllib.request",
+        "description": "urllib.request",
+        "isExtraImport": true,
+        "detail": "urllib.request",
+        "documentation": {}
+    },
+    {
+        "label": "urlopen",
+        "importPath": "urllib.request",
+        "description": "urllib.request",
+        "isExtraImport": true,
+        "detail": "urllib.request",
+        "documentation": {}
+    },
+    {
+        "label": "uuid4",
+        "importPath": "uuid",
+        "description": "uuid",
+        "isExtraImport": true,
+        "detail": "uuid",
+        "documentation": {}
+    },
+    {
+        "label": "ZipFile",
+        "importPath": "zipfile",
+        "description": "zipfile",
+        "isExtraImport": true,
+        "detail": "zipfile",
+        "documentation": {}
+    },
+    {
+        "label": "boto3",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "boto3",
+        "description": "boto3",
+        "detail": "boto3",
+        "documentation": {}
+    },
+    {
+        "label": "handler",
+        "kind": 2,
+        "importPath": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "description": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "peekOfCode": "def handler(event, context):\n    def cfn_error(message=None):\n        if message:\n            logger.error(\"| cfn_error: %s\" % message.encode())\n        cfn_send(event, context, CFN_FAILED, reason=message, physicalResourceId=event.get('PhysicalResourceId', None))\n    try:\n        # We are not logging ResponseURL as this is a pre-signed S3 URL, and could be used to tamper\n        # with the response CloudFormation sees from this Custom Resource execution.\n        logger.info({ key:value for (key, value) in event.items() if key != 'ResponseURL'})\n        # cloudformation request type (create/update/delete)",
+        "detail": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "documentation": {}
+    },
+    {
+        "label": "sanitize_message",
+        "kind": 2,
+        "importPath": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "description": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "peekOfCode": "def sanitize_message(message):\n    if not message:\n        return message\n    # Sanitize the message to prevent log injection and HTTP response splitting\n    sanitized_message = message.replace('\\n', '').replace('\\r', '')\n    # Encode the message to handle special characters\n    encoded_message = urllib.parse.quote(sanitized_message)\n    return encoded_message\n#---------------------------------------------------------------------------------------------------\n# populate all files from s3_source_zips to a destination bucket",
+        "detail": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "documentation": {}
+    },
+    {
+        "label": "s3_deploy",
+        "kind": 2,
+        "importPath": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "description": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "peekOfCode": "def s3_deploy(s3_source_zips, s3_dest, user_metadata, system_metadata, prune, exclude, include, source_markers, extract):\n    # list lengths are equal\n    if len(s3_source_zips) != len(source_markers):\n        raise Exception(\"'source_markers' and 's3_source_zips' must be the same length\")\n    # create a temporary working directory in /tmp or if enabled an attached efs volume\n    if ENV_KEY_MOUNT_PATH in os.environ:\n        workdir = os.getenv(ENV_KEY_MOUNT_PATH) + \"/\" + str(uuid4())\n        os.mkdir(workdir)\n    else:\n        workdir = tempfile.mkdtemp()",
+        "detail": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "documentation": {}
+    },
+    {
+        "label": "cloudfront_invalidate",
+        "kind": 2,
+        "importPath": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "description": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "peekOfCode": "def cloudfront_invalidate(distribution_id, distribution_paths):\n    invalidation_resp = cloudfront.create_invalidation(\n        DistributionId=distribution_id,\n        InvalidationBatch={\n            'Paths': {\n                'Quantity': len(distribution_paths),\n                'Items': distribution_paths\n            },\n            'CallerReference': str(uuid4()),\n        })",
+        "detail": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "documentation": {}
+    },
+    {
+        "label": "create_metadata_args",
+        "kind": 2,
+        "importPath": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "description": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "peekOfCode": "def create_metadata_args(raw_user_metadata, raw_system_metadata):\n    if len(raw_user_metadata) == 0 and len(raw_system_metadata) == 0:\n        return []\n    format_system_metadata_key = lambda k: k.lower()\n    format_user_metadata_key = lambda k: k.lower()\n    system_metadata = { format_system_metadata_key(k): v for k, v in raw_system_metadata.items() }\n    user_metadata = { format_user_metadata_key(k): v for k, v in raw_user_metadata.items() }\n    flatten = lambda l: [item for sublist in l for item in sublist]\n    system_args = flatten([[f\"--{k}\", v] for k, v in system_metadata.items()])\n    user_args = [\"--metadata\", json.dumps(user_metadata, separators=(',', ':'))] if len(user_metadata) > 0 else []",
+        "detail": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "documentation": {}
+    },
+    {
+        "label": "aws_command",
+        "kind": 2,
+        "importPath": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "description": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "peekOfCode": "def aws_command(*args):\n    aws=\"/opt/awscli/aws\" # from AwsCliLayer\n    logger.info(\"| aws %s\" % ' '.join(args))\n    subprocess.check_call([aws] + list(args))\n#---------------------------------------------------------------------------------------------------\n# sends a response to cloudformation\ndef cfn_send(event, context, responseStatus, responseData={}, physicalResourceId=None, noEcho=False, reason=None):\n    responseUrl = event['ResponseURL']\n    responseBody = {}\n    responseBody['Status'] = responseStatus",
+        "detail": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "documentation": {}
+    },
+    {
+        "label": "cfn_send",
+        "kind": 2,
+        "importPath": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "description": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "peekOfCode": "def cfn_send(event, context, responseStatus, responseData={}, physicalResourceId=None, noEcho=False, reason=None):\n    responseUrl = event['ResponseURL']\n    responseBody = {}\n    responseBody['Status'] = responseStatus\n    responseBody['Reason'] = reason or ('See the details in CloudWatch Log Stream: ' + context.log_stream_name)\n    responseBody['PhysicalResourceId'] = physicalResourceId or context.log_stream_name\n    responseBody['StackId'] = event['StackId']\n    responseBody['RequestId'] = event['RequestId']\n    responseBody['LogicalResourceId'] = event['LogicalResourceId']\n    responseBody['NoEcho'] = noEcho",
+        "detail": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "documentation": {}
+    },
+    {
+        "label": "bucket_owned",
+        "kind": 2,
+        "importPath": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "description": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "peekOfCode": "def bucket_owned(bucketName, keyPrefix):\n    tag = CUSTOM_RESOURCE_OWNER_TAG\n    if keyPrefix != \"\":\n        tag = tag + ':' + keyPrefix\n    try:\n        request = s3.get_bucket_tagging(\n            Bucket=bucketName,\n        )\n        return any((x[\"Key\"].startswith(tag)) for x in request[\"TagSet\"])\n    except Exception as e:",
+        "detail": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "documentation": {}
+    },
+    {
+        "label": "extract_and_replace_markers",
+        "kind": 2,
+        "importPath": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "description": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "peekOfCode": "def extract_and_replace_markers(archive, contents_dir, markers):\n    with ZipFile(archive, \"r\") as zip:\n        zip.extractall(contents_dir)\n        # replace markers for this source\n        for file in zip.namelist():\n            file_path = os.path.join(contents_dir, file)\n            if os.path.isdir(file_path): continue\n            replace_markers(file_path, markers)\ndef replace_markers(filename, markers):\n    # convert the dict of string markers to binary markers",
+        "detail": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "documentation": {}
+    },
+    {
+        "label": "replace_markers",
+        "kind": 2,
+        "importPath": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "description": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "peekOfCode": "def replace_markers(filename, markers):\n    # convert the dict of string markers to binary markers\n    replace_tokens = dict([(k.encode('utf-8'), v.encode('utf-8')) for k, v in markers.items()])\n    outfile = filename + '.new'\n    with open(filename, 'rb') as fi, open(outfile, 'wb') as fo:\n        for line in fi:\n            for token in replace_tokens:\n                line = line.replace(token, replace_tokens[token])\n            fo.write(line)\n    # # delete the original file and rename the new one to the original",
+        "detail": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "description": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "peekOfCode": "logger = logging.getLogger()\nlogger.setLevel(logging.INFO)\ncloudfront = boto3.client('cloudfront')\ns3 = boto3.client('s3')\nCFN_SUCCESS = \"SUCCESS\"\nCFN_FAILED = \"FAILED\"\nENV_KEY_MOUNT_PATH = \"MOUNT_PATH\"\nENV_KEY_SKIP_CLEANUP = \"SKIP_CLEANUP\"\nAWS_CLI_CONFIG_FILE = \"/tmp/aws_cli_config\"\nCUSTOM_RESOURCE_OWNER_TAG = \"aws-cdk:cr-owned\"",
+        "detail": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "documentation": {}
+    },
+    {
+        "label": "cloudfront",
+        "kind": 5,
+        "importPath": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "description": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "peekOfCode": "cloudfront = boto3.client('cloudfront')\ns3 = boto3.client('s3')\nCFN_SUCCESS = \"SUCCESS\"\nCFN_FAILED = \"FAILED\"\nENV_KEY_MOUNT_PATH = \"MOUNT_PATH\"\nENV_KEY_SKIP_CLEANUP = \"SKIP_CLEANUP\"\nAWS_CLI_CONFIG_FILE = \"/tmp/aws_cli_config\"\nCUSTOM_RESOURCE_OWNER_TAG = \"aws-cdk:cr-owned\"\nos.putenv('AWS_CONFIG_FILE', AWS_CLI_CONFIG_FILE)\ndef handler(event, context):",
+        "detail": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "documentation": {}
+    },
+    {
+        "label": "s3",
+        "kind": 5,
+        "importPath": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "description": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "peekOfCode": "s3 = boto3.client('s3')\nCFN_SUCCESS = \"SUCCESS\"\nCFN_FAILED = \"FAILED\"\nENV_KEY_MOUNT_PATH = \"MOUNT_PATH\"\nENV_KEY_SKIP_CLEANUP = \"SKIP_CLEANUP\"\nAWS_CLI_CONFIG_FILE = \"/tmp/aws_cli_config\"\nCUSTOM_RESOURCE_OWNER_TAG = \"aws-cdk:cr-owned\"\nos.putenv('AWS_CONFIG_FILE', AWS_CLI_CONFIG_FILE)\ndef handler(event, context):\n    def cfn_error(message=None):",
+        "detail": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "documentation": {}
+    },
+    {
+        "label": "CFN_SUCCESS",
+        "kind": 5,
+        "importPath": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "description": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "peekOfCode": "CFN_SUCCESS = \"SUCCESS\"\nCFN_FAILED = \"FAILED\"\nENV_KEY_MOUNT_PATH = \"MOUNT_PATH\"\nENV_KEY_SKIP_CLEANUP = \"SKIP_CLEANUP\"\nAWS_CLI_CONFIG_FILE = \"/tmp/aws_cli_config\"\nCUSTOM_RESOURCE_OWNER_TAG = \"aws-cdk:cr-owned\"\nos.putenv('AWS_CONFIG_FILE', AWS_CLI_CONFIG_FILE)\ndef handler(event, context):\n    def cfn_error(message=None):\n        if message:",
+        "detail": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "documentation": {}
+    },
+    {
+        "label": "CFN_FAILED",
+        "kind": 5,
+        "importPath": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "description": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "peekOfCode": "CFN_FAILED = \"FAILED\"\nENV_KEY_MOUNT_PATH = \"MOUNT_PATH\"\nENV_KEY_SKIP_CLEANUP = \"SKIP_CLEANUP\"\nAWS_CLI_CONFIG_FILE = \"/tmp/aws_cli_config\"\nCUSTOM_RESOURCE_OWNER_TAG = \"aws-cdk:cr-owned\"\nos.putenv('AWS_CONFIG_FILE', AWS_CLI_CONFIG_FILE)\ndef handler(event, context):\n    def cfn_error(message=None):\n        if message:\n            logger.error(\"| cfn_error: %s\" % message.encode())",
+        "detail": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "documentation": {}
+    },
+    {
+        "label": "ENV_KEY_MOUNT_PATH",
+        "kind": 5,
+        "importPath": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "description": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "peekOfCode": "ENV_KEY_MOUNT_PATH = \"MOUNT_PATH\"\nENV_KEY_SKIP_CLEANUP = \"SKIP_CLEANUP\"\nAWS_CLI_CONFIG_FILE = \"/tmp/aws_cli_config\"\nCUSTOM_RESOURCE_OWNER_TAG = \"aws-cdk:cr-owned\"\nos.putenv('AWS_CONFIG_FILE', AWS_CLI_CONFIG_FILE)\ndef handler(event, context):\n    def cfn_error(message=None):\n        if message:\n            logger.error(\"| cfn_error: %s\" % message.encode())\n        cfn_send(event, context, CFN_FAILED, reason=message, physicalResourceId=event.get('PhysicalResourceId', None))",
+        "detail": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "documentation": {}
+    },
+    {
+        "label": "ENV_KEY_SKIP_CLEANUP",
+        "kind": 5,
+        "importPath": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "description": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "peekOfCode": "ENV_KEY_SKIP_CLEANUP = \"SKIP_CLEANUP\"\nAWS_CLI_CONFIG_FILE = \"/tmp/aws_cli_config\"\nCUSTOM_RESOURCE_OWNER_TAG = \"aws-cdk:cr-owned\"\nos.putenv('AWS_CONFIG_FILE', AWS_CLI_CONFIG_FILE)\ndef handler(event, context):\n    def cfn_error(message=None):\n        if message:\n            logger.error(\"| cfn_error: %s\" % message.encode())\n        cfn_send(event, context, CFN_FAILED, reason=message, physicalResourceId=event.get('PhysicalResourceId', None))\n    try:",
+        "detail": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "documentation": {}
+    },
+    {
+        "label": "AWS_CLI_CONFIG_FILE",
+        "kind": 5,
+        "importPath": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "description": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "peekOfCode": "AWS_CLI_CONFIG_FILE = \"/tmp/aws_cli_config\"\nCUSTOM_RESOURCE_OWNER_TAG = \"aws-cdk:cr-owned\"\nos.putenv('AWS_CONFIG_FILE', AWS_CLI_CONFIG_FILE)\ndef handler(event, context):\n    def cfn_error(message=None):\n        if message:\n            logger.error(\"| cfn_error: %s\" % message.encode())\n        cfn_send(event, context, CFN_FAILED, reason=message, physicalResourceId=event.get('PhysicalResourceId', None))\n    try:\n        # We are not logging ResponseURL as this is a pre-signed S3 URL, and could be used to tamper",
+        "detail": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "documentation": {}
+    },
+    {
+        "label": "CUSTOM_RESOURCE_OWNER_TAG",
+        "kind": 5,
+        "importPath": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "description": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "peekOfCode": "CUSTOM_RESOURCE_OWNER_TAG = \"aws-cdk:cr-owned\"\nos.putenv('AWS_CONFIG_FILE', AWS_CLI_CONFIG_FILE)\ndef handler(event, context):\n    def cfn_error(message=None):\n        if message:\n            logger.error(\"| cfn_error: %s\" % message.encode())\n        cfn_send(event, context, CFN_FAILED, reason=message, physicalResourceId=event.get('PhysicalResourceId', None))\n    try:\n        # We are not logging ResponseURL as this is a pre-signed S3 URL, and could be used to tamper\n        # with the response CloudFormation sees from this Custom Resource execution.",
+        "detail": "artifacts.cdk.out.asset.c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.index",
+        "documentation": {}
+    }
+]
