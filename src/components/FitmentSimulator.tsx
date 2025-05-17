@@ -1,75 +1,39 @@
 import React from "react";
-import {
-  Box,
-  Typography,
-  Select,
-  MenuItem,
-  Button,
-  SelectChangeEvent,
-} from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-interface FitmentSimulatorProps {
-  generation: string;
-  handleGenerationChange: (event: SelectChangeEvent) => void;
-  handleGo: () => void;
-}
+const FitmentSimulator: React.FC = () => {
+  const navigate = useNavigate();
 
-const FitmentSimulator: React.FC<FitmentSimulatorProps> = ({
-  generation,
-  handleGenerationChange,
-  handleGo,
-}) => (
-  <Box>
-    <Typography variant="h3" gutterBottom>
-      Fitment Simulator
-    </Typography>
-    <Typography variant="h6" gutterBottom>
-      Dial in your Miata's fitment with our simulator. Select your Miata's
-      generation and start customizing wheels, suspension, and more.
-    </Typography>
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        gap: 2,
-        alignItems: "center",
-        mt: 2,
-      }}
-    >
-      <Select
-        value={generation}
-        onChange={handleGenerationChange}
-        variant="outlined"
-        sx={{
-          width: "150px",
-          height: "56px",
-        }}
-      >
-        <MenuItem value="na">NA</MenuItem>
-        <MenuItem value="nb" disabled>
-          NB
-        </MenuItem>
-        <MenuItem value="nc" disabled>
-          NC
-        </MenuItem>
-        <MenuItem value="nd" disabled>
-          ND
-        </MenuItem>
-      </Select>
+  const handleEnterSimulator = () => {
+    navigate("/visualizer-na");
+  };
+
+  return (
+    <Box>
+      <Typography variant="h3" gutterBottom>
+        Fitment Simulator
+      </Typography>
+      <Typography variant="h6" gutterBottom>
+        Dial in your Miata's fitment with our simulator. Select your Miata's
+        generation from the header and start customizing wheels, suspension, and
+        more.
+      </Typography>
       <Button
         variant="contained"
         color="primary"
         size="large"
-        onClick={handleGo}
+        onClick={handleEnterSimulator}
         sx={{
-          width: "150px",
+          width: "200px",
           height: "56px",
+          mt: 2,
         }}
       >
-        Go
+        Enter Simulator
       </Button>
     </Box>
-  </Box>
-);
+  );
+};
 
 export default FitmentSimulator;

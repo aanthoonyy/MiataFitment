@@ -1,27 +1,13 @@
 import React from "react";
-import { Container, Grid, SelectChangeEvent } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import MainImage from "./MainImage";
 import FitmentSimulator from "./FitmentSimulator";
 
-interface MainImageAndSimulatorProps {
-  generation: string;
-  handleGenerationChange: (event: SelectChangeEvent) => void;
-  handleGo: () => void;
-}
-
-const MainImageAndSimulator: React.FC<MainImageAndSimulatorProps> = ({
-  generation,
-  handleGenerationChange,
-  handleGo,
-}) => (
+const MainImageAndSimulator: React.FC = () => (
   <Container maxWidth="lg" sx={{ mt: 4 }}>
     <Grid container spacing={4} alignItems="center">
       <Grid item xs={12} md={6}>
-        <FitmentSimulator
-          generation={generation}
-          handleGenerationChange={handleGenerationChange}
-          handleGo={handleGo}
-        />
+        <FitmentSimulator />
       </Grid>
       <Grid item xs={12} md={6}>
         <MainImage />

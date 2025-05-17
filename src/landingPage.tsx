@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, SelectChangeEvent } from "@mui/material";
+import { Box } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Footer } from "./assets/footer";
 import { Header } from "./header";
@@ -11,17 +11,6 @@ import Marketplace from "./components/Marketplace";
 
 const LandingPage: React.FC = () => {
   const navigate = useNavigate();
-  const [generation, setGeneration] = useState<string>("na");
-
-  const handleGenerationChange = (event: SelectChangeEvent) => {
-    setGeneration(event.target.value as string);
-  };
-
-  const handleGo = () => {
-    if (generation === "na") {
-      navigate("/visualizer-na");
-    }
-  };
 
   const handleSeeMoreGallery = () => {
     navigate("/gallery");
@@ -44,11 +33,7 @@ const LandingPage: React.FC = () => {
     >
       <Header />
 
-      <MainImageAndSimulator
-        generation={generation}
-        handleGenerationChange={handleGenerationChange}
-        handleGo={handleGo}
-      />
+      <MainImageAndSimulator />
 
       <GallerySection
         galleryItems={galleryItems}

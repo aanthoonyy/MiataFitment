@@ -3,7 +3,6 @@ import {
   Box,
   Typography,
   Divider,
-  Paper,
   styled,
   Tabs,
   Tab,
@@ -43,21 +42,7 @@ const StyledDiv = styled("div")(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
 }));
 
-const StyledSelect = styled("select")(({ theme }) => ({
-  width: "100%",
-  padding: "8px",
-  marginBottom: "8px",
-  borderRadius: "4px",
-  border: `1px solid ${theme.palette.divider}`,
-  fontSize: "0.875rem",
-  backgroundColor: theme.palette.background.paper,
-  "&:focus": {
-    outline: "none",
-    borderColor: theme.palette.primary.main,
-  },
-}));
-
-const SliderContainer = styled("div")(({ theme }) => ({
+const SliderContainer = styled("div")(({}) => ({
   display: "flex",
   alignItems: "center",
   gap: "8px",
@@ -169,7 +154,7 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
   return (
     <Box sx={{ p: 2, height: "100%", overflow: "auto" }}>
       <Typography variant="h6" gutterBottom>
-        Fitment Settings
+        Settings
       </Typography>
       <Divider sx={{ mb: 2 }} />
 

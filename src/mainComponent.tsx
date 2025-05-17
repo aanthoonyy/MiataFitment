@@ -6,11 +6,12 @@ import { render } from "./assets/renderer";
 import { setUpLighting } from "./assets/lighting";
 import { makeWheels } from "./assets/wheels";
 import { makeTires } from "./assets/tire";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import { Box, IconButton, useTheme } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import CloseIcon from "@mui/icons-material/Close";
 import rollingDiameter from "./assets/common/rollingDiameter";
+import Header, { CarModelContext, useCarModel } from "./components/Header";
 
 const mmToFeet = (mm: number) => mm / 25.4 / 12;
 
@@ -77,7 +78,7 @@ interface Settings {
   rearWheelSpacer: number;
 }
 
-const useThreeScene = (settings: Settings) => {
+const useThreeScene = (settings: Settings, currentModel: string) => {
   const sceneRef = useRef<THREE.Scene | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const carRefs = useRef<THREE.Object3D[]>([]);
@@ -85,6 +86,12 @@ const useThreeScene = (settings: Settings) => {
   const tireRefs = useRef<THREE.Object3D[]>([]);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const controlsRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (sceneRef.current) {
+      createAndAddCar();
+    }
+  }, [currentModel]);
 
   const updateWheelPosition = useCallback(
     (
@@ -290,57 +297,74 @@ const useThreeScene = (settings: Settings) => {
     }
   }, []);
 
-  useEffect(() => {
-    if (sceneRef.current && wheelRefs.current.length > 0) {
-      // Update existing wheels and tires
-      updateWheelPosition(
-        wheelRefs.current[0],
-        tireRefs.current[0],
-        "FL",
-        settings
-      );
-      updateWheelPosition(
-        wheelRefs.current[1],
-        tireRefs.current[1],
-        "BL",
-        settings
-      );
-      updateWheelPosition(
-        wheelRefs.current[2],
-        tireRefs.current[2],
-        "BR",
-        settings
-      );
-      updateWheelPosition(
-        wheelRefs.current[3],
-        tireRefs.current[3],
-        "FR",
-        settings
-      );
-      updateWheelAndTireSizes(settings);
-    }
-  }, [settings, updateWheelPosition, updateWheelAndTireSizes]);
+  // Function to create and add car
+  const createAndAddCar = useCallback(async () => {
+    if (sceneRef.current) {
+      // Remove old car if it exists
+      carRefs.current.forEach((car) => sceneRef.current?.remove(car));
+      carRefs.current = [];
 
-  useEffect(() => {
-    const scene = new THREE.Scene();
-    sceneRef.current = scene;
-
-    const renderer = render();
-    rendererRef.current = renderer;
-    renderer.setClearColor("#d3d3d3", 1);
-
-    const { camera, controls } = makeCamera(renderer, 100);
-    cameraRef.current = camera;
-    controlsRef.current = controls;
-    setUpLighting(scene);
-
-    const createAndAddCar = () => {
-      const car = makeCar(THREE, -1.4);
+      // Create and add new car
+      const car = await makeCar(THREE, -1.4, currentModel);
       carRefs.current.push(car);
-      scene.add(car);
-    };
+      sceneRef.current.add(car);
+    }
+  }, [currentModel]);
 
-    const createAndAddTires = () => {
+  // Function to create and add tires
+  const createAndAddTires = useCallback(() => {
+    if (sceneRef.current) {
+      // Remove old tires if they exist
+      tireRefs.current.forEach((tire) => sceneRef.current?.remove(tire));
+      wheelRefs.current.forEach((wheel) => sceneRef.current?.remove(wheel));
+
+      // Create and add new wheels
+      const wheels = [
+        makeWheels(
+          THREE,
+          WHEEL_POSITIONS.FRONT.LEFT.x,
+          WHEEL_POSITIONS.FRONT.LEFT.z,
+          1,
+          settings.frontWheelWidth,
+          settings.frontWheelDiameter,
+          WheelPosition.FRONT_LEFT,
+          settings
+        ),
+        makeWheels(
+          THREE,
+          WHEEL_POSITIONS.REAR.LEFT.x,
+          WHEEL_POSITIONS.REAR.LEFT.z,
+          1,
+          settings.rearWheelWidth,
+          settings.rearWheelDiameter,
+          WheelPosition.REAR_LEFT,
+          settings
+        ),
+        makeWheels(
+          THREE,
+          WHEEL_POSITIONS.REAR.RIGHT.x,
+          WHEEL_POSITIONS.REAR.RIGHT.z,
+          1,
+          settings.rearWheelWidth,
+          settings.rearWheelDiameter,
+          WheelPosition.REAR_RIGHT,
+          settings
+        ),
+        makeWheels(
+          THREE,
+          WHEEL_POSITIONS.FRONT.RIGHT.x,
+          WHEEL_POSITIONS.FRONT.RIGHT.z,
+          1,
+          settings.frontWheelWidth,
+          settings.frontWheelDiameter,
+          WheelPosition.FRONT_RIGHT,
+          settings
+        ),
+      ];
+      wheelRefs.current = wheels;
+      wheels.forEach((wheel) => sceneRef.current?.add(wheel));
+
+      // Create and add new tires
       const tires = [
         makeTires(
           THREE,
@@ -392,54 +416,23 @@ const useThreeScene = (settings: Settings) => {
         ),
       ];
       tireRefs.current = tires;
-      tires.forEach((tire) => scene.add(tire));
-    };
+      tires.forEach((tire) => sceneRef.current?.add(tire));
+    }
+  }, [settings]);
 
-    // Create initial wheels
-    const initialWheels = [
-      makeWheels(
-        THREE,
-        WHEEL_POSITIONS.FRONT.LEFT.x,
-        WHEEL_POSITIONS.FRONT.LEFT.z,
-        1,
-        settings.frontWheelWidth,
-        settings.frontWheelDiameter,
-        WheelPosition.FRONT_LEFT,
-        settings
-      ),
-      makeWheels(
-        THREE,
-        WHEEL_POSITIONS.REAR.LEFT.x,
-        WHEEL_POSITIONS.REAR.LEFT.z,
-        1,
-        settings.rearWheelWidth,
-        settings.rearWheelDiameter,
-        WheelPosition.REAR_LEFT,
-        settings
-      ),
-      makeWheels(
-        THREE,
-        WHEEL_POSITIONS.REAR.RIGHT.x,
-        WHEEL_POSITIONS.REAR.RIGHT.z,
-        1,
-        settings.rearWheelWidth,
-        settings.rearWheelDiameter,
-        WheelPosition.REAR_RIGHT,
-        settings
-      ),
-      makeWheels(
-        THREE,
-        WHEEL_POSITIONS.FRONT.RIGHT.x,
-        WHEEL_POSITIONS.FRONT.RIGHT.z,
-        1,
-        settings.frontWheelWidth,
-        settings.frontWheelDiameter,
-        WheelPosition.FRONT_RIGHT,
-        settings
-      ),
-    ];
-    wheelRefs.current = initialWheels;
-    initialWheels.forEach((wheel) => scene.add(wheel));
+  // Effect for initial scene setup
+  useEffect(() => {
+    const scene = new THREE.Scene();
+    sceneRef.current = scene;
+
+    const renderer = render();
+    rendererRef.current = renderer;
+    renderer.setClearColor("#d3d3d3", 1);
+
+    const { camera, controls } = makeCamera(renderer, 100);
+    cameraRef.current = camera;
+    controlsRef.current = controls;
+    setUpLighting(scene);
 
     createAndAddCar();
     createAndAddTires();
@@ -462,6 +455,37 @@ const useThreeScene = (settings: Settings) => {
       container?.removeChild(renderer.domElement);
     };
   }, []);
+
+  // Effect to update wheels and tires when settings change
+  useEffect(() => {
+    if (sceneRef.current && wheelRefs.current.length > 0) {
+      updateWheelPosition(
+        wheelRefs.current[0],
+        tireRefs.current[0],
+        "FL",
+        settings
+      );
+      updateWheelPosition(
+        wheelRefs.current[1],
+        tireRefs.current[1],
+        "BL",
+        settings
+      );
+      updateWheelPosition(
+        wheelRefs.current[2],
+        tireRefs.current[2],
+        "BR",
+        settings
+      );
+      updateWheelPosition(
+        wheelRefs.current[3],
+        tireRefs.current[3],
+        "FR",
+        settings
+      );
+      updateWheelAndTireSizes(settings);
+    }
+  }, [settings, updateWheelPosition, updateWheelAndTireSizes]);
 
   return { sceneRef };
 };
@@ -489,105 +513,127 @@ const MainComponent = () => {
     rearWheelSpacer: 0,
   });
 
-  const { sceneRef } = useThreeScene(settings);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(true);
+  const [currentModel, setCurrentModel] = useState("na");
+  const { sceneRef } = useThreeScene(settings, currentModel);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const theme = useTheme();
+
+  // Add effect to log model changes
+  useEffect(() => {
+    console.log("MainComponent model state:", currentModel);
+  }, [currentModel]);
 
   const updateModel = useCallback((newSettings: Partial<Settings>) => {
     setSettings((prev) => ({ ...prev, ...newSettings }));
   }, []);
 
+  // Create a memoized context value to prevent unnecessary re-renders
+  const contextValue = useMemo(
+    () => ({
+      model: currentModel,
+      setModel: (newModel: string) => {
+        setCurrentModel(newModel);
+      },
+    }),
+    [currentModel]
+  );
+
   return (
-    <Box
-      sx={{
-        display: "flex",
-        height: "100vh",
-        width: "100vw",
-        position: "fixed",
-        top: 0,
-        left: 0,
-      }}
-    >
+    <CarModelContext.Provider value={contextValue}>
       <Box
         sx={{
-          flex: 1,
-          position: "relative",
-          height: "100%",
-          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          height: "100vh",
+          width: "100vw",
+          position: "fixed",
+          top: 0,
+          left: 0,
         }}
       >
-        <div
-          id="three-container"
-          style={{
-            width: "100%",
-            height: "100%",
-            overflow: "hidden",
-            position: "absolute",
-            top: 0,
-            left: 0,
-          }}
-        />
-        <IconButton
-          onClick={() => setIsSettingsOpen(!isSettingsOpen)}
+        <Header />
+        <Box
           sx={{
-            position: "absolute",
-            right: "20px",
-            top: "20px",
-            zIndex: 2,
-            bgcolor: "background.paper",
-            boxShadow: 1,
-            opacity: isSettingsOpen ? 0 : 1,
-            visibility: isSettingsOpen ? "hidden" : "visible",
-            transition: theme.transitions.create(["opacity", "visibility"], {
-              duration: theme.transitions.duration.standard,
-              easing: theme.transitions.easing.easeInOut,
-            }),
-            "&:hover": {
-              bgcolor: "background.paper",
-            },
+            flex: 1,
+            position: "relative",
+            height: "calc(100% - 64px)",
+            width: "100%",
+            mt: "64px",
           }}
         >
-          <SettingsIcon />
-        </IconButton>
-      </Box>
-      <Box
-        sx={{
-          position: "absolute",
-          right: 0,
-          top: 0,
-          height: "100%",
-          width: "350px",
-          bgcolor: "background.paper",
-          borderLeft: "1px solid",
-          borderColor: "divider",
-          zIndex: 1,
-          transform: isSettingsOpen ? "translateX(0)" : "translateX(100%)",
-          transition: theme.transitions.create(["transform"], {
-            duration: theme.transitions.duration.standard,
-            easing: theme.transitions.easing.easeInOut,
-          }),
-          boxShadow: "-2px 0 8px rgba(0,0,0,0.1)",
-        }}
-      >
-        <Box sx={{ position: "relative" }}>
+          <div
+            id="three-container"
+            style={{
+              width: "100%",
+              height: "100%",
+              overflow: "hidden",
+              position: "absolute",
+              top: 0,
+              left: 0,
+            }}
+          />
           <IconButton
-            onClick={() => setIsSettingsOpen(false)}
+            onClick={() => setIsSettingsOpen(!isSettingsOpen)}
             sx={{
               position: "absolute",
-              right: "8px",
-              top: "8px",
+              right: "20px",
+              top: "20px",
               zIndex: 2,
+              bgcolor: "background.paper",
+              boxShadow: 1,
+              opacity: isSettingsOpen ? 0 : 1,
+              visibility: isSettingsOpen ? "hidden" : "visible",
+              transition: theme.transitions.create(["opacity", "visibility"], {
+                duration: theme.transitions.duration.standard,
+                easing: theme.transitions.easing.easeInOut,
+              }),
               "&:hover": {
-                bgcolor: "action.hover",
+                bgcolor: "background.paper",
               },
             }}
           >
-            <CloseIcon />
+            <SettingsIcon />
           </IconButton>
-          <FitmentSettings updateModel={updateModel} />
+        </Box>
+        <Box
+          sx={{
+            position: "absolute",
+            right: 0,
+            top: 0,
+            height: "100%",
+            width: "350px",
+            bgcolor: "background.paper",
+            borderLeft: "1px solid",
+            borderColor: "divider",
+            zIndex: 1,
+            transform: isSettingsOpen ? "translateX(0)" : "translateX(100%)",
+            transition: theme.transitions.create(["transform"], {
+              duration: theme.transitions.duration.standard,
+              easing: theme.transitions.easing.easeInOut,
+            }),
+            boxShadow: "-2px 0 8px rgba(0,0,0,0.1)",
+          }}
+        >
+          <Box sx={{ position: "relative" }}>
+            <IconButton
+              onClick={() => setIsSettingsOpen(false)}
+              sx={{
+                position: "absolute",
+                right: "8px",
+                top: "8px",
+                zIndex: 2,
+                "&:hover": {
+                  bgcolor: "action.hover",
+                },
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+            <FitmentSettings updateModel={updateModel} />
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </CarModelContext.Provider>
   );
 };
 
