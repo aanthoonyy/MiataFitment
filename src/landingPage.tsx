@@ -45,7 +45,6 @@ const LandingPage: React.FC = () => {
       <Header />
 
       <MainImageAndSimulator
-        isMobile={isMobile}
         generation={generation}
         handleGenerationChange={handleGenerationChange}
         handleGo={handleGo}

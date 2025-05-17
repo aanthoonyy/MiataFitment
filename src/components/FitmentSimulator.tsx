@@ -9,14 +9,12 @@ import {
 } from "@mui/material";
 
 interface FitmentSimulatorProps {
-  isMobile: boolean;
   generation: string;
   handleGenerationChange: (event: SelectChangeEvent) => void;
   handleGo: () => void;
 }
 
 const FitmentSimulator: React.FC<FitmentSimulatorProps> = ({
-  isMobile,
   generation,
   handleGenerationChange,
   handleGo,
@@ -29,11 +27,6 @@ const FitmentSimulator: React.FC<FitmentSimulatorProps> = ({
       Dial in your Miata's fitment with our simulator. Select your Miata's
       generation and start customizing wheels, suspension, and more.
     </Typography>
-    {isMobile && (
-      <Typography variant="h6" gutterBottom sx={{ color: "red", mt: 2 }}>
-        Mobile use is not recommended at the moment. Use a desktop or laptop.
-      </Typography>
-    )}
     <Box
       sx={{
         display: "flex",
