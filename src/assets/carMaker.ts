@@ -1,4 +1,3 @@
-import { rideHeightSlider } from "./sliders/RideHeightSlider";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import * as THREE from 'three';
 
@@ -30,7 +29,6 @@ export function makeCar(THREE: any, y: number, model: string = 'na') {
                 gltf.scene.rotation.y = Math.PI / 2;
                 gltf.scene.position.y = y;
                 gltf.scene.position.x = +5;
-                rideHeightSlider(gltf.scene);
                 car.add(gltf.scene);
                 resolve(car);
             },
