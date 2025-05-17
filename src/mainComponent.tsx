@@ -12,71 +12,9 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import CloseIcon from "@mui/icons-material/Close";
 import rollingDiameter from "./assets/common/rollingDiameter";
 import Header, { CarModelContext, useCarModel } from "./components/Header";
-
-const mmToFeet = (mm: number) => mm / 25.4 / 12;
-
-// Wheel position configuration
-// All measurements are in feet (1 unit = 1 foot in Three.js)
-// X: Positive values move wheels towards rear of car, negative towards front
-// Z: Positive values move wheels towards left side, negative towards right
-// Y (ride height): Controlled by settings.rideHeightFront/Rear
-// Right = left looking at the front of the car
-// Left = right looking at the front of the car
-let WHEEL_POSITIONS = {
-  FRONT: {
-    LEFT: {
-      x: -15.35, // Distance from car center to front wheel center (negative = front of car)
-      z: 2.5, // Distance from car centerline to wheel center (positive = left side)
-      casterOffset: 5.74 / 12, // Used to calculate caster effect (converts degrees to feet)
-    },
-    RIGHT: {
-      x: -15.35, // Same as left, but mirrored
-      z: -2.5, // Negative of left side (mirrored)
-      casterOffset: 5.74 / 12, // Same as left side
-    },
-  },
-  REAR: {
-    LEFT: {
-      x: 2.85, // Distance from car center to rear wheel center (positive = rear of car)
-      z: 2.53, // Slightly wider than front for typical rear track width
-    },
-    RIGHT: {
-      x: 2.85, // Same as left, but mirrored
-      z: -2.53, // Negative of left side (mirrored)
-    },
-  },
-};
-
-export { WHEEL_POSITIONS };
-
-enum WheelPosition {
-  FRONT_LEFT = "FL",
-  FRONT_RIGHT = "FR",
-  REAR_LEFT = "BL",
-  REAR_RIGHT = "BR",
-}
-
-interface Settings {
-  frontCamber: number;
-  rearCamber: number;
-  frontCaster: number;
-  frontToe: number;
-  rearToe: number;
-  rideHeightFront: number;
-  rideHeightRear: number;
-  frontTireWidth: number;
-  frontTireSidewall: number;
-  frontWheelWidth: number;
-  frontWheelDiameter: number;
-  frontWheelOffset: number;
-  frontWheelSpacer: number;
-  rearTireWidth: number;
-  rearTireSidewall: number;
-  rearWheelWidth: number;
-  rearWheelDiameter: number;
-  rearWheelOffset: number;
-  rearWheelSpacer: number;
-}
+import { Settings, DEFAULT_SETTINGS } from "./types/settings";
+import { WheelPosition, WHEEL_POSITIONS } from "./constants/wheelPositions";
+import { mmToFeet } from "./utils/unitConversions";
 
 const useThreeScene = (settings: Settings, currentModel: string) => {
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -491,37 +429,11 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
 };
 
 const MainComponent = () => {
-  const [settings, setSettings] = useState<Settings>({
-    frontCamber: -4.1,
-    rearCamber: -4.1,
-    frontCaster: 5,
-    frontToe: 0,
-    rearToe: 0,
-    rideHeightFront: -2.51,
-    rideHeightRear: -2.51,
-    frontTireWidth: 185,
-    frontTireSidewall: 55,
-    frontWheelWidth: 8.5,
-    frontWheelDiameter: 14,
-    frontWheelOffset: -7,
-    frontWheelSpacer: 5,
-    rearTireWidth: 185,
-    rearTireSidewall: 55,
-    rearWheelWidth: 8.5,
-    rearWheelDiameter: 14,
-    rearWheelOffset: -7,
-    rearWheelSpacer: 0,
-  });
-
+  const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
   const [currentModel, setCurrentModel] = useState("na");
   const { sceneRef } = useThreeScene(settings, currentModel);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const theme = useTheme();
-
-  // Add effect to log model changes
-  useEffect(() => {
-    console.log("MainComponent model state:", currentModel);
-  }, [currentModel]);
 
   const updateModel = useCallback((newSettings: Partial<Settings>) => {
     setSettings((prev) => ({ ...prev, ...newSettings }));

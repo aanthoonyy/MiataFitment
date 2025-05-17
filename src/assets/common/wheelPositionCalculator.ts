@@ -1,5 +1,5 @@
 import { Settings } from "./settingsStore";
-import { WHEEL_POSITIONS } from "../../mainComponent";
+import { getWheelPositions, WheelPosition as WheelPositionEnum, CarModel } from "../../constants/wheelPositions";
 import rollingDiameter from "./rollingDiameter";
 
 const mmToFeet = (mm: number) => mm / 25.4 / 12;
@@ -18,7 +18,11 @@ export interface WheelPositionData {
     };
 }
 
-export function calculateWheelPosition(position: WheelPosition, settings: Settings): WheelPositionData {
+export function calculateWheelPosition(
+    position: WheelPosition, 
+    settings: Settings,
+    model: CarModel = "na" // Default to NA for backward compatibility
+): WheelPositionData {
     const isFront = position.startsWith("F");
     const isLeft = position.endsWith("L");
     
@@ -31,18 +35,24 @@ export function calculateWheelPosition(position: WheelPosition, settings: Settin
     const wheelSpacer = isFront ? settings.frontWheelSpacer : settings.rearWheelSpacer;
     const rideHeight = isFront ? settings.rideHeightFront : settings.rideHeightRear;
 
-    const wheelPos = isFront 
-        ? (isLeft ? WHEEL_POSITIONS.FRONT.LEFT : WHEEL_POSITIONS.FRONT.RIGHT)
-        : (isLeft ? WHEEL_POSITIONS.REAR.LEFT : WHEEL_POSITIONS.REAR.RIGHT);
+    const wheelPositions = getWheelPositions(model);
+    let baseX: number;
+    let baseZ: number;
+
+    if (isFront) {
+        const frontWheelPos = isLeft ? wheelPositions.FRONT.LEFT : wheelPositions.FRONT.RIGHT;
+        baseX = frontWheelPos.x + settings.frontCaster / frontWheelPos.casterOffset;
+        baseZ = frontWheelPos.z;
+    } else {
+        const rearWheelPos = isLeft ? wheelPositions.REAR.LEFT : wheelPositions.REAR.RIGHT;
+        baseX = rearWheelPos.x;
+        baseZ = rearWheelPos.z;
+    }
 
     const camberRad = (Math.min(Math.max(camber, -20), 1) * Math.PI) / 180;
     const toeRadiusComp = (rollingDiameter(wheelDiameter, tireWidth, tireSidewall) * 
         Math.sin(isLeft ? toe : -toe)) / 12;
 
-    const baseX = isFront 
-        ? wheelPos.x + (isFront ? settings.frontCaster / wheelPos.casterOffset : 0)
-        : wheelPos.x;
-    const baseZ = wheelPos.z;
     const offset = mmToFeet(isLeft ? -wheelOffset : wheelOffset);
     const spacer = mmToFeet(isLeft ? wheelSpacer : -wheelSpacer);
     const zPos = baseZ + offset + spacer;
