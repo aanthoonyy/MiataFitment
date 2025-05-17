@@ -28,7 +28,7 @@
   "data": {
     "url": "https://yuyel66pxvfrndmfxdvmt3esmu.appsync-api.us-west-2.amazonaws.com/graphql",
     "aws_region": "us-west-2",
-    "api_key": "da2-dnvfkbwgnnex7oen6rankrdhky",
+    "api_key": "da2-5343tjsds5gw7mg5znjwnotdli",
     "default_authorization_type": "API_KEY",
     "authorization_types": [
       "AMAZON_COGNITO_USER_POOLS",
@@ -37,8 +37,8 @@
     "model_introspection": {
       "version": 1,
       "models": {
-        "Todo": {
-          "name": "Todo",
+        "CarData": {
+          "name": "CarData",
           "fields": {
             "id": {
               "name": "id",
@@ -54,10 +54,80 @@
               "isRequired": false,
               "attributes": []
             },
-            "isDone": {
-              "name": "isDone",
+            "idnumber": {
+              "name": "idnumber",
               "isArray": false,
-              "type": "Boolean",
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "src": {
+              "name": "src",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "diameter": {
+              "name": "diameter",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "width": {
+              "name": "width",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "tirewidth": {
+              "name": "tirewidth",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "tireSidewall": {
+              "name": "tireSidewall",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "offset": {
+              "name": "offset",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "style": {
+              "name": "style",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "model": {
+              "name": "model",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "chassis": {
+              "name": "chassis",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "description": {
+              "name": "description",
+              "isArray": false,
+              "type": "String",
               "isRequired": false,
               "attributes": []
             },
@@ -79,7 +149,7 @@
             }
           },
           "syncable": true,
-          "pluralName": "Todos",
+          "pluralName": "CarData",
           "attributes": [
             {
               "type": "model",

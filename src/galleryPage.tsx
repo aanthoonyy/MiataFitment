@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Container,
@@ -14,69 +14,55 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  useMediaQuery,
 } from "@mui/material";
-import { Footer, Header } from "./landingPage";
+import { Schema } from "../amplify/data/resource";
+import { generateClient } from "aws-amplify/api";
+import { Footer } from "./assets/footer";
+import { Header } from "./header";
 
-const sampleImages = [
-  {
-    id: 1,
-    src: "/landingpagegallery/miata1.png",
-    diameter: 15,
-    width: 7,
-    tirewidth: 195,
-    tireSidewall: 50,
-    offset: "+0",
-    style: "track",
-    model: "NA Miata",
-    chassis: "NA",
-    description:
-      "A track-prepped NA Miata with lightweight wheels and suspension upgrades.",
-  },
-  {
-    id: 2,
-    src: "/landingpagegallery/miata2.png",
-    diameter: 17,
-    width: 8,
-    tirewidth: 205,
-    tireSidewall: 45,
-    offset: "+10",
-    style: "stance",
-    model: "NB Miata",
-    chassis: "NB",
-    description:
-      "A stance-style NB Miata with aggressive fitment and lowered suspension.",
-  },
-  {
-    id: 3,
-    src: "/landingpagegallery/miata3.png",
-    diameter: 16,
-    width: 9,
-    tirewidth: 215,
-    tireSidewall: 40,
-    offset: "+5",
-    style: "street",
-    model: "NC Miata",
-    chassis: "NC",
-    description:
-      "An NC Miata built for street use with performance wheels and tires.",
-  },
-  {
-    id: 4,
-    src: "/landingpagegallery/miata4.png",
-    diameter: 18,
-    width: 10,
-    tirewidth: 225,
-    tireSidewall: 35,
-    offset: "+15",
-    style: "track",
-    model: "ND Miata",
-    chassis: "ND",
-    description:
-      "A track-focused ND Miata with wide wheels and aerodynamic upgrades.",
-  },
-];
+const client = generateClient<Schema>();
 
 const GalleryPage: React.FC = () => {
+  const [carData, setCarData] = useState<Schema["CarData"]["type"][]>([]);
+  // const sampleImages = [
+  //   {
+  //     content:
+  //       "A track-prepped NA Miata with lightweight wheels and suspension upgrades.",
+  //     idnumber: "1",
+  //     src: [
+  //       "/landingpagegallery/miata1.png",
+  //       "/landingpagegallery/miata2.png",
+  //       "/landingpagegallery/miata3.png",
+  //     ],
+  //     diameter: "15",
+  //     diameter2: "15",
+  //     width: "7",
+  //     width2: "7",
+  //     tirewidth: "195",
+  //     tirewidth2: "195",
+  //     tireSidewall: "50",
+  //     tireSidewall2: "50",
+  //     offset: "+0",
+  //     offset2: "+0",
+  //     style: "track",
+  //     model: "NA Miata",
+  //     chassis: "NA",
+  //     description:
+  //       "A track-prepped NA Miata with lightweight wheels and suspension upgrades.",
+  //   },
+  // ];
+
+  const fetchCarData = async () => {
+    const { data: items } = await client.models.CarData.list();
+    console.log("carData", items);
+    setCarData(items);
+  };
+
+  useEffect(() => {
+    fetchCarData();
+  }, []);
+
   const [wheelDiameter, setWheelDiameter] = useState<number[]>([]);
   const [wheelWidth, setWheelWidth] = useState<number[]>([]);
   const [style, setStyle] = useState<string[]>([]);
@@ -84,6 +70,7 @@ const GalleryPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [selectedCar, setSelectedCar] = useState<any>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
 
   const itemsPerPage = 9;
 
@@ -100,11 +87,12 @@ const GalleryPage: React.FC = () => {
     setCurrentPage(1);
   };
 
-  const filteredImages = sampleImages.filter((img) => {
+  const filteredImages = carData.filter((img: any) => {
     const diameterMatch =
-      wheelDiameter.length === 0 || wheelDiameter.includes(img.diameter);
+      wheelDiameter.length === 0 ||
+      wheelDiameter.includes(Number(img.diameter));
     const widthMatch =
-      wheelWidth.length === 0 || wheelWidth.includes(img.width);
+      wheelWidth.length === 0 || wheelWidth.includes(Number(img.width));
     const styleMatch = style.length === 0 || style.includes(img.style);
     const chassisMatch = chassis.length === 0 || chassis.includes(img.chassis);
     return diameterMatch && widthMatch && styleMatch && chassisMatch;
@@ -118,18 +106,36 @@ const GalleryPage: React.FC = () => {
 
   const handleOpenDialog = (car: any) => {
     setSelectedCar(car);
+    setCurrentImageIndex(0);
     setIsDialogOpen(true);
   };
   const handleCloseDialog = () => setIsDialogOpen(false);
 
+  const handleImageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    event.preventDefault();
+    setCurrentImageIndex(value - 1);
+  };
+
+  const isMobile = useMediaQuery("(max-width:600px)");
+
   return (
-    <Box sx={{ backgroundColor: "#F9F9F9", minHeight: "100vh", py: 4 }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+        backgroundColor: "#F9F9F9",
+      }}
+    >
       <Header />
+
       <Container maxWidth="lg">
         <Typography paddingTop="3" variant="h3" align="center" gutterBottom>
           Gallery
         </Typography>
-
         <Box
           sx={{
             display: "flex",
@@ -175,7 +181,6 @@ const GalleryPage: React.FC = () => {
             ))}
           </Select>
 
-          {/* Style Filter */}
           <Select
             multiple
             value={style}
@@ -187,7 +192,7 @@ const GalleryPage: React.FC = () => {
             }
             sx={{ minWidth: 200 }}
           >
-            {["track", "stance", "street"].map((s) => (
+            {["Track", "Stance", "Street"].map((s) => (
               <MenuItem key={s} value={s}>
                 {s.charAt(0).toUpperCase() + s.slice(1)}
               </MenuItem>
@@ -216,17 +221,16 @@ const GalleryPage: React.FC = () => {
             Clear Filters
           </Button>
         </Box>
-
         <Grid container spacing={3}>
-          {paginatedImages.map((img) => (
-            <Grid item xs={12} sm={6} md={4} key={img.id}>
+          {paginatedImages.map((img: any) => (
+            <Grid item xs={12} sm={6} md={4} key={img.numberid}>
               <Card
                 sx={{ position: "relative", cursor: "pointer" }}
                 onClick={() => handleOpenDialog(img)}
               >
                 <CardMedia
                   component="img"
-                  image={img.src}
+                  image={img.src[0]}
                   alt={img.model}
                   sx={{ height: 200 }}
                 />
@@ -250,8 +254,6 @@ const GalleryPage: React.FC = () => {
             </Grid>
           ))}
         </Grid>
-
-        {/* Pagination */}
         <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
           <Pagination
             count={totalPages}
@@ -260,7 +262,6 @@ const GalleryPage: React.FC = () => {
           />
         </Box>
       </Container>
-
       <Dialog
         open={isDialogOpen}
         onClose={handleCloseDialog}
@@ -269,25 +270,51 @@ const GalleryPage: React.FC = () => {
       >
         <DialogTitle>{selectedCar?.model}</DialogTitle>
         <DialogContent>
-          <Box sx={{ display: "flex", gap: 2 }}>
-            <Box sx={{ flex: 1 }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: isMobile ? "column" : "row",
+              gap: 2,
+            }}
+          >
+            <Box
+              sx={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
               <img
-                src={selectedCar?.src}
+                src={selectedCar?.src?.[currentImageIndex] || ""}
                 alt={selectedCar?.model}
                 style={{ width: "100%", borderRadius: "8px" }}
+              />
+              <Pagination
+                count={selectedCar?.src?.length || 0}
+                page={currentImageIndex + 1}
+                onChange={handleImageChange}
+                siblingCount={0}
+                size="small"
+                sx={{ mt: 2 }}
               />
             </Box>
             <Box sx={{ flex: 1 }}>
               <Typography>
                 <strong>Wheel Size:</strong> {selectedCar?.diameter}x
                 {selectedCar?.width}
+                {selectedCar?.width2 &&
+                  ` | ${selectedCar?.diameter2}x${selectedCar?.width2}`}
               </Typography>
               <Typography>
                 <strong>Tire:</strong> {selectedCar?.tirewidth}/
                 {selectedCar?.tireSidewall}
+                {selectedCar?.tireSidewall2 &&
+                  ` | ${selectedCar?.tirewidth2}/${selectedCar?.tireSidewall2}`}
               </Typography>
               <Typography>
                 <strong>Offset:</strong> {selectedCar?.offset}
+                {selectedCar?.offset2 && ` | ${selectedCar?.offset2}`}
               </Typography>
               <Typography>
                 <strong>Style:</strong> {selectedCar?.style}

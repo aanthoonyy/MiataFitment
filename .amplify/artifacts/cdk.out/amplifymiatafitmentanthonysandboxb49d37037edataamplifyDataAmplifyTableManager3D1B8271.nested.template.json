@@ -443,7 +443,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/zWNzQqDMBCEn8V73Lax0HMVeixFH0DWZJX1JwE3Vor47kXF0zfDBzMabo8E7hHOEhvbxT1XsLxJAtkioOkUzlIujAMsue9JZbXb+fE9m99Wj7SqHofKIiyvyZnA3m3uzKuSpEQRCgLPDUoSSCfTUUhRaFU5iZ9GQ2q3RcCGXbOfnSKrXead5WPOeUvQyuWrNdw0XKNWmONxcoEHgvzgH8BpwijcAAAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/zWNSwqDQBBEz+J+7PiBZB2FLEPQA0g700r7mQF7jATx7kHF1aviQVUC8eMOUYCLhNr04cA1rG8ST6b0qHuFi1Qr4whr4QZSeWMPftzA+rfXM21qwLE2COtrttqzs7u78qYkrVCEvMBzh5IUsln35DMU2lRB4uZJkzps6bFl2x5nl8gbmztr+JyzzhB0cvsmCcQJREEnzOE0W88jQXHyDxA9QA3cAAAA"
    },
    "Metadata": {
     "aws:cdk:path": "amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/AmplifyTableManager/CDKMetadata/Default"

@@ -1,5 +1,5 @@
 {
-  "version": "38.0.1",
+  "version": "39.0.0",
   "artifacts": {
     "amplify-miatafitment-anthony-sandbox-b49d37037e.assets": {
       "type": "cdk:asset-manifest",
@@ -22,7 +22,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/dfdc09cf7fce1022b2cccc4dc3dff437d0f4969ff67b10e04b2181e4aff11b9a.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/78097c565842bd88058289230263b2a812091f94e91b69d71ac1901bbdf9e1c3.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -381,518 +381,518 @@
             "data": "amplifyDataAmplifyTableManagerNestedStackAmplifyTableManagerNestedStackResource86290833"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/DynamoDBModelTableReadIOPS": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/DynamoDBModelTableReadIOPS": [
           {
             "type": "aws:cdk:logicalId",
             "data": "DynamoDBModelTableReadIOPS"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/DynamoDBModelTableWriteIOPS": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/DynamoDBModelTableWriteIOPS": [
           {
             "type": "aws:cdk:logicalId",
             "data": "DynamoDBModelTableWriteIOPS"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/DynamoDBBillingMode": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/DynamoDBBillingMode": [
           {
             "type": "aws:cdk:logicalId",
             "data": "DynamoDBBillingMode"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/DynamoDBEnablePointInTimeRecovery": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/DynamoDBEnablePointInTimeRecovery": [
           {
             "type": "aws:cdk:logicalId",
             "data": "DynamoDBEnablePointInTimeRecovery"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/DynamoDBEnableServerSideEncryption": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/DynamoDBEnableServerSideEncryption": [
           {
             "type": "aws:cdk:logicalId",
             "data": "DynamoDBEnableServerSideEncryption"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/HasEnvironmentParameter": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/HasEnvironmentParameter": [
           {
             "type": "aws:cdk:logicalId",
             "data": "HasEnvironmentParameter"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/ShouldUseServerSideEncryption": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/ShouldUseServerSideEncryption": [
           {
             "type": "aws:cdk:logicalId",
             "data": "ShouldUseServerSideEncryption"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/ShouldUsePayPerRequestBilling": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/ShouldUsePayPerRequestBilling": [
           {
             "type": "aws:cdk:logicalId",
             "data": "ShouldUsePayPerRequestBilling"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/ShouldUsePointInTimeRecovery": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/ShouldUsePointInTimeRecovery": [
           {
             "type": "aws:cdk:logicalId",
             "data": "ShouldUsePointInTimeRecovery"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/TodoTable": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/CarDataTable": [
           {
             "type": "graphqltransformer:resourceName",
-            "data": "Todo"
+            "data": "CarData"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/TodoTable/Default/Default": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/CarDataTable/Default/Default": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "TodoTable"
+            "data": "CarDataTable"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "Todo"
+            "data": "CarData"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/CustomTableTodoTable": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/CustomTableCarDataTable": [
           {
             "type": "graphqltransformer:resourceName",
-            "data": "Todo"
+            "data": "CarData"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/GetAttTodoTableStreamArn": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/GetAttCarDataTableStreamArn": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "GetAttTodoTableStreamArn"
+            "data": "GetAttCarDataTableStreamArn"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/GetAttTodoTableName": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/GetAttCarDataTableName": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "GetAttTodoTableName"
+            "data": "GetAttCarDataTableName"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/TodoIAMRole": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/CarDataIAMRole": [
           {
             "type": "graphqltransformer:resourceName",
-            "data": "TodoIAMRole"
+            "data": "CarDataIAMRole"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/TodoIAMRole/Resource": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/CarDataIAMRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "TodoIAMRole2DA8E66E"
+            "data": "CarDataIAMRoleACFB1F65"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "TodoIAMRole"
+            "data": "CarDataIAMRole"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/TodoDataSource": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/CarDataDataSource": [
           {
             "type": "graphqltransformer:resourceName",
-            "data": "TodoTable"
+            "data": "CarDataTable"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/TodoDataSource/Resource": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/CarDataDataSource/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "TodoDataSource"
+            "data": "CarDataDataSource"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "TodoTable"
+            "data": "CarDataTable"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/QuerygetTodoauth0Function/QuerygetTodoauth0Function.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/QuerygetCarDataauth0Function/QuerygetCarDataauth0Function.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "QuerygetTodoauth0FunctionQuerygetTodoauth0FunctionAppSyncFunction846D8436"
+            "data": "QuerygetCarDataauth0FunctionQuerygetCarDataauth0FunctionAppSyncFunctionF40AE361"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "QuerygetTodoauth0Function"
+            "data": "QuerygetCarDataauth0Function"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/QuerygetTodopostAuth0Function/QuerygetTodopostAuth0Function.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/QuerygetCarDatapostAuth0Function/QuerygetCarDatapostAuth0Function.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "QuerygetTodopostAuth0FunctionQuerygetTodopostAuth0FunctionAppSyncFunction6BE14593"
+            "data": "QuerygetCarDatapostAuth0FunctionQuerygetCarDatapostAuth0FunctionAppSyncFunctionC0EEFE30"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "QuerygetTodopostAuth0Function"
+            "data": "QuerygetCarDatapostAuth0Function"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/QueryGetTodoDataResolverFn/QueryGetTodoDataResolverFn.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/QueryGetCarDataDataResolverFn/QueryGetCarDataDataResolverFn.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "QueryGetTodoDataResolverFnQueryGetTodoDataResolverFnAppSyncFunctionE2B57DAD"
+            "data": "QueryGetCarDataDataResolverFnQueryGetCarDataDataResolverFnAppSyncFunction15D17F1B"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "QueryGetTodoDataResolverFn"
+            "data": "QueryGetCarDataDataResolverFn"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/queryGetTodoResolver": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/queryGetCarDataResolver": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "GetTodoResolver"
+            "data": "GetCarDataResolver"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "Query.getTodo"
+            "data": "Query.getCarData"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/QuerylistTodosauth0Function/QuerylistTodosauth0Function.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/QuerylistCarDataauth0Function/QuerylistCarDataauth0Function.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "QuerylistTodosauth0FunctionQuerylistTodosauth0FunctionAppSyncFunction7D761961"
+            "data": "QuerylistCarDataauth0FunctionQuerylistCarDataauth0FunctionAppSyncFunctionD7F6B474"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "QuerylistTodosauth0Function"
+            "data": "QuerylistCarDataauth0Function"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/QuerylistTodospostAuth0Function/QuerylistTodospostAuth0Function.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/QuerylistCarDatapostAuth0Function/QuerylistCarDatapostAuth0Function.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "QuerylistTodospostAuth0FunctionQuerylistTodospostAuth0FunctionAppSyncFunction154D8577"
+            "data": "QuerylistCarDatapostAuth0FunctionQuerylistCarDatapostAuth0FunctionAppSyncFunction1D2485B4"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "QuerylistTodospostAuth0Function"
+            "data": "QuerylistCarDatapostAuth0Function"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/QueryListTodosDataResolverFn/QueryListTodosDataResolverFn.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/QueryListCarDataDataResolverFn/QueryListCarDataDataResolverFn.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "QueryListTodosDataResolverFnQueryListTodosDataResolverFnAppSyncFunctionF825FE47"
+            "data": "QueryListCarDataDataResolverFnQueryListCarDataDataResolverFnAppSyncFunctionE3018C7E"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "QueryListTodosDataResolverFn"
+            "data": "QueryListCarDataDataResolverFn"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/queryListTodosResolver": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/queryListCarDataResolver": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ListTodoResolver"
+            "data": "ListCarDataResolver"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "Query.listTodos"
+            "data": "Query.listCarData"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/MutationcreateTodoinit0Function/MutationcreateTodoinit0Function.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/MutationcreateCarDatainit0Function/MutationcreateCarDatainit0Function.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MutationcreateTodoinit0FunctionMutationcreateTodoinit0FunctionAppSyncFunction54DE5B8B"
+            "data": "MutationcreateCarDatainit0FunctionMutationcreateCarDatainit0FunctionAppSyncFunction61EF6962"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "MutationcreateTodoinit0Function"
+            "data": "MutationcreateCarDatainit0Function"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/MutationcreateTodoauth0Function/MutationcreateTodoauth0Function.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/MutationcreateCarDataauth0Function/MutationcreateCarDataauth0Function.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MutationcreateTodoauth0FunctionMutationcreateTodoauth0FunctionAppSyncFunction21817E36"
+            "data": "MutationcreateCarDataauth0FunctionMutationcreateCarDataauth0FunctionAppSyncFunctionDE53E5E3"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "MutationcreateTodoauth0Function"
+            "data": "MutationcreateCarDataauth0Function"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/MutationcreateTodopostAuth0Function/MutationcreateTodopostAuth0Function.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/MutationcreateCarDatapostAuth0Function/MutationcreateCarDatapostAuth0Function.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MutationcreateTodopostAuth0FunctionMutationcreateTodopostAuth0FunctionAppSyncFunctionED59EB9F"
+            "data": "MutationcreateCarDatapostAuth0FunctionMutationcreateCarDatapostAuth0FunctionAppSyncFunctionA2BF6894"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "MutationcreateTodopostAuth0Function"
+            "data": "MutationcreateCarDatapostAuth0Function"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/MutationCreateTodoDataResolverFn/MutationCreateTodoDataResolverFn.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/MutationCreateCarDataDataResolverFn/MutationCreateCarDataDataResolverFn.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MutationCreateTodoDataResolverFnMutationCreateTodoDataResolverFnAppSyncFunction900EC5CF"
+            "data": "MutationCreateCarDataDataResolverFnMutationCreateCarDataDataResolverFnAppSyncFunction95505E49"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "MutationCreateTodoDataResolverFn"
+            "data": "MutationCreateCarDataDataResolverFn"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/mutationCreateTodoResolver": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/mutationCreateCarDataResolver": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "CreateTodoResolver"
+            "data": "CreateCarDataResolver"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "Mutation.createTodo"
+            "data": "Mutation.createCarData"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/MutationupdateTodoinit0Function/MutationupdateTodoinit0Function.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/MutationupdateCarDatainit0Function/MutationupdateCarDatainit0Function.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MutationupdateTodoinit0FunctionMutationupdateTodoinit0FunctionAppSyncFunction1B95BB19"
+            "data": "MutationupdateCarDatainit0FunctionMutationupdateCarDatainit0FunctionAppSyncFunctionB955AD90"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "MutationupdateTodoinit0Function"
+            "data": "MutationupdateCarDatainit0Function"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/MutationupdateTodoauth0Function/MutationupdateTodoauth0Function.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/MutationupdateCarDataauth0Function/MutationupdateCarDataauth0Function.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MutationupdateTodoauth0FunctionMutationupdateTodoauth0FunctionAppSyncFunction1E4A3112"
+            "data": "MutationupdateCarDataauth0FunctionMutationupdateCarDataauth0FunctionAppSyncFunctionB382B705"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "MutationupdateTodoauth0Function"
+            "data": "MutationupdateCarDataauth0Function"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/MutationupdateTodopostAuth0Function/MutationupdateTodopostAuth0Function.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/MutationupdateCarDatapostAuth0Function/MutationupdateCarDatapostAuth0Function.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MutationupdateTodopostAuth0FunctionMutationupdateTodopostAuth0FunctionAppSyncFunction50C507D7"
+            "data": "MutationupdateCarDatapostAuth0FunctionMutationupdateCarDatapostAuth0FunctionAppSyncFunction4F20CBBF"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "MutationupdateTodopostAuth0Function"
+            "data": "MutationupdateCarDatapostAuth0Function"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/MutationUpdateTodoDataResolverFn/MutationUpdateTodoDataResolverFn.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/MutationUpdateCarDataDataResolverFn/MutationUpdateCarDataDataResolverFn.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MutationUpdateTodoDataResolverFnMutationUpdateTodoDataResolverFnAppSyncFunctionBC238C49"
+            "data": "MutationUpdateCarDataDataResolverFnMutationUpdateCarDataDataResolverFnAppSyncFunctionE4FA86FC"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "MutationUpdateTodoDataResolverFn"
+            "data": "MutationUpdateCarDataDataResolverFn"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/mutationUpdateTodoResolver": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/mutationUpdateCarDataResolver": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "UpdateTodoResolver"
+            "data": "UpdateCarDataResolver"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "Mutation.updateTodo"
+            "data": "Mutation.updateCarData"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/MutationdeleteTodoauth0Function/MutationdeleteTodoauth0Function.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/MutationdeleteCarDataauth0Function/MutationdeleteCarDataauth0Function.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MutationdeleteTodoauth0FunctionMutationdeleteTodoauth0FunctionAppSyncFunctionC82C218C"
+            "data": "MutationdeleteCarDataauth0FunctionMutationdeleteCarDataauth0FunctionAppSyncFunction1CA0DC24"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "MutationdeleteTodoauth0Function"
+            "data": "MutationdeleteCarDataauth0Function"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/MutationdeleteTodopostAuth0Function/MutationdeleteTodopostAuth0Function.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/MutationdeleteCarDatapostAuth0Function/MutationdeleteCarDatapostAuth0Function.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MutationdeleteTodopostAuth0FunctionMutationdeleteTodopostAuth0FunctionAppSyncFunction483271A2"
+            "data": "MutationdeleteCarDatapostAuth0FunctionMutationdeleteCarDatapostAuth0FunctionAppSyncFunction203B7741"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "MutationdeleteTodopostAuth0Function"
+            "data": "MutationdeleteCarDatapostAuth0Function"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/MutationDeleteTodoDataResolverFn/MutationDeleteTodoDataResolverFn.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/MutationDeleteCarDataDataResolverFn/MutationDeleteCarDataDataResolverFn.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MutationDeleteTodoDataResolverFnMutationDeleteTodoDataResolverFnAppSyncFunction3879153F"
+            "data": "MutationDeleteCarDataDataResolverFnMutationDeleteCarDataDataResolverFnAppSyncFunction55713287"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "MutationDeleteTodoDataResolverFn"
+            "data": "MutationDeleteCarDataDataResolverFn"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/mutationDeleteTodoResolver": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/mutationDeleteCarDataResolver": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "DeleteTodoResolver"
+            "data": "DeleteCarDataResolver"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "Mutation.deleteTodo"
+            "data": "Mutation.deleteCarData"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/SubscriptiononCreateTodoauth0Function/SubscriptiononCreateTodoauth0Function.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/SubscriptiononCreateCarDataauth0Function/SubscriptiononCreateCarDataauth0Function.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SubscriptiononCreateTodoauth0FunctionSubscriptiononCreateTodoauth0FunctionAppSyncFunction042EF9E1"
+            "data": "SubscriptiononCreateCarDataauth0FunctionSubscriptiononCreateCarDataauth0FunctionAppSyncFunction37F07DD3"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "SubscriptiononCreateTodoauth0Function"
+            "data": "SubscriptiononCreateCarDataauth0Function"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/SubscriptiononCreateTodopostAuth0Function/SubscriptiononCreateTodopostAuth0Function.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/SubscriptiononCreateCarDatapostAuth0Function/SubscriptiononCreateCarDatapostAuth0Function.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SubscriptiononCreateTodopostAuth0FunctionSubscriptiononCreateTodopostAuth0FunctionAppSyncFunction18E34C4E"
+            "data": "SubscriptiononCreateCarDatapostAuth0FunctionSubscriptiononCreateCarDatapostAuth0FunctionAppSyncFunctionA9686E30"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "SubscriptiononCreateTodopostAuth0Function"
+            "data": "SubscriptiononCreateCarDatapostAuth0Function"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/SubscriptionOnCreateTodoDataResolverFn/SubscriptionOnCreateTodoDataResolverFn.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/SubscriptionOnCreateCarDataDataResolverFn/SubscriptionOnCreateCarDataDataResolverFn.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SubscriptionOnCreateTodoDataResolverFnSubscriptionOnCreateTodoDataResolverFnAppSyncFunction462A70C9"
+            "data": "SubscriptionOnCreateCarDataDataResolverFnSubscriptionOnCreateCarDataDataResolverFnAppSyncFunction26CA058F"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "SubscriptionOnCreateTodoDataResolverFn"
+            "data": "SubscriptionOnCreateCarDataDataResolverFn"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/subscriptionOnCreateTodoResolver": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/subscriptionOnCreateCarDataResolver": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SubscriptiononCreateTodoResolver"
+            "data": "SubscriptiononCreateCarDataResolver"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "Subscription.onCreateTodo"
+            "data": "Subscription.onCreateCarData"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/SubscriptiononUpdateTodoauth0Function/SubscriptiononUpdateTodoauth0Function.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/SubscriptiononUpdateCarDataauth0Function/SubscriptiononUpdateCarDataauth0Function.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SubscriptiononUpdateTodoauth0FunctionSubscriptiononUpdateTodoauth0FunctionAppSyncFunction80D0DFA3"
+            "data": "SubscriptiononUpdateCarDataauth0FunctionSubscriptiononUpdateCarDataauth0FunctionAppSyncFunction8C9CBBBA"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "SubscriptiononUpdateTodoauth0Function"
+            "data": "SubscriptiononUpdateCarDataauth0Function"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/SubscriptiononUpdateTodopostAuth0Function/SubscriptiononUpdateTodopostAuth0Function.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/SubscriptiononUpdateCarDatapostAuth0Function/SubscriptiononUpdateCarDatapostAuth0Function.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SubscriptiononUpdateTodopostAuth0FunctionSubscriptiononUpdateTodopostAuth0FunctionAppSyncFunction04445BC7"
+            "data": "SubscriptiononUpdateCarDatapostAuth0FunctionSubscriptiononUpdateCarDatapostAuth0FunctionAppSyncFunction0BE505A7"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "SubscriptiononUpdateTodopostAuth0Function"
+            "data": "SubscriptiononUpdateCarDatapostAuth0Function"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/SubscriptionOnUpdateTodoDataResolverFn/SubscriptionOnUpdateTodoDataResolverFn.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/SubscriptionOnUpdateCarDataDataResolverFn/SubscriptionOnUpdateCarDataDataResolverFn.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SubscriptionOnUpdateTodoDataResolverFnSubscriptionOnUpdateTodoDataResolverFnAppSyncFunction523DF0E4"
+            "data": "SubscriptionOnUpdateCarDataDataResolverFnSubscriptionOnUpdateCarDataDataResolverFnAppSyncFunction5FF27C2F"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "SubscriptionOnUpdateTodoDataResolverFn"
+            "data": "SubscriptionOnUpdateCarDataDataResolverFn"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/subscriptionOnUpdateTodoResolver": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/subscriptionOnUpdateCarDataResolver": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SubscriptiononUpdateTodoResolver"
+            "data": "SubscriptiononUpdateCarDataResolver"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "Subscription.onUpdateTodo"
+            "data": "Subscription.onUpdateCarData"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/SubscriptiononDeleteTodoauth0Function/SubscriptiononDeleteTodoauth0Function.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/SubscriptiononDeleteCarDataauth0Function/SubscriptiononDeleteCarDataauth0Function.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SubscriptiononDeleteTodoauth0FunctionSubscriptiononDeleteTodoauth0FunctionAppSyncFunctionF69F2220"
+            "data": "SubscriptiononDeleteCarDataauth0FunctionSubscriptiononDeleteCarDataauth0FunctionAppSyncFunctionED2B538B"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "SubscriptiononDeleteTodoauth0Function"
+            "data": "SubscriptiononDeleteCarDataauth0Function"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/SubscriptiononDeleteTodopostAuth0Function/SubscriptiononDeleteTodopostAuth0Function.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/SubscriptiononDeleteCarDatapostAuth0Function/SubscriptiononDeleteCarDatapostAuth0Function.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SubscriptiononDeleteTodopostAuth0FunctionSubscriptiononDeleteTodopostAuth0FunctionAppSyncFunctionE131CBE7"
+            "data": "SubscriptiononDeleteCarDatapostAuth0FunctionSubscriptiononDeleteCarDatapostAuth0FunctionAppSyncFunctionA8FBCA22"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "SubscriptiononDeleteTodopostAuth0Function"
+            "data": "SubscriptiononDeleteCarDatapostAuth0Function"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/SubscriptionOnDeleteTodoDataResolverFn/SubscriptionOnDeleteTodoDataResolverFn.AppSyncFunction": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/SubscriptionOnDeleteCarDataDataResolverFn/SubscriptionOnDeleteCarDataDataResolverFn.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SubscriptionOnDeleteTodoDataResolverFnSubscriptionOnDeleteTodoDataResolverFnAppSyncFunction3E641E8C"
+            "data": "SubscriptionOnDeleteCarDataDataResolverFnSubscriptionOnDeleteCarDataDataResolverFnAppSyncFunctionD9757CA0"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "SubscriptionOnDeleteTodoDataResolverFn"
+            "data": "SubscriptionOnDeleteCarDataDataResolverFn"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/subscriptionOnDeleteTodoResolver": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/subscriptionOnDeleteCarDataResolver": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SubscriptiononDeleteTodoResolver"
+            "data": "SubscriptiononDeleteCarDataResolver"
           },
           {
             "type": "graphqltransformer:resourceName",
-            "data": "Subscription.onDeleteTodo"
+            "data": "Subscription.onDeleteCarData"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/CDKMetadata/Default": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/CDKMetadata/Default": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadata"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/CDKMetadata/Condition": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/CDKMetadata/Condition": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadataAvailable"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/reference-to-amplifymiatafitmentanthonysandboxb49d37037edataamplifyDataAmplifyTableManagerNestedStackAmplifyTableManagerNestedStackResourceD85EF14AOutputs.amplifymiatafitmentanthonysandboxb49d37037edataamplifyDataAmplifyTableManagerTableManagerCustomProviderframeworkonEvent92A4B433Arn": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/reference-to-amplifymiatafitmentanthonysandboxb49d37037edataamplifyDataAmplifyTableManagerNestedStackAmplifyTableManagerNestedStackResourceD85EF14AOutputs.amplifymiatafitmentanthonysandboxb49d37037edataamplifyDataAmplifyTableManagerTableManagerCustomProviderframeworkonEvent92A4B433Arn": [
           {
             "type": "aws:cdk:logicalId",
             "data": "referencetoamplifymiatafitmentanthonysandboxb49d37037edataamplifyDataAmplifyTableManagerNestedStackAmplifyTableManagerNestedStackResourceD85EF14AOutputsamplifymiatafitmentanthonysandboxb49d37037edataamplifyDataAmplifyTableManagerTableManage118E7514"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/reference-to-amplifymiatafitmentanthonysandboxb49d37037edataamplifyDataGraphQLAPI4EE76A2DApiId": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/reference-to-amplifymiatafitmentanthonysandboxb49d37037edataamplifyDataGraphQLAPI4EE76A2DApiId": [
           {
             "type": "aws:cdk:logicalId",
             "data": "referencetoamplifymiatafitmentanthonysandboxb49d37037edataamplifyDataGraphQLAPI4EE76A2DApiId"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/reference-to-amplifymiatafitmentanthonysandboxb49d37037edataamplifyDataGraphQLAPINONEDSDDD1A0A9Name": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/reference-to-amplifymiatafitmentanthonysandboxb49d37037edataamplifyDataGraphQLAPINONEDSDDD1A0A9Name": [
           {
             "type": "aws:cdk:logicalId",
             "data": "referencetoamplifymiatafitmentanthonysandboxb49d37037edataamplifyDataGraphQLAPINONEDSDDD1A0A9Name"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/reference-to-amplifymiatafitmentanthonysandboxb49d37037eauthNestedStackauthNestedStackResourceF567401EOutputs.amplifymiatafitmentanthonysandboxb49d37037eauthamplifyAuthauthenticatedUserRole7CB36260Ref": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/reference-to-amplifymiatafitmentanthonysandboxb49d37037eauthNestedStackauthNestedStackResourceF567401EOutputs.amplifymiatafitmentanthonysandboxb49d37037eauthamplifyAuthauthenticatedUserRole7CB36260Ref": [
           {
             "type": "aws:cdk:logicalId",
             "data": "referencetoamplifymiatafitmentanthonysandboxb49d37037eauthNestedStackauthNestedStackResourceF567401EOutputsamplifymiatafitmentanthonysandboxb49d37037eauthamplifyAuthauthenticatedUserRole7CB36260Ref"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/reference-to-amplifymiatafitmentanthonysandboxb49d37037eauthNestedStackauthNestedStackResourceF567401EOutputs.amplifymiatafitmentanthonysandboxb49d37037eauthamplifyAuthunauthenticatedUserRole61A9FFBFRef": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/reference-to-amplifymiatafitmentanthonysandboxb49d37037eauthNestedStackauthNestedStackResourceF567401EOutputs.amplifymiatafitmentanthonysandboxb49d37037eauthamplifyAuthunauthenticatedUserRole61A9FFBFRef": [
           {
             "type": "aws:cdk:logicalId",
             "data": "referencetoamplifymiatafitmentanthonysandboxb49d37037eauthNestedStackauthNestedStackResourceF567401EOutputsamplifymiatafitmentanthonysandboxb49d37037eauthamplifyAuthunauthenticatedUserRole61A9FFBFRef"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo/reference-to-amplifymiatafitmentanthonysandboxb49d37037eauthNestedStackauthNestedStackResourceF567401EOutputs.amplifymiatafitmentanthonysandboxb49d37037eauthamplifyAuthIdentityPoolFF5D9819Ref": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData/reference-to-amplifymiatafitmentanthonysandboxb49d37037eauthNestedStackauthNestedStackResourceF567401EOutputs.amplifymiatafitmentanthonysandboxb49d37037eauthamplifyAuthIdentityPoolFF5D9819Ref": [
           {
             "type": "aws:cdk:logicalId",
             "data": "referencetoamplifymiatafitmentanthonysandboxb49d37037eauthNestedStackauthNestedStackResourceF567401EOutputsamplifymiatafitmentanthonysandboxb49d37037eauthamplifyAuthIdentityPoolFF5D9819Ref"
           }
         ],
-        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo.NestedStack/Todo.NestedStackResource": [
+        "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData.NestedStack/CarData.NestedStackResource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "amplifyDataTodoNestedStackTodoNestedStackResource551CEA56"
+            "data": "amplifyDataCarDataNestedStackCarDataNestedStackResource0169A8F6"
           }
         ],
         "/amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/AmplifyCodegenAssets/AmplifyCodegenAssetsBucket/Resource": [

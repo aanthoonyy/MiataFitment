@@ -1,5 +1,5 @@
 {
- "Description": "{\"createdOn\":\"Windows\",\"createdBy\":\"AmplifySandbox\",\"createdWith\":\"1.18.5\",\"stackType\":\"api-AppSync\",\"metadata\":{\"dataSources\":\"dynamodb\",\"authorizationModes\":\"amazon_cognito_identity_pools,amazon_cognito_user_pools,api_key,aws_iam\",\"customOperations\":\"\"}}",
+ "Description": "{\"createdOn\":\"Windows\",\"createdBy\":\"AmplifySandbox\",\"createdWith\":\"1.18.6\",\"stackType\":\"api-AppSync\",\"metadata\":{\"dataSources\":\"dynamodb\",\"authorizationModes\":\"amazon_cognito_identity_pools,amazon_cognito_user_pools,api_key,aws_iam\",\"customOperations\":\"\"}}",
  "Resources": {
   "amplifyDataGraphQLAPI42A6FA33": {
    "Type": "AWS::AppSync::GraphQLApi",
@@ -53,7 +53,7 @@
      ]
     },
     "DefinitionS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/020f163bc3a07433bdf475ecf822a5a77a1f74c6d0f329ec34e798488bf8af34.graphql"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/3c948a463faaf68a3ba1513700bcf1783cb9a01e28ed6de1974cb5d12dbca0b3.graphql"
     }
    },
    "UpdateReplacePolicy": "Delete",
@@ -71,7 +71,7 @@
       "ApiId"
      ]
     },
-    "Expires": 1738370377
+    "Expires": 1739664086
    },
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
@@ -139,7 +139,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
        },
-       "/08d9e45d73ed4dc9f5b5c4f1c75edee63a4b922890ece3fba6ead260709b23f5.json"
+       "/48fa01128c9534ce0cc99761d83a61e7f9faaab3604629f3f6a5d211bce572d8.json"
       ]
      ]
     }
@@ -152,7 +152,7 @@
     "aws:asset:property": "TemplateURL"
    }
   },
-  "amplifyDataTodoNestedStackTodoNestedStackResource551CEA56": {
+  "amplifyDataCarDataNestedStackCarDataNestedStackResource0169A8F6": {
    "Type": "AWS::CloudFormation::Stack",
    "Properties": {
     "Parameters": {
@@ -229,7 +229,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
        },
-       "/b410a92a5c798d0c08673edca1b81cfedccd1045ed8ece11c86b30a6a4ee41bf.json"
+       "/f543ef9cb98fbe82289354ed55a626a9450dbe55e8204838e46baee84cf85324.json"
       ]
      ]
     }
@@ -240,8 +240,8 @@
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
    "Metadata": {
-    "aws:cdk:path": "amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/Todo.NestedStack/Todo.NestedStackResource",
-    "aws:asset:path": "amplifymiatafitmentanthonysandboxb49d37037edataamplifyDataTodo6E7FD14F.nested.template.json",
+    "aws:cdk:path": "amplify-miatafitment-anthony-sandbox-b49d37037e/data/amplifyData/CarData.NestedStack/CarData.NestedStackResource",
+    "aws:asset:path": "amplifymiatafitmentanthonysandboxb49d37037edataamplifyDataCarData6B23736C.nested.template.json",
     "aws:asset:property": "TemplateURL"
    }
   },
@@ -418,7 +418,7 @@
      }
     ],
     "SourceObjectKeys": [
-     "a11384c5a52cea0a84bb9be0edf4462d02d79e13843bd43a7bd4626638951596.zip"
+     "e8a58ee1dbecf4901e0737b0d2da317ce00c9ad9922fb3d14fb52134aeab5994.zip"
     ],
     "SourceMarkers": [
      {}
@@ -930,7 +930,7 @@
      }
     ],
     "SourceObjectKeys": [
-     "79ddcdc48377a184d934a01014cd46cde52a6a05b6a6ac555bc264ec44b166c7.zip"
+     "f6b03f0ace23d2decc8180bfbc76ad485867486937b2bcbab23846ac9f4644ce.zip"
     ],
     "SourceMarkers": [
      {}
@@ -1025,7 +1025,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1VRwW7CMAz9Fu4hGzBp51K0HcYQo9KuyKQuGNIki1NQVfXfpzQDxsnvPUfPfs5UTl5n8mUEFx6r8jTWtJPdCjlgWQRQJ7FBto1XKODC2w6c49Yo2b17cIcfnTmaA6PIKzMoX8vM0T9WqAPWEIXM0Qe2YmUNLiBAkUzzytxZL3i27YAZA8ssFlGi07at0QQ5b9QJw+ImxNeyS+qwQ4LR8g+lsraaVHuXE++FhnpXguzyyiyhRf+NnskaUZDZawzWvDVGhajcQF7dxF4Q1LLbWD2EGOp90nUGcy27Ingy+zV4qDGgH/pX0vdiCFoE2JPZx146e95wsPXt+HHEFafFtzouvYULK00yu3Cuacjx4B/JJzg3eD9Yrr09U4n++n25NSWlZMaWKI/8dJ5O5WQqn0dHJhr7xgSqUW5S/QX5Vfn0OQIAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1VRwW7CMAz9Fu4hAyZt51K0HcYQo9KuyKQuGNIki1NQVfXfpzQDxsnvPUfPfs5MTl9f5GQEFx6r8jTWtJPdCjlgWQRQJ7FBto1XKODC2w6c49Yo2b17cIcfnTmaA6PIKzMoX8vM0T9WqAPWEIXM0Qe2YmUNLiBAkUzzytxZL/h52wEzBpZZLKJEp21bowly3qgThsVNiK9ll9RhhwSj5R9KZW01qfYuJ94LDfWuBNnllVlCi/4bPZM1oiCz1xiseWuMClG5gby6ib0gqGW3sXoIMdT7pOsM5lp2RfBk9mvwUGNAP/SvpO/FELQIsCezj7109rzhYOvb8eOIK06Lb3VcegsXVppkduFc05DjwT+ST3Bu8H6wXHt7phL99ftya0pKyYwtUR756TybyelMTkZHJhr7xgSqUW5S/QVtP3O/OQIAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "amplify-miatafitment-anthony-sandbox-b49d37037e/data/CDKMetadata/Default"

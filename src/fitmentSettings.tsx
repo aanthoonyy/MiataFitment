@@ -1,18 +1,86 @@
 import { useState, useEffect } from "react";
-import "../src/assets/CSS/alignmentSettings.css";
+import {
+  Box,
+  Typography,
+  Divider,
+  Paper,
+  styled,
+  Tabs,
+  Tab,
+  FormControlLabel,
+  Checkbox,
+} from "@mui/material";
 
 type SettingsProps = {
   updateModel: (model: any) => void;
 };
 
+const StyledInput = styled("input")(({ theme }) => ({
+  width: "100%",
+  padding: "8px",
+  marginBottom: "8px",
+  borderRadius: "4px",
+  border: `1px solid ${theme.palette.divider}`,
+  fontSize: "0.875rem",
+  "&:focus": {
+    outline: "none",
+    borderColor: theme.palette.primary.main,
+  },
+}));
+
+const StyledLabel = styled("label")(({ theme }) => ({
+  display: "block",
+  marginBottom: "4px",
+  fontSize: "0.875rem",
+  color: theme.palette.text.secondary,
+}));
+
+const StyledDiv = styled("div")(({ theme }) => ({
+  marginBottom: "16px",
+  padding: "16px",
+  backgroundColor: theme.palette.background.paper,
+  borderRadius: "4px",
+  border: `1px solid ${theme.palette.divider}`,
+}));
+
+const StyledSelect = styled("select")(({ theme }) => ({
+  width: "100%",
+  padding: "8px",
+  marginBottom: "8px",
+  borderRadius: "4px",
+  border: `1px solid ${theme.palette.divider}`,
+  fontSize: "0.875rem",
+  backgroundColor: theme.palette.background.paper,
+  "&:focus": {
+    outline: "none",
+    borderColor: theme.palette.primary.main,
+  },
+}));
+
+const SliderContainer = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  gap: "8px",
+  marginBottom: "8px",
+}));
+
+const SliderValue = styled("span")(({ theme }) => ({
+  minWidth: "60px",
+  textAlign: "right",
+  color: theme.palette.text.secondary,
+}));
+
 const CombinedSettings = ({ updateModel }: SettingsProps) => {
+  const [activeTab, setActiveTab] = useState(0);
+  const [matchWheels, setMatchWheels] = useState(false);
+  const [matchTires, setMatchTires] = useState(false);
   const [frontCamber, setFrontCamber] = useState(-4.1);
   const [rearCamber, setRearCamber] = useState(-4.1);
   const [frontCaster, setFrontCaster] = useState(5);
   const [frontToe, setFrontToe] = useState(0);
   const [rearToe, setRearToe] = useState(0);
   const [rideHeightFront, setRideHeightFront] = useState(-2.51);
-  const [rideHeightRear, setRideHeightRear] = useState(-2.51);
+  const [rideHeightRear, setRideHeightRear] = useState(-2.44);
 
   const [frontTireWidth, setFrontTireWidth] = useState(185);
   const [frontTireSidewall, setFrontTireSidewall] = useState(55);
@@ -27,6 +95,10 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
   const [rearWheelOffset, setRearWheelOffset] = useState(-7);
   const [rearWheelSpacer, setRearWheelSpacer] = useState(0);
 
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setActiveTab(newValue);
+  };
+
   useEffect(() => {
     updateModel({
       frontCamber,
@@ -34,20 +106,20 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
       frontCaster,
       frontToe,
       rearToe,
-      rideHeight: rideHeightFront,
+      rideHeightFront,
       rideHeightRear,
-      tireWidth: frontTireWidth,
-      tireSidewall: frontTireSidewall,
-      wheelWidth: frontWheelWidth,
-      wheelDiameter: frontWheelDiameter,
-      wheelOffset: frontWheelOffset,
-      wheelSpacer: frontWheelSpacer,
-      test1: rearTireWidth,
-      test2: rearTireSidewall,
-      test3: rearWheelWidth,
-      test4: rearWheelDiameter,
-      test5: rearWheelOffset,
-      test6: rearWheelSpacer,
+      frontTireWidth,
+      frontTireSidewall,
+      frontWheelWidth,
+      frontWheelDiameter,
+      frontWheelOffset,
+      frontWheelSpacer,
+      rearTireWidth,
+      rearTireSidewall,
+      rearWheelWidth,
+      rearWheelDiameter,
+      rearWheelOffset,
+      rearWheelSpacer,
     });
   }, [
     frontCamber,
@@ -72,251 +144,290 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
     updateModel,
   ]);
 
+  useEffect(() => {
+    if (matchWheels) {
+      setRearWheelWidth(frontWheelWidth);
+      setRearWheelDiameter(frontWheelDiameter);
+      setRearWheelOffset(frontWheelOffset);
+      setRearWheelSpacer(frontWheelSpacer);
+    }
+  }, [
+    matchWheels,
+    frontWheelWidth,
+    frontWheelDiameter,
+    frontWheelOffset,
+    frontWheelSpacer,
+  ]);
+
+  useEffect(() => {
+    if (matchTires) {
+      setRearTireWidth(frontTireWidth);
+      setRearTireSidewall(frontTireSidewall);
+    }
+  }, [matchTires, frontTireWidth, frontTireSidewall]);
+
   return (
-    <div id="sliderContainer">
-      <div className="input-group">
-        <div className="input-item">
-          <div className="label-value">
-            <label htmlFor="rideHeightFront">Front Ride Height</label>
-          </div>
-          <input
-            id="rideHeightFront"
-            type="range"
-            min="-3"
-            max="-2"
-            step="0.01"
-            value={rideHeightFront}
-            onChange={(e) => {
-              setRideHeightFront(parseFloat(e.target.value));
-            }}
-          />
-        </div>
-        <div className="input-item">
-          <div className="label-value">
-            <label htmlFor="rideHeightRear">Rear Ride Height</label>
-          </div>
-          <input
-            id="rideHeightRear"
-            type="range"
-            min="-3"
-            max="-2"
-            step="0.01"
-            value={rideHeightRear}
-            onChange={(e) => {
-              setRideHeightRear(parseFloat(e.target.value));
-            }}
-          />
-        </div>
-        <div className="input-item">
-          <div className="label-value">
-            <label htmlFor="frontCamber">Front Camber</label>
-            <span>{frontCamber}°</span>
-          </div>
-          <input
-            id="frontCamber"
-            type="range"
-            min="-20"
-            max="1"
-            step="0.1"
-            value={frontCamber}
-            onChange={(e) => {
-              setFrontCamber(parseFloat(e.target.value));
-            }}
-          />
-        </div>
-        <div className="input-item">
-          <div className="label-value">
-            <label htmlFor="rearCamber">Rear Camber</label>
-            <span>{rearCamber}°</span>
-          </div>
-          <input
-            id="rearCamber"
-            type="range"
-            min="-20"
-            max="1"
-            step="0.1"
-            value={rearCamber}
-            onChange={(e) => setRearCamber(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <div className="label-value">
-            <label htmlFor="frontCaster">Front Caster</label>
-            <span>{frontCaster}°</span>
-          </div>
-          <input
-            id="frontCaster"
-            type="range"
-            min="5"
-            defaultValue={5.7}
-            max="8"
-            step="0.1"
-            value={frontCaster}
-            onChange={(e) => setFrontCaster(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <div className="label-value">
-            <label htmlFor="frontToe">Front Toe</label>
-            <span>{frontToe}°</span>
-          </div>
-          <input
-            id="frontToe"
-            type="range"
-            min="-0.05"
-            max="0.05"
-            step="0.01"
-            value={frontToe}
-            onChange={(e) => setFrontToe(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <div className="label-value">
-            <label htmlFor="rearToe">Rear Toe</label>
-            <span>{rearToe} °</span>
-          </div>
-          <input
-            id="rearToe"
-            type="range"
-            min="-0.05"
-            max="0.05"
-            step="0.01"
-            value={rearToe}
-            onChange={(e) => setRearToe(parseFloat(e.target.value))}
-          />
-        </div>
-      </div>
-      <div className="input-group-grid">
-        <div className="input-item">
-          <label htmlFor="frontTireWidth">Front Tire Width</label>
-          <input
-            id="frontTireWidth"
-            type="number"
-            min="0"
-            placeholder="Width (mm)"
-            value={frontTireWidth}
-            onChange={(e) => setFrontTireWidth(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="rearTireWidth">Rear Tire Width</label>
-          <input
-            id="rearTireWidth"
-            type="number"
-            placeholder="Spacer (mm)"
-            value={rearTireWidth}
-            onChange={(e) => setRearTireWidth(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="frontTireSidewall">Front Tire Sidewall</label>
-          <input
-            id="frontTireSidewall"
-            type="number"
-            min="0"
-            placeholder="Sidewall (%)"
-            value={frontTireSidewall}
-            onChange={(e) => setFrontTireSidewall(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="rearTireSidewall">Rear Tire Sidewall</label>
-          <input
-            id="rearTireSidewall"
-            type="number"
-            placeholder="Spacer (mm)"
-            value={rearTireSidewall}
-            onChange={(e) => setRearTireSidewall(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="frontWheelWidth">Front Wheel Width</label>
-          <input
-            id="frontWheelWidth"
-            type="number"
-            min="0"
-            placeholder="Width (in)"
-            value={frontWheelWidth}
-            onChange={(e) => setFrontWheelWidth(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="rearWheelWidth">Rear Wheel Width</label>
-          <input
-            id="rearWheelWidth"
-            type="number"
-            placeholder="Spacer (mm)"
-            value={rearWheelWidth}
-            onChange={(e) => setRearWheelWidth(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="frontWheelDiameter">Front Wheel Diameter</label>
-          <input
-            id="frontWheelDiameter"
-            type="number"
-            min="0"
-            placeholder="Diameter (in)"
-            value={frontWheelDiameter}
-            onChange={(e) => {
-              setFrontWheelDiameter(parseFloat(e.target.value));
-            }}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="rearWheelDiameter">Rear Wheel Diameter</label>
-          <input
-            id="rearWheelDiameter"
-            type="number"
-            placeholder="Spacer (mm)"
-            value={rearWheelDiameter}
-            onChange={(e) => setRearWheelDiameter(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="frontWheelOffset">Front Wheel Offset</label>
-          <input
-            id="frontWheelOffset"
-            type="number"
-            placeholder="Offset (mm)"
-            value={frontWheelOffset}
-            // @ts-ignore
-            onChange={(e) => setFrontWheelOffset(e.target.value)}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="rearWheelOffset">Rear Wheel Offset</label>
-          <input
-            id="rearWheelOffset"
-            type="number"
-            placeholder="Spacer (mm)"
-            value={rearWheelOffset}
-            // @ts-ignore
-            onChange={(e) => setRearWheelOffset(e.target.value)}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="frontWheelSpacer">Front Wheel Spacer</label>
-          <input
-            id="frontWheelSpacer"
-            type="number"
-            placeholder="Spacer (mm)"
-            value={frontWheelSpacer}
-            onChange={(e) => setFrontWheelSpacer(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="rearWheelSpacer">Rear Spacer</label>
-          <input
-            id="rearWheelSpacer"
-            type="number"
-            placeholder="Spacer (mm)"
-            value={rearWheelSpacer}
-            onChange={(e) => setRearWheelSpacer(parseFloat(e.target.value))}
-          />
-        </div>
-      </div>
-    </div>
+    <Box sx={{ p: 2, height: "100%", overflow: "auto" }}>
+      <Typography variant="h6" gutterBottom>
+        Fitment Settings
+      </Typography>
+      <Divider sx={{ mb: 2 }} />
+
+      <Tabs value={activeTab} onChange={handleTabChange} sx={{ mb: 2 }}>
+        <Tab label="Alignment" />
+        <Tab label="Wheels" />
+        <Tab label="Tires" />
+      </Tabs>
+
+      {activeTab === 0 && (
+        <>
+          <StyledDiv>
+            <Typography variant="subtitle1" gutterBottom>
+              Front Settings
+            </Typography>
+            <SliderContainer>
+              <StyledLabel>Ride Height:</StyledLabel>
+              <StyledInput
+                type="range"
+                min="-3"
+                max="-2"
+                step="0.01"
+                value={rideHeightFront}
+                onChange={(e) => setRideHeightFront(parseFloat(e.target.value))}
+              />
+              <SliderValue>{rideHeightFront}</SliderValue>
+            </SliderContainer>
+
+            <SliderContainer>
+              <StyledLabel>Camber:</StyledLabel>
+              <StyledInput
+                type="range"
+                min="-20"
+                max="1"
+                step="0.1"
+                value={frontCamber}
+                onChange={(e) => setFrontCamber(parseFloat(e.target.value))}
+              />
+              <SliderValue>{frontCamber}°</SliderValue>
+            </SliderContainer>
+
+            <SliderContainer>
+              <StyledLabel>Caster:</StyledLabel>
+              <StyledInput
+                type="range"
+                min="5"
+                max="8"
+                step="0.1"
+                value={frontCaster}
+                onChange={(e) => setFrontCaster(parseFloat(e.target.value))}
+              />
+              <SliderValue>{frontCaster}°</SliderValue>
+            </SliderContainer>
+
+            <SliderContainer>
+              <StyledLabel>Toe:</StyledLabel>
+              <StyledInput
+                type="range"
+                min="-0.05"
+                max="0.05"
+                step="0.01"
+                value={frontToe}
+                onChange={(e) => setFrontToe(parseFloat(e.target.value))}
+              />
+              <SliderValue>{frontToe}°</SliderValue>
+            </SliderContainer>
+          </StyledDiv>
+
+          <StyledDiv>
+            <Typography variant="subtitle1" gutterBottom>
+              Rear Settings
+            </Typography>
+            <SliderContainer>
+              <StyledLabel>Ride Height:</StyledLabel>
+              <StyledInput
+                type="range"
+                min="-3"
+                max="-2"
+                step="0.01"
+                value={rideHeightRear}
+                onChange={(e) => setRideHeightRear(parseFloat(e.target.value))}
+              />
+              <SliderValue>{rideHeightRear}</SliderValue>
+            </SliderContainer>
+
+            <SliderContainer>
+              <StyledLabel>Camber:</StyledLabel>
+              <StyledInput
+                type="range"
+                min="-20"
+                max="1"
+                step="0.1"
+                value={rearCamber}
+                onChange={(e) => setRearCamber(parseFloat(e.target.value))}
+              />
+              <SliderValue>{rearCamber}°</SliderValue>
+            </SliderContainer>
+
+            <SliderContainer>
+              <StyledLabel>Toe:</StyledLabel>
+              <StyledInput
+                type="range"
+                min="-0.05"
+                max="0.05"
+                step="0.01"
+                value={rearToe}
+                onChange={(e) => setRearToe(parseFloat(e.target.value))}
+              />
+              <SliderValue>{rearToe}°</SliderValue>
+            </SliderContainer>
+          </StyledDiv>
+        </>
+      )}
+
+      {activeTab === 1 && (
+        <>
+          <Box sx={{ mb: 2 }}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={matchWheels}
+                  onChange={(e) => setMatchWheels(e.target.checked)}
+                />
+              }
+              label="Match Front and Rear Wheels"
+            />
+          </Box>
+
+          <StyledDiv>
+            <Typography variant="subtitle1" gutterBottom>
+              Front Wheels
+            </Typography>
+            <StyledLabel>Width (in)</StyledLabel>
+            <StyledInput
+              type="number"
+              value={frontWheelWidth}
+              onChange={(e) => setFrontWheelWidth(parseFloat(e.target.value))}
+            />
+
+            <StyledLabel>Diameter (in)</StyledLabel>
+            <StyledInput
+              type="number"
+              value={frontWheelDiameter}
+              onChange={(e) =>
+                setFrontWheelDiameter(parseFloat(e.target.value))
+              }
+            />
+
+            <StyledLabel>Offset (mm)</StyledLabel>
+            <StyledInput
+              type="number"
+              value={frontWheelOffset}
+              onChange={(e) => setFrontWheelOffset(parseFloat(e.target.value))}
+            />
+
+            <StyledLabel>Spacer (mm)</StyledLabel>
+            <StyledInput
+              type="number"
+              value={frontWheelSpacer}
+              onChange={(e) => setFrontWheelSpacer(parseFloat(e.target.value))}
+            />
+          </StyledDiv>
+
+          <StyledDiv sx={{ opacity: matchWheels ? 0.5 : 1 }}>
+            <Typography variant="subtitle1" gutterBottom>
+              Rear Wheels {matchWheels && "(Matching Front)"}
+            </Typography>
+            <StyledLabel>Width (in)</StyledLabel>
+            <StyledInput
+              type="number"
+              value={rearWheelWidth}
+              onChange={(e) => setRearWheelWidth(parseFloat(e.target.value))}
+              disabled={matchWheels}
+            />
+
+            <StyledLabel>Diameter (in)</StyledLabel>
+            <StyledInput
+              type="number"
+              value={rearWheelDiameter}
+              onChange={(e) => setRearWheelDiameter(parseFloat(e.target.value))}
+              disabled={matchWheels}
+            />
+
+            <StyledLabel>Offset (mm)</StyledLabel>
+            <StyledInput
+              type="number"
+              value={rearWheelOffset}
+              onChange={(e) => setRearWheelOffset(parseFloat(e.target.value))}
+              disabled={matchWheels}
+            />
+
+            <StyledLabel>Spacer (mm)</StyledLabel>
+            <StyledInput
+              type="number"
+              value={rearWheelSpacer}
+              onChange={(e) => setRearWheelSpacer(parseFloat(e.target.value))}
+              disabled={matchWheels}
+            />
+          </StyledDiv>
+        </>
+      )}
+
+      {activeTab === 2 && (
+        <>
+          <Box sx={{ mb: 2 }}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={matchTires}
+                  onChange={(e) => setMatchTires(e.target.checked)}
+                />
+              }
+              label="Match Front and Rear Tires"
+            />
+          </Box>
+
+          <StyledDiv>
+            <Typography variant="subtitle1" gutterBottom>
+              Front Tires
+            </Typography>
+            <StyledLabel>Width (mm)</StyledLabel>
+            <StyledInput
+              type="number"
+              value={frontTireWidth}
+              onChange={(e) => setFrontTireWidth(parseFloat(e.target.value))}
+            />
+
+            <StyledLabel>Sidewall (%)</StyledLabel>
+            <StyledInput
+              type="number"
+              value={frontTireSidewall}
+              onChange={(e) => setFrontTireSidewall(parseFloat(e.target.value))}
+            />
+          </StyledDiv>
+
+          <StyledDiv sx={{ opacity: matchTires ? 0.5 : 1 }}>
+            <Typography variant="subtitle1" gutterBottom>
+              Rear Tires {matchTires && "(Matching Front)"}
+            </Typography>
+            <StyledLabel>Width (mm)</StyledLabel>
+            <StyledInput
+              type="number"
+              value={rearTireWidth}
+              onChange={(e) => setRearTireWidth(parseFloat(e.target.value))}
+              disabled={matchTires}
+            />
+
+            <StyledLabel>Sidewall (%)</StyledLabel>
+            <StyledInput
+              type="number"
+              value={rearTireSidewall}
+              onChange={(e) => setRearTireSidewall(parseFloat(e.target.value))}
+              disabled={matchTires}
+            />
+          </StyledDiv>
+        </>
+      )}
+    </Box>
   );
 };
 

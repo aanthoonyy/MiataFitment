@@ -1,17 +1,30 @@
 import { a, defineData, type ClientSchema } from '@aws-amplify/backend';
 
 const schema = a.schema({
-  Todo: a.model({
+  CarData: a.model({
       content: a.string(),
-      isDone: a.boolean()
+      idnumber: a.string(),
+      src: a.string().array(),
+      diameter: a.string(),
+      diameter2: a.string(),
+      width: a.string(),
+      width2: a.string(),
+      tirewidth: a.string(),
+      tirewidth2: a.string(),
+      tireSidewall: a.string(),
+      tireSidewall2: a.string(),
+      offset: a.string(),
+      offset2: a.string(),
+      style: a.string(),
+      model: a.string(),
+      chassis: a.string(),
+      description:a.string(),
     })
-    .authorization(allow => [allow.publicApiKey()])
+    .authorization(allow => [allow.publicApiKey()]),
 });
 
-// Used for code completion / highlighting when making requests from frontend
 export type Schema = ClientSchema<typeof schema>;
 
-// defines the data resource to be deployed
 export const data = defineData({
   schema,
   authorizationModes: {
