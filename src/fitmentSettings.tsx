@@ -80,7 +80,7 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
   const [rearWheelOffset, setRearWheelOffset] = useState(-7);
   const [rearWheelSpacer, setRearWheelSpacer] = useState(0);
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
 

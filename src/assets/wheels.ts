@@ -4,9 +4,9 @@ import { calculateWheelPosition, WheelPosition } from "./common/wheelPositionCal
 
 export function makeWheels(
     THREE: any,
-    x: number,
-    y: number,
-    z: number,
+    _x: number,
+    _y: number,
+    _z: number,
     wheelWidth: number,
     wheelDiameter: number,
     position: WheelPosition,
