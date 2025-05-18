@@ -8,7 +8,11 @@ import {
   Tab,
   FormControlLabel,
   Checkbox,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
 } from "@mui/material";
+import { useCarModel } from "./components/Header";
 
 type SettingsProps = {
   updateModel: (model: any) => void;
@@ -57,6 +61,7 @@ const SliderValue = styled("span")(({ theme }) => ({
 
 const CombinedSettings = ({ updateModel }: SettingsProps) => {
   const [activeTab, setActiveTab] = useState(0);
+  const { model, setModel } = useCarModel();
   const [matchWheels, setMatchWheels] = useState(false);
   const [matchTires, setMatchTires] = useState(false);
   const [frontCamber, setFrontCamber] = useState(-4.1);
@@ -158,10 +163,24 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
       </Typography>
       <Divider sx={{ mb: 2 }} />
 
-      <Tabs value={activeTab} onChange={handleTabChange} sx={{ mb: 2 }}>
+      <Tabs
+        value={activeTab}
+        onChange={handleTabChange}
+        variant="scrollable"
+        scrollButtons="auto"
+        allowScrollButtonsMobile
+        sx={{
+          mb: 2,
+          "& .MuiTabs-scrollButtons": {
+            "&.Mui-disabled": { opacity: 0.3 },
+          },
+        }}
+      >
         <Tab label="Alignment" />
         <Tab label="Wheels" />
         <Tab label="Tires" />
+        <Tab label="Car" />
+        <Tab label="Account" />
       </Tabs>
 
       {activeTab === 0 && (
@@ -411,6 +430,51 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
             />
           </StyledDiv>
         </>
+      )}
+
+      {activeTab === 3 && (
+        <StyledDiv>
+          <Typography variant="subtitle1" gutterBottom>
+            Car Selection
+          </Typography>
+          <Box sx={{ mb: 2 }}>
+            <StyledLabel>Miata Generation</StyledLabel>
+            <Select
+              value={model}
+              onChange={(event: SelectChangeEvent) => {
+                setModel(event.target.value);
+              }}
+              fullWidth
+              sx={{ mt: 0.5 }}
+            >
+              <MenuItem value="na">NA Miata (1989-1997)</MenuItem>
+              <MenuItem value="nb">NB Miata (1998-2005)</MenuItem>
+              <MenuItem value="nc" disabled>
+                NC Miata (2006-2015) - Coming Soon
+              </MenuItem>
+              <MenuItem value="nd" disabled>
+                ND Miata (2016-Present) - Coming Soon
+              </MenuItem>
+            </Select>
+          </Box>
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
+            Select your Miata generation to view and customize its fitment
+            settings. Each generation has unique wheel wells and suspension
+            geometry.
+          </Typography>
+        </StyledDiv>
+      )}
+
+      {activeTab === 4 && (
+        <StyledDiv>
+          <Typography variant="subtitle1" gutterBottom>
+            Account Settings
+          </Typography>
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
+            Account settings and preferences will be implemented in a future
+            update.
+          </Typography>
+        </StyledDiv>
       )}
     </Box>
   );

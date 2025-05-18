@@ -46,6 +46,7 @@ const GallerySection: React.FC<GallerySectionProps> = ({
         width: "150px",
         height: "56px",
       }}
+      disabled
     >
       Gallery
     </Button>
