@@ -53,16 +53,6 @@ const Header = () => {
         <ArrowBackIcon />
       </IconButton>
 
-      <Box
-        component="img"
-        src="public/faviconNoBG.png"
-        alt="MiataFitment Logo"
-        sx={{
-          height: "48px",
-          margin: "0 auto",
-        }}
-      />
-
       <IconButton
         onClick={() => setIsSettingsOpen(!isSettingsOpen)}
         sx={{

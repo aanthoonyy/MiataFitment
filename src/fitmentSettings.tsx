@@ -64,25 +64,27 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
   const { model, setModel } = useCarModel();
   const [matchWheels, setMatchWheels] = useState(false);
   const [matchTires, setMatchTires] = useState(false);
-  const [frontCamber, setFrontCamber] = useState(-4.1);
-  const [rearCamber, setRearCamber] = useState(-4.1);
+  const [frontCamber, setFrontCamber] = useState(-0.5);
+  const [rearCamber, setRearCamber] = useState(-0.5);
   const [frontCaster, setFrontCaster] = useState(5);
   const [frontToe, setFrontToe] = useState(0);
   const [rearToe, setRearToe] = useState(0);
-  const [rideHeightFront, setRideHeightFront] = useState(-2.51);
-  const [rideHeightRear, setRideHeightRear] = useState(-2.44);
+  const [rideHeightFront, setRideHeightFront] = useState(-2.65);
+  const [rideHeightRear, setRideHeightRear] = useState(-2.65);
+  const STOCK_RIDE_HEIGHT = -2.65;
+  const MM_TO_INCHES = 25.4;
 
   const [frontTireWidth, setFrontTireWidth] = useState(185);
-  const [frontTireSidewall, setFrontTireSidewall] = useState(55);
-  const [frontWheelWidth, setFrontWheelWidth] = useState(8.5);
+  const [frontTireSidewall, setFrontTireSidewall] = useState(60);
+  const [frontWheelWidth, setFrontWheelWidth] = useState(6);
   const [frontWheelDiameter, setFrontWheelDiameter] = useState(14);
-  const [frontWheelOffset, setFrontWheelOffset] = useState(-7);
-  const [frontWheelSpacer, setFrontWheelSpacer] = useState(5);
+  const [frontWheelOffset, setFrontWheelOffset] = useState(45);
+  const [frontWheelSpacer, setFrontWheelSpacer] = useState(0);
   const [rearTireWidth, setRearTireWidth] = useState(185);
-  const [rearTireSidewall, setRearTireSidewall] = useState(55);
-  const [rearWheelWidth, setRearWheelWidth] = useState(8.5);
+  const [rearTireSidewall, setRearTireSidewall] = useState(60);
+  const [rearWheelWidth, setRearWheelWidth] = useState(6);
   const [rearWheelDiameter, setRearWheelDiameter] = useState(14);
-  const [rearWheelOffset, setRearWheelOffset] = useState(-7);
+  const [rearWheelOffset, setRearWheelOffset] = useState(45);
   const [rearWheelSpacer, setRearWheelSpacer] = useState(0);
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -199,7 +201,13 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
                 value={rideHeightFront}
                 onChange={(e) => setRideHeightFront(parseFloat(e.target.value))}
               />
-              <SliderValue>{rideHeightFront}</SliderValue>
+              <SliderValue>
+                {rideHeightFront === STOCK_RIDE_HEIGHT
+                  ? 'Stock (0.00")'
+                  : `${(
+                      -(rideHeightFront - STOCK_RIDE_HEIGHT) * MM_TO_INCHES
+                    ).toFixed(2)}\u2033`}
+              </SliderValue>
             </SliderContainer>
 
             <SliderContainer>
@@ -256,7 +264,13 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
                 value={rideHeightRear}
                 onChange={(e) => setRideHeightRear(parseFloat(e.target.value))}
               />
-              <SliderValue>{rideHeightRear}</SliderValue>
+              <SliderValue>
+                {rideHeightRear === STOCK_RIDE_HEIGHT
+                  ? 'Stock (0.00")'
+                  : `${(
+                      -(rideHeightRear - STOCK_RIDE_HEIGHT) * MM_TO_INCHES
+                    ).toFixed(2)}\u2033`}
+              </SliderValue>
             </SliderContainer>
 
             <SliderContainer>

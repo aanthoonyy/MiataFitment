@@ -6,7 +6,7 @@ const FitmentSimulator: React.FC = () => {
   const navigate = useNavigate();
 
   const handleEnterSimulator = () => {
-    navigate("/visualizer-na");
+    navigate("/visualizer");
   };
 
   return (
