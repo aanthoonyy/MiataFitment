@@ -16,16 +16,35 @@ import {
   DialogTitle,
   useMediaQuery,
 } from "@mui/material";
-import { Schema } from "../amplify/data/resource";
-import { generateClient } from "aws-amplify/api";
 import { Footer } from "./assets/footer";
 import { Header } from "./header";
 
-const client = generateClient<Schema>();
+interface CarData {
+  id: string;
+  content: string;
+  idnumber: string;
+  src: string[];
+  diameter: string;
+  diameter2: string;
+  width: string;
+  width2: string;
+  tirewidth: string;
+  tirewidth2: string;
+  tireSidewall: string;
+  tireSidewall2: string;
+  offset: string;
+  offset2: string;
+  style: string;
+  model: string;
+  chassis: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 const GalleryPage: React.FC = () => {
-  const [carData, setCarData] = useState<Schema["CarData"]["type"][]>([]);
-  const sampleImages: Schema["CarData"]["type"][] = [
+  const [carData, setCarData] = useState<CarData[]>([]);
+  const sampleImages: CarData[] = [
     {
       id: "sample1",
       content:

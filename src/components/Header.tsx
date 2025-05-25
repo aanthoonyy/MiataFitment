@@ -1,15 +1,7 @@
-import {
-  AppBar,
-  IconButton,
-  Box,
-  useTheme,
-  Select,
-  MenuItem,
-  FormControl,
-} from "@mui/material";
+import { AppBar, IconButton, Box, useTheme } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { useNavigate } from "react-router-dom";
-import { SelectChangeEvent } from "@mui/material/Select";
 import { useState, createContext, useContext } from "react";
 
 export const CarModelContext = createContext<{
@@ -20,19 +12,21 @@ export const CarModelContext = createContext<{
   setModel: () => {},
 });
 
+export const SettingsContext = createContext<{
+  isSettingsOpen: boolean;
+  setIsSettingsOpen: (isOpen: boolean) => void;
+}>({
+  isSettingsOpen: false,
+  setIsSettingsOpen: () => {},
+});
+
 export const useCarModel = () => useContext(CarModelContext);
+export const useSettings = () => useContext(SettingsContext);
 
 const Header = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const [generation, setGeneration] = useState<string>("na");
-  const { setModel } = useCarModel();
-
-  const handleGenerationChange = (event: SelectChangeEvent) => {
-    const newGeneration = event.target.value as string;
-    setGeneration(newGeneration);
-    setModel(newGeneration);
-  };
+  const { isSettingsOpen, setIsSettingsOpen } = useSettings();
 
   return (
     <AppBar
@@ -69,36 +63,21 @@ const Header = () => {
         }}
       />
 
-      <FormControl
+      <IconButton
+        onClick={() => setIsSettingsOpen(!isSettingsOpen)}
         sx={{
           position: "absolute",
           right: 16,
-          minWidth: 120,
-          backgroundColor: theme.palette.background.paper,
-          borderRadius: 1,
+          color: theme.palette.text.primary,
+          bgcolor: "background.paper",
+          boxShadow: 1,
+          "&:hover": {
+            bgcolor: "background.paper",
+          },
         }}
       >
-        <Select
-          value={generation}
-          onChange={handleGenerationChange}
-          size="small"
-          sx={{
-            height: "36px",
-            "& .MuiSelect-select": {
-              py: 1,
-            },
-          }}
-        >
-          <MenuItem value="na">NA Miata</MenuItem>
-          <MenuItem value="nb">NB Miata</MenuItem>
-          <MenuItem value="nc" disabled>
-            NC Miata (Coming Soon)
-          </MenuItem>
-          <MenuItem value="nd" disabled>
-            ND Miata (Coming Soon)
-          </MenuItem>
-        </Select>
-      </FormControl>
+        <SettingsIcon />
+      </IconButton>
     </AppBar>
   );
 };
