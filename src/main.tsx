@@ -8,7 +8,7 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route path="visualizer-na" element={<MainComponent />} />
+      <Route path="visualizer" element={<MainComponent />} />
       <Route path="gallery" element={<GalleryPage />} />
       <Route path="marketplace" element={<MarketplacePage />} />
       <Route path="*" element={<LandingPage />} />
