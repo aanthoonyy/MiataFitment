@@ -29,7 +29,31 @@ const StyledInput = styled("input")(({ theme }) => ({
     outline: "none",
     borderColor: theme.palette.primary.main,
   },
+  "&[type=range]": {
+    padding: 0,
+    marginBottom: "16px",
+    WebkitAppearance: "none",
+    height: "4px",
+    borderRadius: "2px",
+    backgroundColor: theme.palette.divider,
+    "&::-webkit-slider-thumb": {
+      WebkitAppearance: "none",
+      width: "16px",
+      height: "16px",
+      borderRadius: "50%",
+      backgroundColor: theme.palette.primary.main,
+      cursor: "pointer",
+    },
+    "&::-moz-range-thumb": {
+      width: "16px",
+      height: "16px",
+      borderRadius: "50%",
+      backgroundColor: theme.palette.primary.main,
+      cursor: "pointer",
+    },
+  },
 }));
+
 
 const StyledLabel = styled("label")(({ theme }) => ({
   display: "block",
@@ -198,7 +222,7 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
                 min="-3"
                 max="-2"
                 step="0.01"
-                value={rideHeightFront}
+                value={Math.abs(rideHeightFront)}
                 onChange={(e) => setRideHeightFront(parseFloat(e.target.value))}
               />
               <SliderValue>
@@ -323,7 +347,7 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
             <StyledLabel>Width (in)</StyledLabel>
             <StyledInput
               type="number"
-              value={frontWheelWidth}
+              value={Math.abs(frontWheelWidth)}
               onChange={(e) => setFrontWheelWidth(parseFloat(e.target.value))}
             />
 

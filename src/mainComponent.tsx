@@ -13,7 +13,6 @@ import rollingDiameter from "./assets/common/rollingDiameter";
 import Header, {
   CarModelContext,
   SettingsContext,
-  useCarModel,
 } from "./components/Header";
 import { Settings, DEFAULT_SETTINGS } from "./types/settings";
 import { WheelPosition, WHEEL_POSITIONS } from "./constants/wheelPositions";
