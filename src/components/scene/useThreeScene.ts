@@ -44,8 +44,8 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
       switch (position) {
         case WheelPosition.FRONT_LEFT:
           camberDeg = settings.frontCamber;
-          offset = -mmToFeet(settings.frontWheelOffset); // Convert mm to feet
-          spacer = mmToFeet(settings.frontWheelSpacer); // Convert mm to feet
+          offset = -mmToFeet(settings.frontWheelOffset);
+          spacer = mmToFeet(settings.frontWheelSpacer);
           toe = settings.frontToe;
           baseX =
             WHEEL_POSITIONS.FRONT.LEFT.x +
@@ -56,8 +56,8 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
 
         case WheelPosition.FRONT_RIGHT:
           camberDeg = settings.frontCamber;
-          offset = mmToFeet(settings.frontWheelOffset); // Convert mm to feet
-          spacer = -mmToFeet(settings.frontWheelSpacer); // Convert mm to feet
+          offset = mmToFeet(settings.frontWheelOffset);
+          spacer = -mmToFeet(settings.frontWheelSpacer); 
           toe = -settings.frontToe;
           baseX =
             WHEEL_POSITIONS.FRONT.RIGHT.x +
@@ -68,8 +68,8 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
 
         case WheelPosition.REAR_LEFT:
           camberDeg = settings.rearCamber;
-          offset = -mmToFeet(settings.rearWheelOffset); // Convert mm to feet
-          spacer = mmToFeet(settings.rearWheelSpacer); // Convert mm to feet
+          offset = -mmToFeet(settings.rearWheelOffset);
+          spacer = mmToFeet(settings.rearWheelSpacer);
           toe = settings.rearToe;
           baseX = WHEEL_POSITIONS.REAR.LEFT.x;
           baseZ = WHEEL_POSITIONS.REAR.LEFT.z;
@@ -78,8 +78,8 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
 
         case WheelPosition.REAR_RIGHT:
           camberDeg = settings.rearCamber;
-          offset = mmToFeet(settings.rearWheelOffset); // Convert mm to feet
-          spacer = -mmToFeet(settings.rearWheelSpacer); // Convert mm to feet
+          offset = mmToFeet(settings.rearWheelOffset);
+          spacer = -mmToFeet(settings.rearWheelSpacer);
           toe = -settings.rearToe;
           baseX = WHEEL_POSITIONS.REAR.RIGHT.x;
           baseZ = WHEEL_POSITIONS.REAR.RIGHT.z;
@@ -348,6 +348,8 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
     }
   }, [settings]);
 
+
+  // Initial scene setup
   useEffect(() => {
     const scene = new THREE.Scene();
     sceneRef.current = scene;
@@ -387,6 +389,8 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
     };
   }, []);
 
+
+  // Update wheel/tire transforms on settings change
   useEffect(() => {
     if (sceneRef.current && wheelRefs.current.length > 0) {
       updateWheelPosition(
