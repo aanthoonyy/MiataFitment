@@ -230,28 +230,24 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
     }
   }, []);
 
-  // Function to create and add car
   const createAndAddCar = useCallback(async () => {
     if (sceneRef.current) {
-      // Remove old car if it exists
+
       carRefs.current.forEach((car) => sceneRef.current?.remove(car));
       carRefs.current = [];
 
-      // Create and add new car
       const car = await makeCar(THREE, -1.4, currentModel);
       carRefs.current.push(car);
       sceneRef.current.add(car);
     }
   }, [currentModel]);
 
-  // Function to create and add tires
   const createAndAddTires = useCallback(() => {
     if (sceneRef.current) {
-      // Remove old tires if they exist
+
       tireRefs.current.forEach((tire) => sceneRef.current?.remove(tire));
       wheelRefs.current.forEach((wheel) => sceneRef.current?.remove(wheel));
 
-      // Create and add new wheels
       const wheels = [
         makeWheels(
           THREE,
@@ -297,7 +293,6 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
       wheelRefs.current = wheels;
       wheels.forEach((wheel) => sceneRef.current?.add(wheel));
 
-      // Create and add new tires
       const tires = [
         makeTires(
           THREE,
@@ -353,7 +348,6 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
     }
   }, [settings]);
 
-  // Effect for initial scene setup
   useEffect(() => {
     const scene = new THREE.Scene();
     sceneRef.current = scene;
@@ -393,7 +387,6 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
     };
   }, []);
 
-  // Effect to update wheels and tires when settings change
   useEffect(() => {
     if (sceneRef.current && wheelRefs.current.length > 0) {
       updateWheelPosition(

@@ -11,7 +11,7 @@ type SettingsProps = {
   updateModel: (model: any) => void;
 };
 
-const CombinedSettings = ({ updateModel }: SettingsProps) => {
+const FitmentSettings = ({ updateModel }: SettingsProps) => {
   const [activeTab, setActiveTab] = useState(0);
   const { model, setModel } = useCarModel();
   const [matchWheels, setMatchWheels] = useState(false);
@@ -212,4 +212,4 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
   );
 };
 
-export default CombinedSettings;
+export default FitmentSettings;

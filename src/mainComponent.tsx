@@ -1,22 +1,12 @@
-import * as THREE from "three";
 import FitmentSettings from "./fitmentSettings";
-import { makeCar } from "./assets/carMaker";
-import { makeCamera } from "./assets/cameraMaker";
-import { render } from "./assets/renderer";
-import { setUpLighting } from "./assets/lighting";
-import { makeWheels } from "./assets/wheels";
-import { makeTires } from "./assets/tire";
-import { useCallback, useEffect, useRef, useState, useMemo } from "react";
+import { useCallback, useState, useMemo } from "react";
 import { Box, IconButton, useTheme } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import rollingDiameter from "./assets/common/rollingDiameter";
 import Header, {
   CarModelContext,
   SettingsContext,
 } from "./components/Header";
 import { Settings, DEFAULT_SETTINGS } from "./types/settings";
-import { WheelPosition, WHEEL_POSITIONS } from "./constants/wheelPositions";
-import { mmToFeet } from "./utils/unitConversions";
 import ThreeScene from "./components/scene/ThreeScene";
 import useThreeScene from "./components/scene/useThreeScene";
 
@@ -25,7 +15,7 @@ const MainComponent = () => {
   const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
   const [currentModel, setCurrentModel] = useState("na");
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const { sceneRef, containerRef } = useThreeScene(settings, currentModel);
+  const { containerRef } = useThreeScene(settings, currentModel);
   const theme = useTheme();
 
   const updateModel = useCallback((newSettings: Partial<Settings>) => {
