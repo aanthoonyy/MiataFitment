@@ -1,8 +1,8 @@
-import MainComponent from "./mainComponent";
+import MainComponent from "./components/visualizer/mainComponent";
 import { Route, Routes } from "react-router";
-import LandingPage from "./landingPage";
-import GalleryPage from "./galleryPage";
-import MarketplacePage from "./marketPage";
+import LandingPage from "./components/pages/landingPage";
+import GalleryPage from "./components/pages/galleryPage";
+import MarketplacePage from "./components/pages/marketPage";
 
 const App = () => {
   return (

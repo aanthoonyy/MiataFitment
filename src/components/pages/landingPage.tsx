@@ -2,12 +2,12 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { Footer } from "./assets/footer";
-import { Header } from "./header";
-import BuyMeACoffee from "./assets/buymecoffee";
-import MainImageAndSimulator from "./components/MainImageAndSimulator";
-import GallerySection from "./components/GallerySection";
-import Marketplace from "./components/Marketplace";
+import { Footer } from "../common/footer";
+import { Header } from "../common/header";
+import BuyMeACoffee from "../../assets/buymecoffee";
+import MainImageAndSimulator from "./MainImageAndSimulator";
+import GallerySection from "./GallerySection";
+import Marketplace from "./Marketplace";
 
 const LandingPage: React.FC = () => {
   const navigate = useNavigate();

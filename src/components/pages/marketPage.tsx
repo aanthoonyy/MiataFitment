@@ -15,8 +15,8 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-import { Footer } from "./assets/footer";
-import { Header } from "./header";
+import { Header } from "../common/header";
+import { Footer } from "../common/footer";
 
 const marketplaceItems = [
   {

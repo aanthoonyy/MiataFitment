@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material"
 import { StyledDiv, SliderContainer, StyledLabel, StyledInput, SliderValue } from "./StyledComponents"
-import { STOCK_RIDE_HEIGHT, MM_TO_INCHES } from "../../assets/constants"
+import { STOCK_RIDE_HEIGHT, MM_TO_INCHES } from "../../constants/constants"
 
 
 type AlignmentTabProps = {

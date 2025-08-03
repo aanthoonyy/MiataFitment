@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { Box, Typography, Divider, Tabs, Tab } from "@mui/material";
-import { useCarModel } from "./components/Header";
-import { AlignmentTab } from "./components/settings/AlignmentTab";
-import { WheelTab } from "./components/settings/WheelsTab";
-import { TiresTab } from "./components/settings/TiresTab";
-import { CarTab } from "./components/settings/CarTab";
-import { AccountTab } from "./components/settings/AccountTab";
+import { useCarModel } from "../FitmentSimulatorHeader";
+import { AccountTab } from "../settings/AccountTab";
+import { AlignmentTab } from "../settings/AlignmentTab";
+import { CarTab } from "../settings/CarTab";
+import { TiresTab } from "../settings/TiresTab";
+import { WheelTab } from "../settings/WheelsTab";
 
 type SettingsProps = {
   updateModel: (model: any) => void;

@@ -5,10 +5,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import Header, {
   CarModelContext,
   SettingsContext,
-} from "./components/Header";
-import { Settings, DEFAULT_SETTINGS } from "./types/settings";
-import ThreeScene from "./components/scene/ThreeScene";
-import useThreeScene from "./components/scene/useThreeScene";
+} from "../FitmentSimulatorHeader";
+import { Settings, DEFAULT_SETTINGS } from "../../types/settings";
+import ThreeScene from "../scene/ThreeScene";
+import useThreeScene from "../scene/useThreeScene";
 
 
 const MainComponent = () => {

@@ -16,8 +16,8 @@ import {
   DialogTitle,
   useMediaQuery,
 } from "@mui/material";
-import { Footer } from "./assets/footer";
-import { Header } from "./header";
+import { Footer } from "../common/footer";
+import { Header } from "../common/header";
 
 interface CarData {
   id: string;
