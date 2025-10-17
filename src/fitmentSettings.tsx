@@ -469,10 +469,10 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
               <MenuItem value="na">NA Miata (1989-1997)</MenuItem>
               <MenuItem value="nb">NB Miata (1998-2005)</MenuItem>
               <MenuItem value="nc" disabled>
-                NC Miata (2006-2015) - Coming Soon
+                NC Miata (2006-2015)
               </MenuItem>
               <MenuItem value="nd" disabled>
-                ND Miata (2016-Present) - Coming Soon
+                ND Miata (2016-Present)
               </MenuItem>
             </Select>
             {!user && !loading && (
