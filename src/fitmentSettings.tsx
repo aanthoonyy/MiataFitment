@@ -11,8 +11,11 @@ import {
   Select,
   MenuItem,
   SelectChangeEvent,
+  Link,
 } from "@mui/material";
 import { useCarModel } from "./components/Header";
+import { useAuth } from "./provider/AuthProvider";
+import { Link as RouterLink } from "react-router-dom";
 
 type SettingsProps = {
   updateModel: (model: any) => void;
@@ -62,6 +65,7 @@ const SliderValue = styled("span")(({ theme }) => ({
 const CombinedSettings = ({ updateModel }: SettingsProps) => {
   const [activeTab, setActiveTab] = useState(0);
   const { model, setModel } = useCarModel();
+  const { user, loading } = useAuth();
   const [matchWheels, setMatchWheels] = useState(false);
   const [matchTires, setMatchTires] = useState(false);
   const [frontCamber, setFrontCamber] = useState(-0.5);
@@ -460,6 +464,7 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
               }}
               fullWidth
               sx={{ mt: 0.5 }}
+              disabled={!user || loading}
             >
               <MenuItem value="na">NA Miata (1989-1997)</MenuItem>
               <MenuItem value="nb">NB Miata (1998-2005)</MenuItem>
@@ -470,6 +475,15 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
                 ND Miata (2016-Present) - Coming Soon
               </MenuItem>
             </Select>
+            {!user && !loading && (
+              <Typography variant="caption" color="text.secondary">
+                Please{" "}
+                <Link component={RouterLink} to="/login" underline="hover">
+                  log in
+                </Link>{" "}
+                to change car selection.
+              </Typography>
+            )}
           </Box>
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
             Select your Miata generation to view and customize its fitment
