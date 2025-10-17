@@ -17,6 +17,7 @@ import {
 import { supabase, useAuth } from "../provider/AuthProvider";
 
 export default function LoginPage() {
+  const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
@@ -30,22 +31,21 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
-      navigate("/"); // or wherever you want to redirect
-    }
+    if (user) navigate("/");
   }, [user, navigate]);
+
+  const toggleMode = () => {
+    setMode((m) => (m === "login" ? "signup" : "login"));
+    setMessage("");
+  };
 
   const handleSignUp = async () => {
     setLoading(true);
     setMessage("");
-    const { data, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: {
-        data: {
-          username: username,
-        },
-      },
+      options: { data: { username } },
     });
     setLoading(false);
     if (error) {
@@ -53,11 +53,9 @@ export default function LoginPage() {
       setMessage(`Error: ${error.message}`);
     } else {
       setMessageType("success");
-      setMessage(`Success! Account created. You can now sign in.`);
-      // Clear form
-      setEmail("");
+      setMessage("Success! Account created. You can now sign in.");
+      setMode("login");
       setPassword("");
-      setUsername("");
     }
   };
 
@@ -75,26 +73,36 @@ export default function LoginPage() {
     } else {
       setMessageType("success");
       setMessage(`Logged in as: ${data.user?.email}`);
-      // AuthContext will update and useEffect will redirect
     }
   };
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (mode === "login") handleSignIn();
+    else handleSignUp();
+  };
+
+  const canSubmit =
+    mode === "login"
+      ? email.length > 0 && password.length > 0
+      : email.length > 0 && password.length > 0 && username.length > 0;
 
   return (
     <Container maxWidth="sm">
       <Box
         sx={{
-          marginTop: 8,
+          mt: 8,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
         }}
       >
-        <Paper elevation={3} sx={{ padding: 4, width: "100%" }}>
+        <Paper elevation={3} sx={{ p: 4, width: "100%" }}>
           <Typography component="h1" variant="h4" align="center" gutterBottom>
-            Supabase Login Test
+            {mode === "login" ? "Welcome back" : "Create your account"}
           </Typography>
 
-          <Box component="form" sx={{ mt: 3 }} noValidate>
+          <Box component="form" sx={{ mt: 3 }} noValidate onSubmit={onSubmit}>
             <TextField
               margin="normal"
               required
@@ -106,19 +114,22 @@ export default function LoginPage() {
               autoFocus
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              data-testid="email-input"
             />
-            <TextField
-              margin="normal"
-              fullWidth
-              id="username"
-              label="Username (for sign up)"
-              name="username"
-              autoComplete="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              data-testid="username-input"
-            />
+
+            {mode === "signup" && (
+              <TextField
+                margin="normal"
+                fullWidth
+                required
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            )}
+
             <TextField
               margin="normal"
               required
@@ -127,47 +138,49 @@ export default function LoginPage() {
               label="Password"
               type="password"
               id="password"
-              autoComplete="current-password"
+              autoComplete={
+                mode === "login" ? "current-password" : "new-password"
+              }
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              data-testid="password-input"
             />
 
-            <Box sx={{ display: "flex", gap: 2, mt: 3, mb: 2 }}>
+            <Box sx={{ display: "flex", gap: 2, mt: 3, mb: 1 }}>
               <Button
+                type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
-                onClick={handleSignIn}
-                disabled={loading}
+                disabled={loading || !canSubmit}
                 startIcon={
-                  loading ? <CircularProgress size={20} /> : <LoginIcon />
+                  loading ? (
+                    <CircularProgress size={20} />
+                  ) : mode === "login" ? (
+                    <LoginIcon />
+                  ) : (
+                    <PersonAddIcon />
+                  )
                 }
-                data-testid="signin-button"
               >
-                Sign In
-              </Button>
-              <Button
-                fullWidth
-                variant="outlined"
-                color="secondary"
-                onClick={handleSignUp}
-                disabled={loading}
-                startIcon={
-                  loading ? <CircularProgress size={20} /> : <PersonAddIcon />
-                }
-                data-testid="signup-button"
-              >
-                Sign Up
+                {mode === "login" ? "Sign In" : "Create Account"}
               </Button>
             </Box>
 
+            <Button
+              onClick={toggleMode}
+              fullWidth
+              color="secondary"
+              variant="text"
+              disabled={loading}
+              sx={{ textTransform: "none" }}
+            >
+              {mode === "login"
+                ? "Need an account? Sign up"
+                : "Have an account? Sign in"}
+            </Button>
+
             {message && (
-              <Alert
-                severity={messageType}
-                sx={{ mt: 2 }}
-                data-testid="message"
-              >
+              <Alert severity={messageType} sx={{ mt: 2 }}>
                 {message}
               </Alert>
             )}
