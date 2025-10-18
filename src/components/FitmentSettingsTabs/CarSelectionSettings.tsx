@@ -40,7 +40,9 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
           disabled={!user || loading}
         >
           <MenuItem value="na">NA Miata (1989-1997)</MenuItem>
-          <MenuItem value="nb">NB Miata (1998-2005)</MenuItem>
+          <MenuItem value="nb" disabled>
+            NB Miata (1998-2005)
+          </MenuItem>
           <MenuItem value="nc" disabled>
             NC Miata (2006-2015)
           </MenuItem>
