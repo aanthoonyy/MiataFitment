@@ -33,7 +33,7 @@ export const Header: React.FC = () => {
   const goLogin = () => navigate("/login");
 
   const displayName =
-    (user?.user_metadata as any)?.username ||
+    (user?.user_metadata as any)?.displayName ||
     user?.email?.split("@")[0] ||
     "Account";
 

@@ -20,7 +20,7 @@ export default function LoginPage() {
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
+  const [displayName, setDisplayName] = useState("");
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState<"success" | "error">(
     "success"
@@ -45,7 +45,7 @@ export default function LoginPage() {
     const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { username } },
+      options: { data: { displayName } },
     });
     setLoading(false);
     if (error) {
@@ -71,8 +71,10 @@ export default function LoginPage() {
       setMessageType("error");
       setMessage(`Error: ${error.message}`);
     } else {
+      const meta = (data.user?.user_metadata ?? {}) as { displayName?: string };
+      const name = meta.displayName || data.user?.email || "User";
       setMessageType("success");
-      setMessage(`Logged in as: ${data.user?.email}`);
+      setMessage(`Logged in as: ${name}`);
     }
   };
 
@@ -85,7 +87,7 @@ export default function LoginPage() {
   const canSubmit =
     mode === "login"
       ? email.length > 0 && password.length > 0
-      : email.length > 0 && password.length > 0 && username.length > 0;
+      : email.length > 0 && password.length > 0 && displayName.length > 0;
 
   return (
     <Container maxWidth="sm">
@@ -121,12 +123,12 @@ export default function LoginPage() {
                 margin="normal"
                 fullWidth
                 required
-                id="username"
-                label="Username"
-                name="username"
-                autoComplete="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                id="displayName"
+                label="Display name"
+                name="displayName"
+                autoComplete="name"
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
               />
             )}
 

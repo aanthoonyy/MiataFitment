@@ -231,7 +231,7 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
         />
       )}
 
-      {activeTab === 4 && <AccountSettings />}
+      {activeTab === 4 && <AccountSettings user={user} />}
     </Box>
   );
 };
