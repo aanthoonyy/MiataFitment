@@ -107,14 +107,6 @@ export const Header: React.FC = () => {
                 anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                 transformOrigin={{ vertical: "top", horizontal: "right" }}
               >
-                <MenuItem
-                  onClick={() => {
-                    handleMenuClose();
-                    navigate("/account");
-                  }}
-                >
-                  Account
-                </MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
             </>

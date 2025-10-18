@@ -17,7 +17,7 @@ import {
 import { supabase, useAuth } from "../provider/AuthProvider";
 
 export default function LoginPage() {
-  const [mode, setMode] = useState<"login" | "signup">("login");
+  const [mode, setMode] = useState<"login" | "signup" | "reset">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -78,16 +78,35 @@ export default function LoginPage() {
     }
   };
 
+  const handleResetPassword = async () => {
+    setLoading(true);
+    setMessage("");
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setLoading(false);
+    if (error) {
+      setMessageType("error");
+      setMessage(`Error: ${error.message}`);
+    } else {
+      setMessageType("success");
+      setMessage("Password reset email sent! Check your inbox.");
+    }
+  };
+
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (mode === "login") handleSignIn();
-    else handleSignUp();
+    else if (mode === "signup") handleSignUp();
+    else if (mode === "reset") handleResetPassword();
   };
 
   const canSubmit =
     mode === "login"
       ? email.length > 0 && password.length > 0
-      : email.length > 0 && password.length > 0 && displayName.length > 0;
+      : mode === "signup"
+      ? email.length > 0 && password.length > 0 && displayName.length > 0
+      : email.length > 0;
 
   return (
     <Container maxWidth="sm">
@@ -101,7 +120,11 @@ export default function LoginPage() {
       >
         <Paper elevation={3} sx={{ p: 4, width: "100%" }}>
           <Typography component="h1" variant="h4" align="center" gutterBottom>
-            {mode === "login" ? "Welcome back" : "Create your account"}
+            {mode === "login"
+              ? "Welcome back"
+              : mode === "signup"
+              ? "Create your account"
+              : "Reset password"}
           </Typography>
 
           <Box component="form" sx={{ mt: 3 }} noValidate onSubmit={onSubmit}>
@@ -132,20 +155,22 @@ export default function LoginPage() {
               />
             )}
 
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete={
-                mode === "login" ? "current-password" : "new-password"
-              }
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            {(mode === "login" || mode === "signup") && (
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete={
+                  mode === "login" ? "current-password" : "new-password"
+                }
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            )}
 
             <Box sx={{ display: "flex", gap: 2, mt: 3, mb: 1 }}>
               <Button
@@ -164,9 +189,29 @@ export default function LoginPage() {
                   )
                 }
               >
-                {mode === "login" ? "Sign In" : "Create Account"}
+                {mode === "login"
+                  ? "Sign In"
+                  : mode === "signup"
+                  ? "Create Account"
+                  : "Send Reset Email"}
               </Button>
             </Box>
+
+            {mode === "login" && (
+              <Button
+                onClick={() => {
+                  setMode("reset");
+                  setMessage("");
+                }}
+                fullWidth
+                color="secondary"
+                variant="text"
+                disabled={loading}
+                sx={{ textTransform: "none", mb: 1 }}
+              >
+                Forgot password?
+              </Button>
+            )}
 
             <Button
               onClick={toggleMode}
