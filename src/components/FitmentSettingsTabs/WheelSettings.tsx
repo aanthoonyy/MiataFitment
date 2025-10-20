@@ -13,7 +13,7 @@ export interface WheelSettingsProps {
   frontWheelDiameter: number;
   setFrontWheelDiameter: (value: number) => void;
   frontWheelOffset: number;
-  setFrontWheelOffset: (value: number) => void;
+  setFrontWheelOffset: (value: string) => void;
   frontWheelSpacer: number;
   setFrontWheelSpacer: (value: number) => void;
 
@@ -22,7 +22,7 @@ export interface WheelSettingsProps {
   rearWheelDiameter: number;
   setRearWheelDiameter: (value: number) => void;
   rearWheelOffset: number;
-  setRearWheelOffset: (value: number) => void;
+  setRearWheelOffset: (value: string) => void;
   rearWheelSpacer: number;
   setRearWheelSpacer: (value: number) => void;
 }
@@ -81,9 +81,14 @@ const WheelSettings: React.FC<WheelSettingsProps> = ({
 
         <StyledLabel>Offset (mm)</StyledLabel>
         <StyledInput
-          type="number"
-          value={frontWheelOffset}
-          onChange={(e) => setFrontWheelOffset(parseFloat(e.target.value))}
+            type="text"
+            value={frontWheelOffset}
+            onChange={(e) => {
+                const val = e.target.value;
+                if (/^-?\d*\.?\d*$/.test(val)) {
+                    setFrontWheelOffset(val);
+                }
+            }}
         />
 
         <StyledLabel>Spacer (mm)</StyledLabel>
@@ -114,12 +119,16 @@ const WheelSettings: React.FC<WheelSettingsProps> = ({
           disabled={matchWheels}
         />
 
-        <StyledLabel>Offset (mm)</StyledLabel>
-        <StyledInput
-          type="number"
-          value={rearWheelOffset}
-          onChange={(e) => setRearWheelOffset(parseFloat(e.target.value))}
-          disabled={matchWheels}
+          <StyledLabel>Offset (mm)</StyledLabel>
+          <StyledInput
+            type="text"
+            value={rearWheelOffset}
+            onChange={(e) => {
+                const val = e.target.value;
+                if (/^-?\d*\.?\d*$/.test(val)) {
+                    setRearWheelOffset(val);
+                }
+            }}
         />
 
         <StyledLabel>Spacer (mm)</StyledLabel>
