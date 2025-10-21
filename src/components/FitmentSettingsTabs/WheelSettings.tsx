@@ -1,5 +1,5 @@
 // ...existing code...
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { StyledDiv, StyledInput, StyledLabel } from "./FitmentSettingsStyles";
 import { Box, FormControlLabel, Checkbox, Typography } from "@mui/material";
 // ...existing code...
@@ -13,7 +13,7 @@ export interface WheelSettingsProps {
   frontWheelDiameter: number;
   setFrontWheelDiameter: (value: number) => void;
   frontWheelOffset: number;
-  setFrontWheelOffset: (value: string) => void;
+  setFrontWheelOffset: (value: number) => void;
   frontWheelSpacer: number;
   setFrontWheelSpacer: (value: number) => void;
 
@@ -22,7 +22,7 @@ export interface WheelSettingsProps {
   rearWheelDiameter: number;
   setRearWheelDiameter: (value: number) => void;
   rearWheelOffset: number;
-  setRearWheelOffset: (value: string) => void;
+  setRearWheelOffset: (value: number) => void;
   rearWheelSpacer: number;
   setRearWheelSpacer: (value: number) => void;
 }
@@ -47,6 +47,25 @@ const WheelSettings: React.FC<WheelSettingsProps> = ({
   rearWheelSpacer,
   setRearWheelSpacer,
 }) => {
+
+    const [frontOffsetInput, setFrontOffsetInput] = useState(frontWheelOffset.toString());
+    const [rearOffsetInput, setRearOffsetInput] = useState(rearWheelOffset.toString());
+
+    useEffect(() => setFrontOffsetInput(frontWheelOffset.toString()), [frontWheelOffset]);
+    useEffect(() => setRearOffsetInput(rearWheelOffset.toString()), [rearWheelOffset]);
+
+    const handleOffsetChange = (
+        value: string,
+        setInput: React.Dispatch<React.SetStateAction<string>>,
+        setNumber: (v: number) => void
+    ) => {
+        if (/^-?\d*\.?\d*$/.test(value)) {
+            setInput(value);
+            const num = parseFloat(value);
+            if (!isNaN(num)) setNumber(num);
+        }
+    };
+
   return (
     <>
       <Box sx={{ mb: 2 }}>
@@ -81,14 +100,21 @@ const WheelSettings: React.FC<WheelSettingsProps> = ({
 
         <StyledLabel>Offset (mm)</StyledLabel>
         <StyledInput
-            type="text"
-            value={frontWheelOffset}
-            onChange={(e) => {
-                const val = e.target.value;
-                if (/^-?\d*\.?\d*$/.test(val)) {
-                    setFrontWheelOffset(val);
-                }
-            }}
+          type="text"
+          value={frontOffsetInput}
+          onChange={(e) =>
+              handleOffsetChange(e.target.value, setFrontOffsetInput, setFrontWheelOffset)
+          }
+          onBlur={() => {
+              const parsed = parseFloat(frontOffsetInput);
+              if (isNaN(parsed)) {
+                  setFrontOffsetInput("0");
+                  setFrontWheelOffset(0);
+              } else {
+                  setFrontOffsetInput(parsed.toString());
+                  setFrontWheelOffset(parsed);
+              }
+          }}
         />
 
         <StyledLabel>Spacer (mm)</StyledLabel>
@@ -119,16 +145,24 @@ const WheelSettings: React.FC<WheelSettingsProps> = ({
           disabled={matchWheels}
         />
 
-          <StyledLabel>Offset (mm)</StyledLabel>
-          <StyledInput
-            type="text"
-            value={rearWheelOffset}
-            onChange={(e) => {
-                const val = e.target.value;
-                if (/^-?\d*\.?\d*$/.test(val)) {
-                    setRearWheelOffset(val);
-                }
-            }}
+        <StyledLabel>Offset (mm)</StyledLabel>
+        <StyledInput
+          type="text"
+          value={rearOffsetInput}
+          onChange={(e) =>
+              handleOffsetChange(e.target.value, setRearOffsetInput, setRearWheelOffset)
+          }
+          onBlur={() => {
+              const parsed = parseFloat(rearOffsetInput);
+              if (isNaN(parsed)) {
+                  setRearOffsetInput("0");
+                  setRearWheelOffset(0);
+              } else {
+                  setRearOffsetInput(parsed.toString());
+                  setRearWheelOffset(parsed);
+              }
+          }}
+          disabled={matchWheels}
         />
 
         <StyledLabel>Spacer (mm)</StyledLabel>
