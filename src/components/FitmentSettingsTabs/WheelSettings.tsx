@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { StyledDiv, StyledInput, StyledLabel } from "./FitmentSettingsStyles";
 import { Box, FormControlLabel, Checkbox, Typography } from "@mui/material";
 
@@ -45,6 +45,25 @@ const WheelSettings: React.FC<WheelSettingsProps> = ({
   rearWheelSpacer,
   setRearWheelSpacer,
 }) => {
+
+    const [frontOffsetInput, setFrontOffsetInput] = useState(frontWheelOffset.toString());
+    const [rearOffsetInput, setRearOffsetInput] = useState(rearWheelOffset.toString());
+
+    useEffect(() => setFrontOffsetInput(frontWheelOffset.toString()), [frontWheelOffset]);
+    useEffect(() => setRearOffsetInput(rearWheelOffset.toString()), [rearWheelOffset]);
+
+    const handleOffsetChange = (
+        value: string,
+        setInput: React.Dispatch<React.SetStateAction<string>>,
+        setNumber: (v: number) => void
+    ) => {
+        if (/^-?\d*\.?\d*$/.test(value)) {
+            setInput(value);
+            const num = parseFloat(value);
+            if (!isNaN(num)) setNumber(num);
+        }
+    };
+
   return (
     <>
       <Box sx={{ mb: 2 }}>
@@ -79,9 +98,21 @@ const WheelSettings: React.FC<WheelSettingsProps> = ({
 
         <StyledLabel>Offset (mm)</StyledLabel>
         <StyledInput
-          type="number"
-          value={frontWheelOffset}
-          onChange={(e) => setFrontWheelOffset(parseFloat(e.target.value))}
+          type="text"
+          value={frontOffsetInput}
+          onChange={(e) =>
+              handleOffsetChange(e.target.value, setFrontOffsetInput, setFrontWheelOffset)
+          }
+          onBlur={() => {
+              const parsed = parseFloat(frontOffsetInput);
+              if (isNaN(parsed)) {
+                  setFrontOffsetInput("0");
+                  setFrontWheelOffset(0);
+              } else {
+                  setFrontOffsetInput(parsed.toString());
+                  setFrontWheelOffset(parsed);
+              }
+          }}
         />
 
         <StyledLabel>Spacer (mm)</StyledLabel>
@@ -114,9 +145,21 @@ const WheelSettings: React.FC<WheelSettingsProps> = ({
 
         <StyledLabel>Offset (mm)</StyledLabel>
         <StyledInput
-          type="number"
-          value={rearWheelOffset}
-          onChange={(e) => setRearWheelOffset(parseFloat(e.target.value))}
+          type="text"
+          value={rearOffsetInput}
+          onChange={(e) =>
+              handleOffsetChange(e.target.value, setRearOffsetInput, setRearWheelOffset)
+          }
+          onBlur={() => {
+              const parsed = parseFloat(rearOffsetInput);
+              if (isNaN(parsed)) {
+                  setRearOffsetInput("0");
+                  setRearWheelOffset(0);
+              } else {
+                  setRearOffsetInput(parsed.toString());
+                  setRearWheelOffset(parsed);
+              }
+          }}
           disabled={matchWheels}
         />
 
