@@ -1,8 +1,6 @@
-// ...existing code...
 import React, {useEffect, useState} from "react";
 import { StyledDiv, StyledInput, StyledLabel } from "./FitmentSettingsStyles";
 import { Box, FormControlLabel, Checkbox, Typography } from "@mui/material";
-// ...existing code...
 
 export interface WheelSettingsProps {
   matchWheels: boolean;
@@ -178,4 +176,3 @@ const WheelSettings: React.FC<WheelSettingsProps> = ({
 };
 
 export default WheelSettings;
-// ...existing code...
