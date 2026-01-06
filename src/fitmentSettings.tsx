@@ -125,35 +125,40 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
         onValueChange={(v) => setActiveTab(v as SettingsTab)}
       >
         {/* Sticky top toolbar */}
-        <div className="sticky top-0 z-10 bg-zinc-200">
-          <div className="p-4 pb-3">
-            <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold">Settings</h2>
-            </div>
-          </div>
+<div
+  className="
+    sticky top-0 z-10
+    bg-zinc-200
+    shadow-sm
+  "
+>
+  <div className="p-4 pb-3">
+    <div className="flex items-center justify-between">
+      <h2 className="text-lg font-semibold">Settings</h2>
+    </div>
+  </div>
 
-          <div className="px-4 pb-3">
-            <TabsList className="w-full justify-start overflow-x-auto">
-              <TabsTrigger value="alignment" className="shrink-0">
-                Alignment
-              </TabsTrigger>
-              <TabsTrigger value="wheels" className="shrink-0">
-                Wheels
-              </TabsTrigger>
-              <TabsTrigger value="tires" className="shrink-0">
-                Tires
-              </TabsTrigger>
-              <TabsTrigger value="car" className="shrink-0">
-                Car
-              </TabsTrigger>
-              <TabsTrigger value="account" className="shrink-0">
-                Account
-              </TabsTrigger>
-            </TabsList>
-          </div>
+  <div className="px-4 pb-3">
+    <TabsList className="w-full justify-start overflow-x-auto">
+      <TabsTrigger value="alignment" className="shrink-0">
+        Alignment
+      </TabsTrigger>
+      <TabsTrigger value="wheels" className="shrink-0">
+        Wheels
+      </TabsTrigger>
+      <TabsTrigger value="tires" className="shrink-0">
+        Tires
+      </TabsTrigger>
+      <TabsTrigger value="car" className="shrink-0">
+        Car
+      </TabsTrigger>
+      <TabsTrigger value="account" className="shrink-0">
+        Account
+      </TabsTrigger>
+    </TabsList>
+  </div>
+</div>
 
-          <Separator />
-        </div>
 
         {/* Content padding */}
         <div className="bg-zinc-100 p-4">
