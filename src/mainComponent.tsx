@@ -16,8 +16,6 @@ import { Settings, DEFAULT_SETTINGS } from "./types/settings";
 import { WheelPosition, WHEEL_POSITIONS } from "./constants/wheelPositions";
 import { mmToFeet } from "./utils/unitConversions";
 
-const HEADER_H = 64;
-
 const useThreeScene = (settings: Settings, currentModel: string) => {
   const sceneRef = useRef<THREE.Scene | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
@@ -447,7 +445,7 @@ const MainComponent = () => {
             <Header />
           </div>
 
-          <div className="absolute inset-0" style={{ paddingTop: HEADER_H }}>
+          <div className="absolute inset-0">
             <div className="relative h-full w-full">
               <div
                 id="three-container"
