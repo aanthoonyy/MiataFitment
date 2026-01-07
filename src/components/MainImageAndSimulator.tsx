@@ -1,19 +1,19 @@
 import React from "react";
-import { Container, Grid } from "@mui/material";
 import MainImage from "./MainImage";
 import FitmentSimulator from "./FitmentSimulator";
 
 const MainImageAndSimulator: React.FC = () => (
-  <Container maxWidth="lg" sx={{ mt: 4 }}>
-    <Grid container spacing={4} alignItems="center">
-      <Grid item xs={12} md={6}>
+  <div className="mx-auto w-full max-w-5xl px-4 pt-10 md:pt-14">
+    <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-2">
+      <div>
         <FitmentSimulator />
-      </Grid>
-      <Grid item xs={12} md={6}>
+      </div>
+
+      <div>
         <MainImage />
-      </Grid>
-    </Grid>
-  </Container>
+      </div>
+    </div>
+  </div>
 );
 
 export default MainImageAndSimulator;

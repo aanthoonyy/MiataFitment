@@ -1,32 +1,25 @@
-import React from "react";
-import {
-  Box,
-  Button,
-  IconButton,
-  Menu,
-  MenuItem,
-  Avatar,
-  Tooltip,
-  Typography,
-  CircularProgress,
-} from "@mui/material";
+import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
+
 import { useAuth } from "./provider/AuthProvider";
+
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+import { Loader2 } from "lucide-react";
 
 export const Header: React.FC = () => {
   const navigate = useNavigate();
   const { user, loading, signOut } = useAuth();
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const menuOpen = Boolean(anchorEl);
-
-  const handleMenuOpen = (e: React.MouseEvent<HTMLElement>) =>
-    setAnchorEl(e.currentTarget);
-  const handleMenuClose = () => setAnchorEl(null);
-
   const handleLogout = async () => {
     await signOut();
-    handleMenuClose();
     navigate("/");
   };
 
@@ -40,95 +33,64 @@ export const Header: React.FC = () => {
   const avatarLetter = displayName?.[0]?.toUpperCase() || "?";
 
   return (
-    <Box
-      sx={{
-        py: 0,
-        backgroundColor: "#1976D2",
-        color: "#FFFFFF",
-      }}
-    >
-      <Box
-        sx={{
-          maxWidth: 1200,
-          mx: "auto",
-          px: 2,
-          height: 72,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: 2,
-        }}
-      >
-        <Link
-          to="/"
-          style={{
-            textDecoration: "none",
-            display: "inline-flex",
-            alignItems: "center",
-          }}
-        >
+    <header className="w-full border-b border-[#0b94d1] bg-[#0DA5E8] text-white">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4">
+        <Link to="/" className="inline-flex items-center gap-2">
           <img
             src="/faviconNoBG.png"
             alt="Miata Fitment Logo"
-            style={{ height: 56, width: "auto", cursor: "pointer" }}
+            className="h-10 w-auto"
           />
+          {/* Optional brand text */}
+          {/* <span className="hidden sm:block text-sm font-semibold tracking-tight">MiataFitment</span> */}
         </Link>
 
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+        <div className="flex items-center gap-2">
           {loading ? (
-            <CircularProgress size={22} sx={{ color: "#fff" }} />
+            <div className="flex items-center gap-2 text-white/90">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <span className="text-sm">Loading</span>
+            </div>
           ) : user ? (
-            <>
-              <Typography
-                variant="body2"
-                sx={{ color: "#fff", display: { xs: "none", sm: "block" } }}
-              >
+            <div className="flex items-center gap-2">
+              <span className="hidden text-sm text-white/90 sm:block">
                 {displayName}
-              </Typography>
-              <Tooltip title="Account">
-                <IconButton onClick={handleMenuOpen} sx={{ p: 0 }}>
-                  <Avatar
-                    sx={{
-                      width: 32,
-                      height: 32,
-                      bgcolor: "#fff",
-                      color: "#1976D2",
-                      fontWeight: 600,
-                    }}
+              </span>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    type="button"
+                    className="rounded-full outline-none transition focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0DA5E8]"
+                    aria-label="Account"
                   >
-                    {avatarLetter}
-                  </Avatar>
-                </IconButton>
-              </Tooltip>
-              <Menu
-                anchorEl={anchorEl}
-                open={menuOpen}
-                onClose={handleMenuClose}
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                transformOrigin={{ vertical: "top", horizontal: "right" }}
-              >
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
-              </Menu>
-            </>
+                    <Avatar className="h-8 w-8">
+                      <AvatarFallback className="bg-white font-semibold text-[#0b94d1]">
+                        {avatarLetter}
+                      </AvatarFallback>
+                    </Avatar>
+                  </button>
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent align="end" className="w-40">
+                  <DropdownMenuItem onClick={handleLogout}>
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           ) : (
             <Button
+              variant="outline"
+              size="sm"
               onClick={goLogin}
-              variant="outlined"
-              size="small"
-              sx={{
-                color: "#fff",
-                borderColor: "#fff",
-                ":hover": {
-                  borderColor: "#fff",
-                  backgroundColor: "rgba(255,255,255,0.1)",
-                },
-              }}
+              className="border-white/80 bg-transparent text-white hover:border-white hover:bg-white/15"
             >
               Login
             </Button>
           )}
-        </Box>
-      </Box>
-    </Box>
+        </div>
+      </div>
+    </header>
   );
 };

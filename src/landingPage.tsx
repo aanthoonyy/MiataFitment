@@ -1,32 +1,19 @@
 import React from "react";
-import { Box } from "@mui/material";
 import { Footer } from "./assets/footer";
 import MainImageAndSimulator from "./components/MainImageAndSimulator";
 import { Header } from "./header";
 
 const LandingPage: React.FC = () => {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
-        width: "100vw",
-        overflowX: "hidden",
-        boxSizing: "border-box",
-        m: 0,
-        p: 0,
-        bgcolor: "#fff",
-      }}
-    >
+    <div className="flex min-h-screen w-screen flex-col overflow-x-hidden bg-white m-0 p-0 box-border">
       <Header />
 
-      <Box component="main" sx={{ flex: 1 }}>
+      <main className="flex-1">
         <MainImageAndSimulator />
-      </Box>
+      </main>
 
       <Footer />
-    </Box>
+    </div>
   );
 };
 
