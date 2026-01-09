@@ -421,10 +421,6 @@ const MainComponent = () => {
 
   useThreeScene(settings, currentModel);
 
-  const updateModel = useCallback((newSettings: Partial<Settings>) => {
-    setSettings((prev) => ({ ...prev, ...newSettings }));
-  }, []);
-
   const carContextValue = useMemo(
     () => ({
       model: currentModel,
@@ -446,19 +442,18 @@ const MainComponent = () => {
     []
   );
 
-const updateSettings = useCallback((patch: Partial<Settings>) => {
-  setSettings((prev) => ({ ...prev, ...patch }));
-}, []);
+  const updateSettings = useCallback((patch: Partial<Settings>) => {
+    setSettings((prev) => ({ ...prev, ...patch }));
+  }, []);
 
-const fitmentValue = useMemo(
-  () => ({
-    config: { model: currentModel, settings },
-    setConfig,
-    updateSettings,
-  }),
-  [currentModel, settings, setConfig, updateSettings]
-);
-
+  const fitmentValue = useMemo(
+    () => ({
+      config: { model: currentModel, settings },
+      setConfig,
+      updateSettings,
+    }),
+    [currentModel, settings, setConfig, updateSettings]
+  );
 
   return (
     <FitmentConfigProvider value={fitmentValue}>

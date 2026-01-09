@@ -5,6 +5,7 @@ export async function createGarageConfig(args: {
   userId: string;
   name: string;
   payload: any;
+  payloadPreview: any;
 }) {
   const { userId, name, payload } = args;
 

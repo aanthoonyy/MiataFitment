@@ -48,5 +48,5 @@ export type GarageProps = {
 
   initialConfigs?: SavedConfig[];
 
-  getCurrentPayload: () => any;
+  getCurrentPayload?: () => any;
 };

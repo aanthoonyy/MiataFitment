@@ -21,24 +21,19 @@ const MM_TO_INCHES = 25.4;
 const CombinedSettings = () => {
   const [activeTab, setActiveTab] = useState<SettingsTab>("alignment");
 
-  // auth + car model (you already have this)
   const { model, setModel } = useCarModel();
   const { user, loading } = useAuth();
 
-  // ✅ single source of truth for fitment fields
   const {
     config,
     updateSettings,
-    // setConfig, // available if you ever want "reset to defaults" etc
   } = useFitmentConfig();
 
   const settings = config.settings;
 
-  // UI-only toggles can remain local
   const [matchWheels, setMatchWheels] = useState(false);
   const [matchTires, setMatchTires] = useState(false);
 
-  // little helper: build setter functions that match your child prop APIs
   const set = useCallback(
     <K extends keyof Settings>(key: K) =>
       (value: Settings[K]) =>
@@ -46,7 +41,6 @@ const CombinedSettings = () => {
     [updateSettings]
   );
 
-  // When "match" toggles are on, keep rear in sync
   useEffect(() => {
     if (!matchWheels) return;
     updateSettings({
@@ -82,7 +76,6 @@ const CombinedSettings = () => {
   return (
     <div className="h-full overflow-auto bg-muted/30">
       <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as SettingsTab)}>
-        {/* Sticky top toolbar */}
         <div className="sticky top-0 z-10 bg-zinc-200 shadow-sm">
           <div className="p-4 pb-3">
             <div className="flex items-center justify-between">
@@ -111,9 +104,7 @@ const CombinedSettings = () => {
           </div>
         </div>
 
-        {/* Content padding */}
         <div className="bg-zinc-100 p-4">
-          {/* Alignment */}
           <TabsContent value="alignment" className="mt-0 space-y-4">
             <SuspensionSettings
               title="Front Suspension"
@@ -142,7 +133,6 @@ const CombinedSettings = () => {
             />
           </TabsContent>
 
-          {/* Wheels */}
           <TabsContent value="wheels" className="mt-0">
             <WheelSettings
               matchWheels={matchWheels}
@@ -166,7 +156,6 @@ const CombinedSettings = () => {
             />
           </TabsContent>
 
-          {/* Tires */}
           <TabsContent value="tires" className="mt-0">
             <TireSettings
               matchTires={matchTires}
@@ -182,7 +171,6 @@ const CombinedSettings = () => {
             />
           </TabsContent>
 
-          {/* Car */}
           <TabsContent value="car" className="mt-0">
             <CarSelectionSettings
               model={model}
@@ -192,7 +180,6 @@ const CombinedSettings = () => {
             />
           </TabsContent>
 
-          {/* Account */}
           <TabsContent value="account" className="mt-0">
             <AccountSettings user={user} />
           </TabsContent>

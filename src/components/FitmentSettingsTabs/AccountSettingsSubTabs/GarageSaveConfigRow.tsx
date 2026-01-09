@@ -7,7 +7,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -72,7 +71,6 @@ export function SaveConfigRow({
         </div>
       </div>
 
-      {/* ONE full-width action button */}
       <Button
         className="w-full"
         variant={nameTaken ? "secondary" : "default"}
@@ -82,7 +80,6 @@ export function SaveConfigRow({
         {nameTaken ? "Overwrite…" : "Save"}
       </Button>
 
-      {/* Overwrite confirmation dialog */}
       <Dialog open={saveOpen} onOpenChange={setSaveOpen}>
         <DialogContent>
           <DialogHeader>

@@ -10,7 +10,6 @@ export function useGarage({
   userId,
   maxSaves,
   initialConfigs,
-  onSave,
   onLoad,
   onDelete,
   onRename,
