@@ -446,13 +446,19 @@ const MainComponent = () => {
     []
   );
 
-  const fitmentValue = useMemo(
-    () => ({
-      config: { model: currentModel, settings },
-      setConfig,
-    }),
-    [currentModel, settings, setConfig]
-  );
+const updateSettings = useCallback((patch: Partial<Settings>) => {
+  setSettings((prev) => ({ ...prev, ...patch }));
+}, []);
+
+const fitmentValue = useMemo(
+  () => ({
+    config: { model: currentModel, settings },
+    setConfig,
+    updateSettings,
+  }),
+  [currentModel, settings, setConfig, updateSettings]
+);
+
 
   return (
     <FitmentConfigProvider value={fitmentValue}>
@@ -492,7 +498,7 @@ const MainComponent = () => {
                 </Button>
 
                 <div className="h-full overflow-auto">
-                  <FitmentSettings updateModel={updateModel} />
+                  <FitmentSettings />
                 </div>
               </div>
             </aside>

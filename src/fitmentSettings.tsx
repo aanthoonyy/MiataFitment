@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
+import type { Settings } from "@/types/settings";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from "@/components/ui/separator";
 
 import { useCarModel } from "./components/Header";
 import { useAuth } from "./provider/AuthProvider";
+import { useFitmentConfig } from "@/contexts/FitmentSettingsContext";
 
 import SuspensionSettings from "./components/FitmentSettingsTabs/SuspensionSettings";
 import WheelSettings from "./components/FitmentSettingsTabs/WheelSettings";
@@ -12,126 +13,77 @@ import TireSettings from "./components/FitmentSettingsTabs/TireSettings";
 import CarSelectionSettings from "./components/FitmentSettingsTabs/CarSelectionSettings";
 import AccountSettings from "./components/FitmentSettingsTabs/AccountSettings";
 
-type SettingsProps = {
-  updateModel: (model: any) => void;
-};
-
 type SettingsTab = "alignment" | "wheels" | "tires" | "car" | "account";
 
-const CombinedSettings = ({ updateModel }: SettingsProps) => {
+const STOCK_RIDE_HEIGHT = -2.65;
+const MM_TO_INCHES = 25.4;
+
+const CombinedSettings = () => {
   const [activeTab, setActiveTab] = useState<SettingsTab>("alignment");
+
+  // auth + car model (you already have this)
   const { model, setModel } = useCarModel();
   const { user, loading } = useAuth();
 
+  // ✅ single source of truth for fitment fields
+  const {
+    config,
+    updateSettings,
+    // setConfig, // available if you ever want "reset to defaults" etc
+  } = useFitmentConfig();
+
+  const settings = config.settings;
+
+  // UI-only toggles can remain local
   const [matchWheels, setMatchWheels] = useState(false);
   const [matchTires, setMatchTires] = useState(false);
 
-  const [frontCamber, setFrontCamber] = useState(-0.5);
-  const [rearCamber, setRearCamber] = useState(-0.5);
-  const [frontCaster, setFrontCaster] = useState(5);
-  const [frontToe, setFrontToe] = useState(0);
-  const [rearToe, setRearToe] = useState(0);
-  const [rideHeightFront, setRideHeightFront] = useState(-2.65);
-  const [rideHeightRear, setRideHeightRear] = useState(-2.65);
+  // little helper: build setter functions that match your child prop APIs
+  const set = useCallback(
+    <K extends keyof Settings>(key: K) =>
+      (value: Settings[K]) =>
+        updateSettings({ [key]: value } as Pick<Settings, K>),
+    [updateSettings]
+  );
 
-  const STOCK_RIDE_HEIGHT = -2.65;
-  const MM_TO_INCHES = 25.4;
-
-  const [frontTireWidth, setFrontTireWidth] = useState(185);
-  const [frontTireSidewall, setFrontTireSidewall] = useState(60);
-  const [frontWheelWidth, setFrontWheelWidth] = useState(6);
-  const [frontWheelDiameter, setFrontWheelDiameter] = useState(14);
-  const [frontWheelOffset, setFrontWheelOffset] = useState(45);
-  const [frontWheelSpacer, setFrontWheelSpacer] = useState(0);
-
-  const [rearTireWidth, setRearTireWidth] = useState(185);
-  const [rearTireSidewall, setRearTireSidewall] = useState(60);
-  const [rearWheelWidth, setRearWheelWidth] = useState(6);
-  const [rearWheelDiameter, setRearWheelDiameter] = useState(14);
-  const [rearWheelOffset, setRearWheelOffset] = useState(45);
-  const [rearWheelSpacer, setRearWheelSpacer] = useState(0);
-
+  // When "match" toggles are on, keep rear in sync
   useEffect(() => {
-    updateModel({
-      frontCamber,
-      rearCamber,
-      frontCaster,
-      frontToe,
-      rearToe,
-      rideHeightFront,
-      rideHeightRear,
-      frontTireWidth,
-      frontTireSidewall,
-      frontWheelWidth,
-      frontWheelDiameter,
-      frontWheelOffset,
-      frontWheelSpacer,
-      rearTireWidth,
-      rearTireSidewall,
-      rearWheelWidth,
-      rearWheelDiameter,
-      rearWheelOffset,
-      rearWheelSpacer,
+    if (!matchWheels) return;
+    updateSettings({
+      rearWheelWidth: settings.frontWheelWidth,
+      rearWheelDiameter: settings.frontWheelDiameter,
+      rearWheelOffset: settings.frontWheelOffset,
+      rearWheelSpacer: settings.frontWheelSpacer,
     });
-  }, [
-    frontCamber,
-    rearCamber,
-    frontCaster,
-    frontToe,
-    rearToe,
-    rideHeightFront,
-    rideHeightRear,
-    frontTireWidth,
-    frontTireSidewall,
-    frontWheelWidth,
-    frontWheelDiameter,
-    frontWheelOffset,
-    frontWheelSpacer,
-    rearTireWidth,
-    rearTireSidewall,
-    rearWheelWidth,
-    rearWheelDiameter,
-    rearWheelOffset,
-    rearWheelSpacer,
-    updateModel,
-  ]);
-
-  useEffect(() => {
-    if (matchWheels) {
-      setRearWheelWidth(frontWheelWidth);
-      setRearWheelDiameter(frontWheelDiameter);
-      setRearWheelOffset(frontWheelOffset);
-      setRearWheelSpacer(frontWheelSpacer);
-    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     matchWheels,
-    frontWheelWidth,
-    frontWheelDiameter,
-    frontWheelOffset,
-    frontWheelSpacer,
+    settings.frontWheelWidth,
+    settings.frontWheelDiameter,
+    settings.frontWheelOffset,
+    settings.frontWheelSpacer,
+    updateSettings,
   ]);
 
   useEffect(() => {
-    if (matchTires) {
-      setRearTireWidth(frontTireWidth);
-      setRearTireSidewall(frontTireSidewall);
-    }
-  }, [matchTires, frontTireWidth, frontTireSidewall]);
+    if (!matchTires) return;
+    updateSettings({
+      rearTireWidth: settings.frontTireWidth,
+      rearTireSidewall: settings.frontTireSidewall,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    matchTires,
+    settings.frontTireWidth,
+    settings.frontTireSidewall,
+    updateSettings,
+  ]);
 
   return (
     <div className="h-full overflow-auto bg-muted/30">
-      <Tabs
-        value={activeTab}
-        onValueChange={(v) => setActiveTab(v as SettingsTab)}
-      >
+      <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as SettingsTab)}>
         {/* Sticky top toolbar */}
-        <div
-          className="
-    sticky top-0 z-10
-    bg-zinc-200
-    shadow-sm
-  "
-        >
+        <div className="sticky top-0 z-10 bg-zinc-200 shadow-sm">
           <div className="p-4 pb-3">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold">Settings</h2>
@@ -165,23 +117,26 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
           <TabsContent value="alignment" className="mt-0 space-y-4">
             <SuspensionSettings
               title="Front Suspension"
-              rideHeight={rideHeightFront}
-              setRideHeight={setRideHeightFront}
-              camber={frontCamber}
-              setCamber={setFrontCamber}
-              caster={frontCaster}
-              setCaster={setFrontCaster}
-              toe={frontToe}
-              setToe={setFrontToe}
+              rideHeight={settings.rideHeightFront}
+              setRideHeight={set("rideHeightFront")}
+              camber={settings.frontCamber}
+              setCamber={set("frontCamber")}
+              caster={settings.frontCaster}
+              setCaster={set("frontCaster")}
+              toe={settings.frontToe}
+              setToe={set("frontToe")}
               stockRideHeight={STOCK_RIDE_HEIGHT}
               mmToInches={MM_TO_INCHES}
             />
+
             <SuspensionSettings
               title="Rear Suspension"
-              rideHeight={rideHeightRear}
-              setRideHeight={setRideHeightRear}
-              camber={rearCamber}
-              setCamber={setRearCamber}
+              rideHeight={settings.rideHeightRear}
+              setRideHeight={set("rideHeightRear")}
+              camber={settings.rearCamber}
+              setCamber={set("rearCamber")}
+              toe={settings.rearToe}
+              setToe={set("rearToe")}
               stockRideHeight={STOCK_RIDE_HEIGHT}
               mmToInches={MM_TO_INCHES}
             />
@@ -192,22 +147,22 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
             <WheelSettings
               matchWheels={matchWheels}
               setMatchWheels={setMatchWheels}
-              frontWheelWidth={frontWheelWidth}
-              setFrontWheelWidth={setFrontWheelWidth}
-              frontWheelDiameter={frontWheelDiameter}
-              setFrontWheelDiameter={setFrontWheelDiameter}
-              frontWheelOffset={frontWheelOffset}
-              setFrontWheelOffset={setFrontWheelOffset}
-              frontWheelSpacer={frontWheelSpacer}
-              setFrontWheelSpacer={setFrontWheelSpacer}
-              rearWheelWidth={rearWheelWidth}
-              setRearWheelWidth={setRearWheelWidth}
-              rearWheelDiameter={rearWheelDiameter}
-              setRearWheelDiameter={setRearWheelDiameter}
-              rearWheelOffset={rearWheelOffset}
-              setRearWheelOffset={setRearWheelOffset}
-              rearWheelSpacer={rearWheelSpacer}
-              setRearWheelSpacer={setRearWheelSpacer}
+              frontWheelWidth={settings.frontWheelWidth}
+              setFrontWheelWidth={set("frontWheelWidth")}
+              frontWheelDiameter={settings.frontWheelDiameter}
+              setFrontWheelDiameter={set("frontWheelDiameter")}
+              frontWheelOffset={settings.frontWheelOffset}
+              setFrontWheelOffset={set("frontWheelOffset")}
+              frontWheelSpacer={settings.frontWheelSpacer}
+              setFrontWheelSpacer={set("frontWheelSpacer")}
+              rearWheelWidth={settings.rearWheelWidth}
+              setRearWheelWidth={set("rearWheelWidth")}
+              rearWheelDiameter={settings.rearWheelDiameter}
+              setRearWheelDiameter={set("rearWheelDiameter")}
+              rearWheelOffset={settings.rearWheelOffset}
+              setRearWheelOffset={set("rearWheelOffset")}
+              rearWheelSpacer={settings.rearWheelSpacer}
+              setRearWheelSpacer={set("rearWheelSpacer")}
             />
           </TabsContent>
 
@@ -216,14 +171,14 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
             <TireSettings
               matchTires={matchTires}
               setMatchTires={setMatchTires}
-              frontTireWidth={frontTireWidth}
-              setFrontTireWidth={setFrontTireWidth}
-              frontTireSidewall={frontTireSidewall}
-              setFrontTireSidewall={setFrontTireSidewall}
-              rearTireWidth={rearTireWidth}
-              setRearTireWidth={setRearTireWidth}
-              rearTireSidewall={rearTireSidewall}
-              setRearTireSidewall={setRearTireSidewall}
+              frontTireWidth={settings.frontTireWidth}
+              setFrontTireWidth={set("frontTireWidth")}
+              frontTireSidewall={settings.frontTireSidewall}
+              setFrontTireSidewall={set("frontTireSidewall")}
+              rearTireWidth={settings.rearTireWidth}
+              setRearTireWidth={set("rearTireWidth")}
+              rearTireSidewall={settings.rearTireSidewall}
+              setRearTireSidewall={set("rearTireSidewall")}
             />
           </TabsContent>
 
