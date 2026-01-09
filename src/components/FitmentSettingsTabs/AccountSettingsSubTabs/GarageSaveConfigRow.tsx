@@ -41,8 +41,19 @@ export function SaveConfigRow({
   onSave,
   onOverwrite,
 }: SaveConfigRowProps) {
+  const handlePrimaryClick = () => {
+    if (nameTaken) {
+      setSaveOpen(true); // go into overwrite flow
+    } else {
+      onSave();
+    }
+  };
+
+  const primaryDisabled =
+    !canSave || isAtLimit || (!saveName.trim());
+
   return (
-    <div className="grid w-full gap-3 sm:grid-cols-[1fr_auto] sm:items-end">
+    <div className="flex w-full flex-col gap-3">
       <div className="min-w-0">
         <Label htmlFor="save-name" className="text-xs">
           Name this config
@@ -52,52 +63,48 @@ export function SaveConfigRow({
           id="save-name"
           value={saveName}
           onChange={(e) => setSaveName(e.target.value)}
-          placeholder='e.g. "Track -15x8 -3.0°"'
+          placeholder='e.g. "Track 15x8 +25 205/50"'
           className="mt-1 w-full"
         />
 
-        <div className="mt-1 text-xs text-muted-foreground">{helperText}</div>
+        <div className="mt-1 text-xs text-muted-foreground">
+          {helperText}
+        </div>
       </div>
 
-      <div className="flex w-full gap-2 sm:w-auto">
-        <Button
-          className="w-1/2 sm:w-auto"
-          onClick={onSave}
-          disabled={!canSave || nameTaken || isAtLimit}
-        >
-          Save
-        </Button>
+      {/* ONE full-width action button */}
+      <Button
+        className="w-full"
+        variant={nameTaken ? "secondary" : "default"}
+        onClick={handlePrimaryClick}
+        disabled={primaryDisabled}
+      >
+        {nameTaken ? "Overwrite…" : "Save"}
+      </Button>
 
-        <Dialog open={saveOpen} onOpenChange={setSaveOpen}>
-          <DialogTrigger asChild>
+      {/* Overwrite confirmation dialog */}
+      <Dialog open={saveOpen} onOpenChange={setSaveOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Overwrite existing config?</DialogTitle>
+            <DialogDescription>
+              This will replace the saved config named{" "}
+              <span className="font-medium">{saveName.trim()}</span> with your
+              current settings.
+            </DialogDescription>
+          </DialogHeader>
+
+          <DialogFooter>
             <Button
-              className="w-1/2 sm:w-auto"
               variant="secondary"
-              disabled={!nameTaken}
+              onClick={() => setSaveOpen(false)}
             >
-              Overwrite…
+              Cancel
             </Button>
-          </DialogTrigger>
-
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Overwrite existing config?</DialogTitle>
-              <DialogDescription>
-                This will replace the saved config named{" "}
-                <span className="font-medium">{saveName.trim()}</span> with your
-                current settings.
-              </DialogDescription>
-            </DialogHeader>
-
-            <DialogFooter>
-              <Button variant="secondary" onClick={() => setSaveOpen(false)}>
-                Cancel
-              </Button>
-              <Button onClick={onOverwrite}>Overwrite</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </div>
+            <Button onClick={onOverwrite}>Overwrite</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

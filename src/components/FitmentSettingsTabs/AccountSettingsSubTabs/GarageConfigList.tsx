@@ -17,13 +17,7 @@ type ConfigListProps = {
 
 export function ConfigList({
   configs,
-  renameId,
-  renameValue,
-  setRenameValue,
   onLoad,
-  onStartRename,
-  onCommitRename,
-  onCancelRename,
   onDelete,
 }: ConfigListProps) {
   return (
@@ -32,13 +26,7 @@ export function ConfigList({
         <ConfigRow
           key={c.id}
           config={c}
-          isRenaming={renameId === c.id}
-          renameValue={renameValue}
-          setRenameValue={setRenameValue}
           onLoad={() => onLoad(c.id)}
-          onStartRename={() => onStartRename(c)}
-          onCommitRename={onCommitRename}
-          onCancelRename={onCancelRename}
           onDelete={() => onDelete(c.id)}
         />
       ))}
