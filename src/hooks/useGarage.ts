@@ -11,6 +11,7 @@ export function useGarage({
   onDelete,
   onRename,
   onOverwrite,
+  getCurrentPayload,
 }: Required<Pick<GarageProps, "maxSaves" | "initialConfigs">> &
   Omit<GarageProps, "maxSaves" | "initialConfigs">) {
   const [configs, setConfigs] = React.useState<SavedConfig[]>(initialConfigs);
@@ -50,31 +51,25 @@ export function useGarage({
     if (!name || name.length < 2) return;
     if (nameTaken) return;
     if (isAtLimit) return;
+    if (!userId) return;
 
-    if (!userId) {
-      return;
+    try {
+      const payload = getCurrentPayload?.() ?? { version: 1, example: true };
+
+      const saved = await createGarageConfig({
+        userId,
+        name,
+        payload,
+        payloadPreview: "Example saved config",
+      });
+
+      // ✅ attach payload locally so ConfigRow can parse it immediately
+      setConfigs((prev) => [{ ...saved, payload }, ...prev]);
+
+      resetSave();
+    } catch (e) {
+      console.error("Garage save failed", { userId, name }, e);
     }
-
-    // Example payload for now:
-    const payload = {
-      version: 1,
-      createdFrom: "garage-ui",
-      example: true,
-      // Later you’ll put: { model: currentModel, settings }
-    };
-
-    const saved = await createGarageConfig({
-      userId,
-      name,
-      payload,
-      payloadPreview: "Example saved config",
-    });
-
-    // Update UI immediately with the row returned from Supabase
-    setConfigs((prev) => [saved, ...prev]);
-
-    setSaveName("");
-    setSaveOpen(false);
   };
 
   const handleLoad = async (id: string) => {

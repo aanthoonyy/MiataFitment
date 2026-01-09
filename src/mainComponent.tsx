@@ -15,6 +15,7 @@ import Header, { CarModelContext, SettingsContext } from "./components/Header";
 import { Settings, DEFAULT_SETTINGS } from "./types/settings";
 import { WheelPosition, WHEEL_POSITIONS } from "./constants/wheelPositions";
 import { mmToFeet } from "./utils/unitConversions";
+import { FitmentConfigProvider } from "./contexts/FitmentSettingsContext";
 
 const useThreeScene = (settings: Settings, currentModel: string) => {
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -437,50 +438,68 @@ const MainComponent = () => {
     [isSettingsOpen]
   );
 
+  const setConfig = useCallback(
+    (next: { model: string; settings: Settings }) => {
+      setCurrentModel(next.model);
+      setSettings(next.settings);
+    },
+    []
+  );
+
+  const fitmentValue = useMemo(
+    () => ({
+      config: { model: currentModel, settings },
+      setConfig,
+    }),
+    [currentModel, settings, setConfig]
+  );
+
   return (
-    <CarModelContext.Provider value={carContextValue}>
-      <SettingsContext.Provider value={settingsContextValue}>
-        <div className="fixed inset-0 h-screen w-screen overflow-hidden bg-background">
-          <div className="fixed inset-x-0 top-0 z-50">
-            <Header />
-          </div>
-
-          <div className="absolute inset-0">
-            <div className="relative h-full w-full">
-              <div
-                id="three-container"
-                className="absolute inset-0 z-0 overflow-hidden"
-              />
+    <FitmentConfigProvider value={fitmentValue}>
+      <CarModelContext.Provider value={carContextValue}>
+        <SettingsContext.Provider value={settingsContextValue}>
+          <div className="fixed inset-0 h-screen w-screen overflow-hidden bg-background">
+            <div className="fixed inset-x-0 top-0 z-50">
+              <Header />
             </div>
-          </div>
-          <aside
-            className={[
-              "fixed right-0 top-0 z-[60] h-full w-[350px]",
-              "bg-zinc-100 dark:bg-zinc-900",
-              "shadow-[-8px_0_24px_-8px_rgba(0,0,0,0.15)]",
-              "transform transition-transform duration-300 ease-in-out",
-              isSettingsOpen ? "translate-x-0" : "translate-x-full",
-            ].join(" ")}
-          >
-            <div className="relative h-full">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setIsSettingsOpen(false)}
-                className="absolute right-2 top-2 z-1000"
-                aria-label="Close settings"
-              >
-                <X className="h-4 w-4" />
-              </Button>
 
-              <div className="h-full overflow-auto">
-                <FitmentSettings updateModel={updateModel} />
+            <div className="absolute inset-0">
+              <div className="relative h-full w-full">
+                <div
+                  id="three-container"
+                  className="absolute inset-0 z-0 overflow-hidden"
+                />
               </div>
             </div>
-          </aside>
-        </div>
-      </SettingsContext.Provider>
-    </CarModelContext.Provider>
+            <aside
+              className={[
+                "fixed right-0 top-0 z-[60] h-full w-[350px]",
+                "bg-zinc-100 dark:bg-zinc-900",
+                "shadow-[-8px_0_24px_-8px_rgba(0,0,0,0.15)]",
+                "transform transition-transform duration-300 ease-in-out",
+                isSettingsOpen ? "translate-x-0" : "translate-x-full",
+              ].join(" ")}
+            >
+              <div className="relative h-full">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsSettingsOpen(false)}
+                  className="absolute right-2 top-2 z-1000"
+                  aria-label="Close settings"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+
+                <div className="h-full overflow-auto">
+                  <FitmentSettings updateModel={updateModel} />
+                </div>
+              </div>
+            </aside>
+          </div>
+        </SettingsContext.Provider>
+      </CarModelContext.Provider>
+    </FitmentConfigProvider>
   );
 };
 

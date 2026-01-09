@@ -7,6 +7,7 @@ import { GarageCard } from "./GarageCard";
 import { ConfigList } from "./GarageConfigList";
 import { EmptyState } from "./GarageEmptyState";
 import { SaveConfigRow } from "./GarageSaveConfigRow";
+import { useFitmentConfig } from "@/contexts/FitmentSettingsContext";
 
 export const Garage: React.FC<GarageProps> = ({
   userId,
@@ -18,6 +19,9 @@ export const Garage: React.FC<GarageProps> = ({
   onRename,
   onOverwrite,
 }) => {
+
+  const { config } = useFitmentConfig();
+
   const g = useGarage({
     userId,
     maxSaves,
@@ -27,7 +31,9 @@ export const Garage: React.FC<GarageProps> = ({
     onDelete,
     onRename,
     onOverwrite,
+    getCurrentPayload: () => config
   });
+
 
   return (
     <GarageCard>
