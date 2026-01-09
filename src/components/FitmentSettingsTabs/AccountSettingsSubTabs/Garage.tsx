@@ -9,6 +9,7 @@ import { EmptyState } from "./GarageEmptyState";
 import { SaveConfigRow } from "./GarageSaveConfigRow";
 
 export const Garage: React.FC<GarageProps> = ({
+  userId,
   maxSaves = 5,
   initialConfigs = [],
   onSave,
@@ -18,6 +19,7 @@ export const Garage: React.FC<GarageProps> = ({
   onOverwrite,
 }) => {
   const g = useGarage({
+    userId,
     maxSaves,
     initialConfigs,
     onSave,

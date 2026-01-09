@@ -1,7 +1,9 @@
+import { createGarageConfig } from "@/services/garageAPI";
 import { GarageProps, SavedConfig } from "@/types/garage";
 import React from "react";
 
 export function useGarage({
+  userId,
   maxSaves,
   initialConfigs,
   onSave,
@@ -31,7 +33,8 @@ export function useGarage({
   );
 
   const saveHelperText = React.useMemo(() => {
-    if (nameTaken) return "A config with this name already exists — overwrite it?";
+    if (nameTaken)
+      return "A config with this name already exists — overwrite it?";
     if (isAtLimit)
       return `You’ve hit the ${maxSaves}-save limit. Delete one to save a new config.`;
     return "Tip: include wheel/tire/alignment in the name.";
@@ -48,20 +51,30 @@ export function useGarage({
     if (nameTaken) return;
     if (isAtLimit) return;
 
-    await onSave?.(name);
+    if (!userId) {
+      return;
+    }
 
-    const now = new Date().toISOString();
-    setConfigs((prev) => [
-      {
-        id: crypto.randomUUID(),
-        name,
-        payloadPreview: "NA • 15x8 • -3° camber (example)",
-        updatedAt: now,
-      },
-      ...prev,
-    ]);
+    // Example payload for now:
+    const payload = {
+      version: 1,
+      createdFrom: "garage-ui",
+      example: true,
+      // Later you’ll put: { model: currentModel, settings }
+    };
 
-    resetSave();
+    const saved = await createGarageConfig({
+      userId,
+      name,
+      payload,
+      payloadPreview: "Example saved config",
+    });
+
+    // Update UI immediately with the row returned from Supabase
+    setConfigs((prev) => [saved, ...prev]);
+
+    setSaveName("");
+    setSaveOpen(false);
   };
 
   const handleLoad = async (id: string) => {

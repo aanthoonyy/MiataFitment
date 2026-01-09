@@ -6,6 +6,8 @@ export type SavedConfig = {
 };
 
 export type GarageProps = {
+  userId: string;
+
   maxSaves?: number;
 
   onSave?: (name: string) => Promise<void> | void;

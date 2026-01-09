@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { User } from "@supabase/supabase-js";
+import type { User } from "@supabase/supabase-js";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -49,7 +49,6 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
 
   return (
     <div className="space-y-4">
-      {/* Header card */}
       <div className={sectionCard}>
         <div className="flex items-center justify-between">
           <div className={sectionTitle}>Welcome, {displayName}</div>
@@ -64,7 +63,7 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
           </TabsList>
 
           <TabsContent value="garage" className="mt-4">
-            <Garage />
+            <Garage userId={user.id} />
           </TabsContent>
 
           <TabsContent value="account" className="mt-4">
