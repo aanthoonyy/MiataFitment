@@ -5,6 +5,7 @@ import { User } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Garage } from "./AccountSettingsSubTabs/Garage";
 
 export interface AccountSettingsProps {
   user: User | null;
@@ -63,12 +64,7 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
           </TabsList>
 
           <TabsContent value="garage" className="mt-4">
-            <div className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
-              <div className="text-sm font-medium">Garage</div>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Saved cars will be available here soon.
-              </p>
-            </div>
+            <Garage />
           </TabsContent>
 
           <TabsContent value="account" className="mt-4">
