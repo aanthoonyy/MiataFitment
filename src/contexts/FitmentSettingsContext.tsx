@@ -9,7 +9,9 @@ export type FitmentConfig = {
 type FitmentConfigContextValue = {
   config: FitmentConfig;
   setConfig: (next: FitmentConfig) => void;
+  updateSettings: (patch: Partial<Settings>) => void;
 };
+
 
 const FitmentConfigContext = React.createContext<FitmentConfigContextValue | null>(
   null

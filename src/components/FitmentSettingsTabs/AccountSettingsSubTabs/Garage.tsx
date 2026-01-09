@@ -8,6 +8,7 @@ import { ConfigList } from "./GarageConfigList";
 import { EmptyState } from "./GarageEmptyState";
 import { SaveConfigRow } from "./GarageSaveConfigRow";
 import { useFitmentConfig } from "@/contexts/FitmentSettingsContext";
+import { payloadToFitmentConfig } from "@/services/fitmentNormalize";
 
 export const Garage: React.FC<GarageProps> = ({
   userId,
@@ -20,7 +21,7 @@ export const Garage: React.FC<GarageProps> = ({
   onOverwrite,
 }) => {
 
-  const { config } = useFitmentConfig();
+  const { setConfig, config } = useFitmentConfig();
 
   const g = useGarage({
     userId,
@@ -33,6 +34,16 @@ export const Garage: React.FC<GarageProps> = ({
     onOverwrite,
     getCurrentPayload: () => config
   });
+
+
+  const handleLoad = async (id: string) => {
+
+    const row = g.configs.find((c) => c.id === id);
+    if (!row) return;
+
+    const next = payloadToFitmentConfig(row.payload);
+    setConfig(next);
+  };
 
 
   return (
@@ -64,7 +75,7 @@ export const Garage: React.FC<GarageProps> = ({
           renameId={g.renameId}
           renameValue={g.renameValue}
           setRenameValue={g.setRenameValue}
-          onLoad={g.handleLoad}
+          onLoad={handleLoad}
           onStartRename={g.startRename}
           onCommitRename={g.commitRename}
           onCancelRename={g.cancelRename}

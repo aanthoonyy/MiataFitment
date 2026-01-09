@@ -1,4 +1,8 @@
-import { createGarageConfig } from "@/services/garageAPI";
+import {
+  createGarageConfig,
+  listGarageConfigs,
+  deleteGarageConfig,
+} from "@/services/garageAPI";
 import { GarageProps, SavedConfig } from "@/types/garage";
 import React from "react";
 
@@ -21,6 +25,25 @@ export function useGarage({
 
   const [renameId, setRenameId] = React.useState<string | null>(null);
   const [renameValue, setRenameValue] = React.useState("");
+
+  React.useEffect(() => {
+    if (!userId) return;
+
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const rows = await listGarageConfigs(userId);
+        if (!cancelled) setConfigs(rows);
+      } catch (e) {
+        console.error("Failed to load garage configs", e);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [userId]);
 
   const isAtLimit = configs.length >= maxSaves;
 
@@ -63,7 +86,6 @@ export function useGarage({
         payloadPreview: "Example saved config",
       });
 
-      // ✅ attach payload locally so ConfigRow can parse it immediately
       setConfigs((prev) => [{ ...saved, payload }, ...prev]);
 
       resetSave();
@@ -77,12 +99,21 @@ export function useGarage({
   };
 
   const handleDelete = async (id: string) => {
-    await onDelete?.(id);
-    setConfigs((prev) => prev.filter((c) => c.id !== id));
-    // If you delete the one you're renaming, cancel rename cleanly
-    if (renameId === id) {
-      setRenameId(null);
-      setRenameValue("");
+    if (!userId) return;
+
+    try {
+      await onDelete?.(id);
+
+      await deleteGarageConfig(id);
+
+      setConfigs((prev) => prev.filter((c) => c.id !== id));
+
+      if (renameId === id) {
+        setRenameId(null);
+        setRenameValue("");
+      }
+    } catch (e) {
+      console.error("Garage delete failed", { id }, e);
     }
   };
 
