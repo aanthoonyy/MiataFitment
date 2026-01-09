@@ -41,7 +41,9 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
       <div className="space-y-4">
         <div className="space-y-1.5">
           <div className="flex items-baseline justify-between gap-2">
-            <Label className="text-xs text-muted-foreground">Miata Generation</Label>
+            <Label className="text-xs text-muted-foreground">
+              Miata Generation
+            </Label>
             <span className="text-[11px] text-muted-foreground">
               {disabled ? "Locked" : "Editable"}
             </span>
@@ -55,8 +57,8 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
             <SelectTrigger className="h-9">
               <SelectValue placeholder="Select a generation" />
             </SelectTrigger>
-
-            <SelectContent>
+            
+            <SelectContent className="bg-white text-black dark:bg-zinc-900 dark:text-zinc-50 border shadow-md">
               <SelectItem value="na">NA Miata (1989–1997)</SelectItem>
               <SelectItem value="nb" disabled>
                 NB Miata (1998–2005)
@@ -85,8 +87,9 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
         </div>
 
         <p className="text-sm text-muted-foreground leading-relaxed">
-          Select your Miata generation to view and customize its fitment settings.
-          Each generation has unique wheel wells and suspension geometry.
+          Select your Miata generation to view and customize its fitment
+          settings. Each generation has unique wheel wells and suspension
+          geometry.
         </p>
       </div>
     </div>

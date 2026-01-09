@@ -72,7 +72,10 @@ export const Header: React.FC = () => {
                   </button>
                 </DropdownMenuTrigger>
 
-                <DropdownMenuContent align="end" className="w-40">
+                <DropdownMenuContent
+                  align="end"
+                  className="w-40 bg-white text-black dark:bg-zinc-900 dark:text-zinc-50 !border-0 ring-0 outline-none"
+                >
                   <DropdownMenuItem onClick={handleLogout}>
                     Logout
                   </DropdownMenuItem>
