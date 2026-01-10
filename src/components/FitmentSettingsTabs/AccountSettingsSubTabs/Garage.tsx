@@ -19,7 +19,6 @@ export const Garage: React.FC<GarageProps> = ({
   onRename,
   onOverwrite,
 }) => {
-
   const { setConfig, config } = useFitmentConfig();
 
   const g = useGarage({
@@ -30,19 +29,16 @@ export const Garage: React.FC<GarageProps> = ({
     onDelete,
     onRename,
     onOverwrite,
-    getCurrentPayload: () => config
+    getCurrentPayload: () => config,
   });
 
-
   const handleLoad = async (id: string) => {
-
     const row = g.configs.find((c) => c.id === id);
     if (!row) return;
 
     const next = payloadToFitmentConfig(row.payload);
     setConfig(next);
   };
-
 
   return (
     <GarageCard>

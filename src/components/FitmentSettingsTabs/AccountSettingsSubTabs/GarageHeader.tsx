@@ -19,3 +19,4 @@ export function GarageHeader({ maxSaves, count }: GarageHeaderProps) {
     </div>
   );
 }
+

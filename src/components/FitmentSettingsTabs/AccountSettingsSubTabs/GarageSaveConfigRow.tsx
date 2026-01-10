@@ -42,14 +42,13 @@ export function SaveConfigRow({
 }: SaveConfigRowProps) {
   const handlePrimaryClick = () => {
     if (nameTaken) {
-      setSaveOpen(true); // go into overwrite flow
+      setSaveOpen(true); 
     } else {
       onSave();
     }
   };
 
-  const primaryDisabled =
-    !canSave || isAtLimit || (!saveName.trim());
+  const primaryDisabled = !canSave || isAtLimit || !saveName.trim();
 
   return (
     <div className="flex w-full flex-col gap-3">
@@ -66,9 +65,7 @@ export function SaveConfigRow({
           className="mt-1 w-full"
         />
 
-        <div className="mt-1 text-xs text-muted-foreground">
-          {helperText}
-        </div>
+        <div className="mt-1 text-xs text-muted-foreground">{helperText}</div>
       </div>
 
       <Button
@@ -92,10 +89,7 @@ export function SaveConfigRow({
           </DialogHeader>
 
           <DialogFooter>
-            <Button
-              variant="secondary"
-              onClick={() => setSaveOpen(false)}
-            >
+            <Button variant="secondary" onClick={() => setSaveOpen(false)}>
               Cancel
             </Button>
             <Button onClick={onOverwrite}>Overwrite</Button>

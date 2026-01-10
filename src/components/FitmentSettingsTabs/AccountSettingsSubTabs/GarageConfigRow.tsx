@@ -9,7 +9,8 @@ export function ConfigRow(props: {
 }) {
   const { config: c, onLoad, onDelete } = props;
 
-  const derivedPreview = payloadToPreview(c.payload) ?? c.payloadPreview ?? null;
+  const derivedPreview =
+    payloadToPreview(c.payload) ?? c.payloadPreview ?? null;
 
   return (
     <div className="flex flex-col rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">

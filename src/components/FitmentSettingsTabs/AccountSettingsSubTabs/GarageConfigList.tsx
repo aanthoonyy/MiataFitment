@@ -15,11 +15,7 @@ type ConfigListProps = {
   onDelete: (id: string) => void;
 };
 
-export function ConfigList({
-  configs,
-  onLoad,
-  onDelete,
-}: ConfigListProps) {
+export function ConfigList({ configs, onLoad, onDelete }: ConfigListProps) {
   return (
     <div className="space-y-2">
       {configs.map((c) => (
