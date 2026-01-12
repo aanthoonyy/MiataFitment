@@ -21,23 +21,28 @@ export interface Settings {
 }
 
 export const DEFAULT_SETTINGS: Settings = {
-  frontCamber: -4.1,
-  rearCamber: -4.1,
+  frontCamber: -0.5,
+  rearCamber: -0.5,
   frontCaster: 5,
   frontToe: 0,
   rearToe: 0,
-  rideHeightFront: -2.51,
-  rideHeightRear: -2.51,
+
+  rideHeightFront: -2.65,
+  rideHeightRear: -2.65,
+
   frontTireWidth: 185,
-  frontTireSidewall: 55,
-  frontWheelWidth: 8.5,
+  frontTireSidewall: 60,
+
+  frontWheelWidth: 6,
   frontWheelDiameter: 14,
-  frontWheelOffset: -7,
-  frontWheelSpacer: 5,
+  frontWheelOffset: 45,
+  frontWheelSpacer: 0,
+
   rearTireWidth: 185,
-  rearTireSidewall: 55,
-  rearWheelWidth: 8.5,
+  rearTireSidewall: 60,
+
+  rearWheelWidth: 6,
   rearWheelDiameter: 14,
-  rearWheelOffset: -7,
+  rearWheelOffset: 45,
   rearWheelSpacer: 0,
-}; 
+};
