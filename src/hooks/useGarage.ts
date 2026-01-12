@@ -12,7 +12,6 @@ export function useGarage({
   initialConfigs,
   onLoad,
   onDelete,
-  onRename,
   onOverwrite,
   getCurrentPayload,
 }: Required<Pick<GarageProps, "maxSaves" | "initialConfigs">> &
@@ -22,8 +21,6 @@ export function useGarage({
   const [saveName, setSaveName] = React.useState("");
   const [saveOpen, setSaveOpen] = React.useState(false);
 
-  const [renameId, setRenameId] = React.useState<string | null>(null);
-  const [renameValue, setRenameValue] = React.useState("");
 
   React.useEffect(() => {
     if (!userId) return;
@@ -94,7 +91,11 @@ export function useGarage({
   };
 
   const handleLoad = async (id: string) => {
-    await onLoad?.(id);
+    try {
+      await onLoad?.(id);
+    } catch (error) {
+      console.error("error in handle load", onload);
+    }
   };
 
   const handleDelete = async (id: string) => {
@@ -107,47 +108,9 @@ export function useGarage({
 
       setConfigs((prev) => prev.filter((c) => c.id !== id));
 
-      if (renameId === id) {
-        setRenameId(null);
-        setRenameValue("");
-      }
     } catch (e) {
       console.error("Garage delete failed", { id }, e);
     }
-  };
-
-  const startRename = (c: SavedConfig) => {
-    setRenameId(c.id);
-    setRenameValue(c.name);
-  };
-
-  const cancelRename = () => {
-    setRenameId(null);
-    setRenameValue("");
-  };
-
-  const commitRename = async () => {
-    if (!renameId) return;
-
-    const next = renameValue.trim();
-    if (next.length < 2) return;
-
-    const collision = configs.some(
-      (c) => c.id !== renameId && c.name.toLowerCase() === next.toLowerCase()
-    );
-    if (collision) return;
-
-    await onRename?.(renameId, next);
-
-    setConfigs((prev) =>
-      prev.map((c) =>
-        c.id === renameId
-          ? { ...c, name: next, updatedAt: new Date().toISOString() }
-          : c
-      )
-    );
-
-    cancelRename();
   };
 
   const handleOverwriteByName = async () => {
@@ -181,8 +144,6 @@ export function useGarage({
     configs,
     saveName,
     saveOpen,
-    renameId,
-    renameValue,
 
     // derived
     isAtLimit,
@@ -193,15 +154,10 @@ export function useGarage({
     // setters / actions
     setSaveName,
     setSaveOpen,
-    setRenameValue,
 
     handleSave,
     handleLoad,
     handleDelete,
-
-    startRename,
-    cancelRename,
-    commitRename,
 
     handleOverwriteByName,
   };

@@ -3,15 +3,8 @@ import { ConfigRow } from "./GarageConfigRow";
 
 type ConfigListProps = {
   configs: SavedConfig[];
-  renameId: string | null;
-
-  renameValue: string;
-  setRenameValue: (v: string) => void;
 
   onLoad: (id: string) => void;
-  onStartRename: (c: SavedConfig) => void;
-  onCommitRename: () => void;
-  onCancelRename: () => void;
   onDelete: (id: string) => void;
 };
 

@@ -16,7 +16,6 @@ export const Garage: React.FC<GarageProps> = ({
   initialConfigs = [],
   onLoad,
   onDelete,
-  onRename,
   onOverwrite,
 }) => {
   const { setConfig, config } = useFitmentConfig();
@@ -27,7 +26,6 @@ export const Garage: React.FC<GarageProps> = ({
     initialConfigs,
     onLoad,
     onDelete,
-    onRename,
     onOverwrite,
     getCurrentPayload: () => config,
   });
@@ -66,13 +64,7 @@ export const Garage: React.FC<GarageProps> = ({
       ) : (
         <ConfigList
           configs={g.configs}
-          renameId={g.renameId}
-          renameValue={g.renameValue}
-          setRenameValue={g.setRenameValue}
           onLoad={handleLoad}
-          onStartRename={g.startRename}
-          onCommitRename={g.commitRename}
-          onCancelRename={g.cancelRename}
           onDelete={g.handleDelete}
         />
       )}

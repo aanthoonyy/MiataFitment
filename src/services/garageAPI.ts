@@ -9,8 +9,6 @@ export async function createGarageConfig(args: {
 }) {
   const { userId, name, payload } = args;
 
-  console.log(userId)
-
   const { data, error } = await supabase
     .from("garage_configs")
     .insert({
@@ -30,7 +28,9 @@ export async function createGarageConfig(args: {
   };
 }
 
-export async function listGarageConfigs(userId: string): Promise<SavedConfig[]> {
+export async function listGarageConfigs(
+  userId: string
+): Promise<SavedConfig[]> {
   const { data, error } = await supabase
     .from("garage_configs")
     .select("id,name,updated_at,payload")
@@ -48,11 +48,7 @@ export async function listGarageConfigs(userId: string): Promise<SavedConfig[]> 
 }
 
 export async function deleteGarageConfig(id: string) {
-  const { error } = await supabase
-    .from("garage_configs")
-    .delete()
-    .eq("id", id);
+  const { error } = await supabase.from("garage_configs").delete().eq("id", id);
 
   if (error) throw error;
 }
-

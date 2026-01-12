@@ -19,7 +19,7 @@ export function ConfigRow(props: {
           <div className="truncate text-sm font-medium">{c.name}</div>
         </div>
 
-        {derivedPreview ? (
+    {derivedPreview ? (
           <div className="mt-1 line-clamp-2 text-xs text-muted-foreground">
             {derivedPreview}
           </div>
