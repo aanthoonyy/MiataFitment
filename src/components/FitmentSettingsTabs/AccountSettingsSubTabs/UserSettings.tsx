@@ -14,20 +14,20 @@ export default function UserSettings() {
       <Separator className="my-4" />
 
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="text-sm font-medium">Dark mode</div>
-            <div className="text-xs text-muted-foreground">
+        {/* <div className="flex items-center justify-between"> */}
+          {/* <div> */}
+            {/* <div className="text-sm font-medium">Dark mode</div> */}
+            {/* <div className="text-xs text-muted-foreground">
               Switch between light and dark theme
-            </div>
-          </div>
+            </div> */}
+          {/* </div> */}
 
-          <Checkbox
+          {/* <Checkbox
             checked={s.darkMode}
             disabled={!user || s.loading || s.saving}
             onCheckedChange={(v) => s.setDarkMode(Boolean(v))}
-          />
-        </div>
+          /> */}
+        {/* </div> */}
 
         <div className="flex items-center justify-between">
           <div>

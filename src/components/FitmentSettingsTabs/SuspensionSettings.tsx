@@ -2,6 +2,9 @@ import React from "react";
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { User } from "@supabase/supabase-js";
+import { isMetricUser } from "@/services/userSettingsAPI";
+import { inchesToMM } from "@/services/inchesToCM";
 
 interface SuspensionSettingsProps {
   title: string;
@@ -20,6 +23,8 @@ interface SuspensionSettingsProps {
 
   stockRideHeight: number;
   mmToInches: number;
+
+  user: User;
 }
 
 const clampToStep = (value: number, step: number) =>
@@ -45,9 +50,13 @@ const Field = ({
       </Label>
 
       <div className="flex items-baseline gap-2">
-        {unit ? <span className="text-[11px] text-muted-foreground">{unit}</span> : null}
+        {unit ? (
+          <span className="text-[11px] text-muted-foreground">{unit}</span>
+        ) : null}
         {valueText ? (
-          <span className="text-xs text-foreground tabular-nums">{valueText}</span>
+          <span className="text-xs text-foreground tabular-nums">
+            {valueText}
+          </span>
         ) : null}
       </div>
     </div>
@@ -68,15 +77,47 @@ const SuspensionSettings: React.FC<SuspensionSettingsProps> = ({
   setToe,
   stockRideHeight,
   mmToInches,
+  user,
 }) => {
   const sectionTitle = "text-sm font-medium";
   const sectionCard =
     "rounded-xl bg-zinc-50 p-4 shadow-sm shadow-black/10 dark:bg-zinc-900 dark:shadow-black/40";
 
+  const [isMetric, setIsMetric] = React.useState(false);
+
+  React.useEffect(() => {
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const value = await isMetricUser(user.id);
+        if (!cancelled) setIsMetric(value ?? false);
+      } catch {
+        if (!cancelled) setIsMetric(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user.id]);
+
+  const isRear = title.toLowerCase().includes("rear");
+
+  const dropIn = (rideHeight - stockRideHeight) * mmToInches;
+
+  const stockHubFenderIn = isRear ? 13.0 : 13.5;
+  const ratio = isRear ? 1.5 / 5.0 : 2.5 / 4.0;
+
+  const hubFenderIn = stockHubFenderIn - dropIn * ratio;
+
+  const formatValue = (inches: number) =>
+    isMetric ? `${inchesToMM(inches)} mm` : `${inches.toFixed(2)}\u2033`;
+
   const rideHeightText =
     rideHeight === stockRideHeight
-      ? 'Stock (0.00")'
-      : `${(-(rideHeight - stockRideHeight) * mmToInches).toFixed(2)}\u2033`;
+      ? `Stock (${formatValue(stockHubFenderIn)})`
+      : formatValue(hubFenderIn);
 
   return (
     <div className={sectionCard}>
@@ -87,7 +128,11 @@ const SuspensionSettings: React.FC<SuspensionSettingsProps> = ({
       <Separator className="my-3" />
 
       <div className="space-y-4">
-        <Field id={`${title}-rideHeight`} label="Ride Height" valueText={rideHeightText}>
+        <Field
+          id={`${title}-rideHeight`}
+          label="Ride Height"
+          valueText={rideHeightText}
+        >
           <Slider
             id={`${title}-rideHeight`}
             value={[rideHeight]}
@@ -99,7 +144,11 @@ const SuspensionSettings: React.FC<SuspensionSettingsProps> = ({
         </Field>
 
         {/* Camber */}
-        <Field id={`${title}-camber`} label="Camber" valueText={`${camber.toFixed(1)}°`}>
+        <Field
+          id={`${title}-camber`}
+          label="Camber"
+          valueText={`${camber.toFixed(1)}°`}
+        >
           <Slider
             id={`${title}-camber`}
             value={[camber]}
@@ -130,7 +179,11 @@ const SuspensionSettings: React.FC<SuspensionSettingsProps> = ({
 
         {/* Toe (optional) */}
         {toe !== undefined && setToe ? (
-          <Field id={`${title}-toe`} label="Toe" valueText={`${toe.toFixed(2)}°`}>
+          <Field
+            id={`${title}-toe`}
+            label="Toe"
+            valueText={`${toe.toFixed(2)}°`}
+          >
             <Slider
               id={`${title}-toe`}
               value={[toe]}

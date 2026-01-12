@@ -40,7 +40,7 @@ export async function saveUserSettings(args: {
         dark_mode: darkMode,
         metric,
       },
-      { onConflict: "user_id" } // ✅ requires UNIQUE(user_id)
+      { onConflict: "user_id" }
     )
     .select("id,user_id,dark_mode,metric")
     .single();
@@ -53,4 +53,12 @@ export async function saveUserSettings(args: {
     darkMode: data.dark_mode,
     metric: data.metric,
   };
+}
+
+export async function isMetricUser(userId: string): Promise<boolean> {
+  const settings = await getUserSettings(userId);
+
+  if (!settings) return false
+
+  return settings.metric;
 }
