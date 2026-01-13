@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Garage } from "./AccountSettingsSubTabs/Garage";
+import UserSettings from "./AccountSettingsSubTabs/UserSettings";
 
 export interface AccountSettingsProps {
   user: User | null;
@@ -68,10 +69,7 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
 
           <TabsContent value="account" className="mt-4">
             <div className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
-              <div className="text-sm font-medium">Account</div>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Account preferences will be added later.
-              </p>
+              <UserSettings />
             </div>
           </TabsContent>
         </Tabs>
