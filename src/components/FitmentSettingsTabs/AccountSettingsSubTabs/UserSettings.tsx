@@ -8,7 +8,7 @@ export default function UserSettings() {
   const s = useUserSettings({ userId: user?.id });
 
   return (
-    <div className="bg-white dark:bg-zinc-950">
+    <div className="bg-white">
       <div className="text-sm font-medium">Account Settings</div>
 
       <Separator className="my-4" />

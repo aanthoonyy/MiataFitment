@@ -475,7 +475,7 @@ const MainComponent = () => {
             <aside
               className={[
                 "fixed right-0 top-0 z-[60] h-full w-[350px]",
-                "bg-zinc-100 dark:bg-zinc-900",
+                "bg-zinc-100",
                 "shadow-[-8px_0_24px_-8px_rgba(0,0,0,0.15)]",
                 "transform transition-transform duration-300 ease-in-out",
                 isSettingsOpen ? "translate-x-0" : "translate-x-full",
