@@ -118,7 +118,7 @@ const CombinedSettings = () => {
               setToe={set("frontToe")}
               stockRideHeight={STOCK_RIDE_HEIGHT}
               mmToInches={MM_TO_INCHES}
-              user={!loading && user}
+              user={!loading ? user : null}
             />
 
             <SuspensionSettings
@@ -131,7 +131,7 @@ const CombinedSettings = () => {
               setToe={set("rearToe")}
               stockRideHeight={STOCK_RIDE_HEIGHT}
               mmToInches={MM_TO_INCHES}
-              user={!loading && user}
+              user={!loading ? user : null}
             />
           </TabsContent>
 

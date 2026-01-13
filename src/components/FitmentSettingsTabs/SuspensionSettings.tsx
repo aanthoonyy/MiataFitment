@@ -24,7 +24,7 @@ interface SuspensionSettingsProps {
   stockRideHeight: number;
   mmToInches: number;
 
-  user: User;
+  user?: User | null;
 }
 
 const clampToStep = (value: number, step: number) =>
@@ -86,11 +86,18 @@ const SuspensionSettings: React.FC<SuspensionSettingsProps> = ({
   const [isMetric, setIsMetric] = React.useState(false);
 
   React.useEffect(() => {
+    const userId = user?.id;
+    if (!userId) {
+      // optional: choose your logged-out default behavior
+      setIsMetric(false);
+      return;
+    }
+
     let cancelled = false;
 
     (async () => {
       try {
-        const value = await isMetricUser(user.id);
+        const value = await isMetricUser(userId);
         if (!cancelled) setIsMetric(value ?? false);
       } catch {
         if (!cancelled) setIsMetric(false);
@@ -100,7 +107,7 @@ const SuspensionSettings: React.FC<SuspensionSettingsProps> = ({
     return () => {
       cancelled = true;
     };
-  }, [user.id]);
+  }, [user?.id]);
 
   const isRear = title.toLowerCase().includes("rear");
 
