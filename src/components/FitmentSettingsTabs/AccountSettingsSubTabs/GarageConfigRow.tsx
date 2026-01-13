@@ -13,7 +13,7 @@ export function ConfigRow(props: {
     payloadToPreview(c.payload) ?? c.payloadPreview ?? null;
 
   return (
-    <div className="flex flex-col rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
+    <div className="flex flex-col rounded-xl border border-zinc-200 bg-white">
       <div className="p-3">
         <div className="flex items-center gap-2">
           <div className="truncate text-sm font-medium">{c.name}</div>
@@ -26,7 +26,7 @@ export function ConfigRow(props: {
         ) : null}
       </div>
 
-      <div className="flex w-full gap-2 border-t border-zinc-200 p-2 dark:border-zinc-800">
+      <div className="flex w-full gap-2 border-t border-zinc-200 p-2">
         <Button variant="secondary" onClick={onLoad} className="flex-1">
           Load
         </Button>

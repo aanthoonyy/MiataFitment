@@ -121,14 +121,14 @@ export default function LoginPage() {
 
   // styling cues from your other panels
   const panel =
-    "rounded-xl bg-zinc-50 p-6 shadow-sm shadow-black/10 dark:bg-zinc-900 dark:shadow-black/40";
+    "rounded-xl bg-zinc-50 p-6 shadow-sm shadow-black/10";
   const label = "text-xs text-muted-foreground";
   const input = "h-9";
   const primaryBtn =
     "bg-[#0DA5E8] text-white hover:bg-[#0b94d1] active:bg-[#0a84bd] transition-colors";
 
   return (
-    <div className="min-h-screen flex flex-col bg-white dark:bg-zinc-950">
+    <div className="min-h-screen flex flex-col bg-white">
       <header className="w-full border-b border-[#0b94d1] bg-[#0DA5E8] text-white">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
           <Link to="/" className="inline-flex items-center gap-2">

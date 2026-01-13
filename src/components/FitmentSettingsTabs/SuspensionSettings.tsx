@@ -81,7 +81,7 @@ const SuspensionSettings: React.FC<SuspensionSettingsProps> = ({
 }) => {
   const sectionTitle = "text-sm font-medium";
   const sectionCard =
-    "rounded-xl bg-zinc-50 p-4 shadow-sm shadow-black/10 dark:bg-zinc-900 dark:shadow-black/40";
+    "rounded-xl bg-zinc-50 p-4 shadow-sm shadow-black/10";
 
   const [isMetric, setIsMetric] = React.useState(false);
 

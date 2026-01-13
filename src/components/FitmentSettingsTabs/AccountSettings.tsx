@@ -16,7 +16,7 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
   const [innerTab, setInnerTab] = useState<"garage" | "account">("garage");
 
   const sectionCard =
-    "rounded-xl bg-zinc-50 p-4 shadow-sm shadow-black/10 dark:bg-zinc-900 dark:shadow-black/40";
+    "rounded-xl bg-zinc-50 p-4 shadow-sm shadow-black/10";
   const sectionTitle = "text-sm font-medium";
 
   if (!user) {
@@ -68,7 +68,7 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
           </TabsContent>
 
           <TabsContent value="account" className="mt-4">
-            <div className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
+            <div className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
               <UserSettings />
             </div>
           </TabsContent>

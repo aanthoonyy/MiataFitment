@@ -26,7 +26,7 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
 }) => {
   const sectionTitle = "text-sm font-medium";
   const sectionCard =
-    "rounded-xl bg-zinc-50 p-4 shadow-sm shadow-black/10 dark:bg-zinc-900 dark:shadow-black/40";
+    "rounded-xl bg-zinc-50 p-4 shadow-sm shadow-black/10";
 
   const disabled = !user || loading;
 
@@ -58,7 +58,7 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
               <SelectValue placeholder="Select a generation" />
             </SelectTrigger>
             
-            <SelectContent className="bg-white text-black dark:bg-zinc-900 dark:text-zinc-50 border shadow-md">
+            <SelectContent className="bg-white text-black border shadow-md">
               <SelectItem value="na">NA Miata (1989–1997)</SelectItem>
               <SelectItem value="nb" disabled>
                 NB Miata (1998–2005)
