@@ -60,7 +60,7 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
             
             <SelectContent className="bg-white text-black border shadow-md">
               <SelectItem value="na">NA Miata (1989–1997)</SelectItem>
-              <SelectItem value="nb" disabled>
+              <SelectItem value="nb">
                 NB Miata (1998–2005)
               </SelectItem>
               <SelectItem value="nc" disabled>
