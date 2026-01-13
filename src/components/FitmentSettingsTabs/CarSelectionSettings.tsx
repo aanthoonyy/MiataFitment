@@ -1,14 +1,15 @@
 import React from "react";
-import {
-  Box,
-  Typography,
-  Select,
-  MenuItem,
-  Link,
-  SelectChangeEvent,
-} from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
-import { StyledDiv, StyledLabel } from "./FitmentSettingsStyles";
+
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export interface CarSelectionSettingsProps {
   model: "na" | "nb" | "nc" | "nd" | string;
@@ -23,48 +24,75 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
   user,
   loading,
 }) => {
+  const sectionTitle = "text-sm font-medium";
+  const sectionCard =
+    "rounded-xl bg-zinc-50 p-4 shadow-sm shadow-black/10 dark:bg-zinc-900 dark:shadow-black/40";
+
+  const disabled = !user || loading;
+
   return (
-    <StyledDiv>
-      <Typography variant="subtitle1" gutterBottom>
-        Car Selection
-      </Typography>
-      <Box sx={{ mb: 2 }}>
-        <StyledLabel>Miata Generation</StyledLabel>
-        <Select
-          value={model}
-          onChange={(event: SelectChangeEvent) => {
-            setModel(event.target.value);
-          }}
-          fullWidth
-          sx={{ mt: 0.5 }}
-          disabled={!user || loading}
-        >
-          <MenuItem value="na">NA Miata (1989-1997)</MenuItem>
-          <MenuItem value="nb" disabled>
-            NB Miata (1998-2005)
-          </MenuItem>
-          <MenuItem value="nc" disabled>
-            NC Miata (2006-2015)
-          </MenuItem>
-          <MenuItem value="nd" disabled>
-            ND Miata (2016-Present)
-          </MenuItem>
-        </Select>
-        {!user && !loading && (
-          <Typography variant="caption" color="text.secondary">
-            Please{" "}
-            <Link component={RouterLink} to="/login" underline="hover">
-              log in
-            </Link>{" "}
-            to change car selection.
-          </Typography>
-        )}
-      </Box>
-      <Typography variant="body2" sx={{ color: "text.secondary" }}>
-        Select your Miata generation to view and customize its fitment settings.
-        Each generation has unique wheel wells and suspension geometry.
-      </Typography>
-    </StyledDiv>
+    <div className={sectionCard}>
+      <div className="flex items-center justify-between">
+        <div className={sectionTitle}>Car Selection</div>
+      </div>
+
+      <Separator className="my-3" />
+
+      <div className="space-y-4">
+        <div className="space-y-1.5">
+          <div className="flex items-baseline justify-between gap-2">
+            <Label className="text-xs text-muted-foreground">
+              Miata Generation
+            </Label>
+            <span className="text-[11px] text-muted-foreground">
+              {disabled ? "Locked" : "Editable"}
+            </span>
+          </div>
+
+          <Select
+            value={model}
+            onValueChange={(v) => setModel(v)}
+            disabled={disabled}
+          >
+            <SelectTrigger className="h-9">
+              <SelectValue placeholder="Select a generation" />
+            </SelectTrigger>
+            
+            <SelectContent className="bg-white text-black dark:bg-zinc-900 dark:text-zinc-50 border shadow-md">
+              <SelectItem value="na">NA Miata (1989–1997)</SelectItem>
+              <SelectItem value="nb" disabled>
+                NB Miata (1998–2005)
+              </SelectItem>
+              <SelectItem value="nc" disabled>
+                NC Miata (2006–2015)
+              </SelectItem>
+              <SelectItem value="nd" disabled>
+                ND Miata (2016–Present)
+              </SelectItem>
+            </SelectContent>
+          </Select>
+
+          {!user && !loading ? (
+            <p className="text-xs text-muted-foreground">
+              Please{" "}
+              <RouterLink
+                to="/login"
+                className="underline underline-offset-4 hover:text-foreground"
+              >
+                log in
+              </RouterLink>{" "}
+              to change car selection.
+            </p>
+          ) : null}
+        </div>
+
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          Select your Miata generation to view and customize its fitment
+          settings. Each generation has unique wheel wells and suspension
+          geometry.
+        </p>
+      </div>
+    </div>
   );
 };
 

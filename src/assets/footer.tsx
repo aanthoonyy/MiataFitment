@@ -1,23 +1,19 @@
-import { Box, Typography } from "@mui/material";
+import React from "react";
 
 export const Footer: React.FC = () => (
-  <Box
-    sx={{
-      backgroundColor: "#1976D2",
-      color: "white",
-      py: 3,
-      mt: 4,
-      textAlign: "center",
-    }}
-  >
-    <Typography variant="h6" gutterBottom>
-      Miata Fitment
-    </Typography>
-    <Typography variant="body2">
-      &copy; {new Date().getFullYear()} Miata Fitment. All Rights Reserved.
-    </Typography>
-    <Typography variant="body2">
-      Designed with 💙 for Miata enthusiasts.
-    </Typography>
-  </Box>
+  <footer className="mt-8 bg-[#0DA5E8] text-white">
+    <div className="mx-auto max-w-6xl px-4 py-8 text-center">
+      <h2 className="mb-1 text-lg font-semibold tracking-tight">
+        Miata Fitment
+      </h2>
+
+      <p className="text-sm text-white/90">
+        &copy; {new Date().getFullYear()} Miata Fitment. All Rights Reserved.
+      </p>
+
+      <p className="mt-1 text-sm text-white/90">
+        Designed with 💙 for Miata enthusiasts.
+      </p>
+    </div>
+  </footer>
 );
