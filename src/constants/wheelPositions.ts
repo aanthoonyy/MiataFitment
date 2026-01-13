@@ -40,12 +40,12 @@ interface WheelPositions {
 const NA_WHEEL_POSITIONS: WheelPositions = {
   FRONT: {
     LEFT: {
-      x: -15.35, // Distance from car center to front wheel center (negative = front of car)
+      x: -4.85, // Distance from car center to front wheel center (negative = front of car)
       z: 2.5, // Distance from car centerline to wheel center (positive = left side)
       casterOffset: 5.74 / 12, // Used to calculate caster effect (converts degrees to feet)
     },
     RIGHT: {
-      x: -15.35, // Same as left, but mirrored
+      x: -4.85, // Same as left, but mirrored
       z: -2.5, // Negative of left side (mirrored)
       casterOffset: 5.74 / 12, // Same as left side
     },

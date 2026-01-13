@@ -1,30 +1,24 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  Box,
-  TextField,
-  Button,
-  Typography,
-  Paper,
-  Alert,
-  CircularProgress,
-  Container,
-} from "@mui/material";
-import {
-  Login as LoginIcon,
-  PersonAdd as PersonAddIcon,
-} from "@mui/icons-material";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+
 import { supabase, useAuth } from "../provider/AuthProvider";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+
+import { Footer } from "../assets/footer";
 
 export default function LoginPage() {
   const [mode, setMode] = useState<"login" | "signup" | "reset">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
+
   const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState<"success" | "error">(
-    "success"
-  );
+  const [messageType, setMessageType] = useState<"success" | "error">("success");
   const [loading, setLoading] = useState(false);
 
   const { user } = useAuth();
@@ -33,6 +27,27 @@ export default function LoginPage() {
   useEffect(() => {
     if (user) navigate("/");
   }, [user, navigate]);
+
+  const heading =
+    mode === "login"
+      ? "Welcome back"
+      : mode === "signup"
+      ? "Create your account"
+      : "Reset password";
+
+  const subheading =
+    mode === "login"
+      ? "Sign in to access your saved setups and the visualizer."
+      : mode === "signup"
+      ? "Create an account to save wheel/tire setups and come back anytime."
+      : "We’ll send you a reset link to get back in.";
+
+  const canSubmit = useMemo(() => {
+    if (mode === "login") return email.length > 0 && password.length > 0;
+    if (mode === "signup")
+      return email.length > 0 && password.length > 0 && displayName.length > 0;
+    return email.length > 0;
+  }, [mode, email, password, displayName]);
 
   const toggleMode = () => {
     setMode((m) => (m === "login" ? "signup" : "login"));
@@ -48,6 +63,7 @@ export default function LoginPage() {
       options: { data: { displayName } },
     });
     setLoading(false);
+
     if (error) {
       setMessageType("error");
       setMessage(`Error: ${error.message}`);
@@ -67,6 +83,7 @@ export default function LoginPage() {
       password,
     });
     setLoading(false);
+
     if (error) {
       setMessageType("error");
       setMessage(`Error: ${error.message}`);
@@ -85,6 +102,7 @@ export default function LoginPage() {
       redirectTo: `${window.location.origin}/reset-password`,
     });
     setLoading(false);
+
     if (error) {
       setMessageType("error");
       setMessage(`Error: ${error.message}`);
@@ -96,144 +114,177 @@ export default function LoginPage() {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (mode === "login") handleSignIn();
-    else if (mode === "signup") handleSignUp();
-    else if (mode === "reset") handleResetPassword();
+    if (mode === "login") void handleSignIn();
+    else if (mode === "signup") void handleSignUp();
+    else void handleResetPassword();
   };
 
-  const canSubmit =
-    mode === "login"
-      ? email.length > 0 && password.length > 0
-      : mode === "signup"
-      ? email.length > 0 && password.length > 0 && displayName.length > 0
-      : email.length > 0;
+  // styling cues from your other panels
+  const panel =
+    "rounded-xl bg-zinc-50 p-6 shadow-sm shadow-black/10 dark:bg-zinc-900 dark:shadow-black/40";
+  const label = "text-xs text-muted-foreground";
+  const input = "h-9";
+  const primaryBtn =
+    "bg-[#0DA5E8] text-white hover:bg-[#0b94d1] active:bg-[#0a84bd] transition-colors";
 
   return (
-    <Container maxWidth="sm">
-      <Box
-        sx={{
-          mt: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Paper elevation={3} sx={{ p: 4, width: "100%" }}>
-          <Typography component="h1" variant="h4" align="center" gutterBottom>
-            {mode === "login"
-              ? "Welcome back"
-              : mode === "signup"
-              ? "Create your account"
-              : "Reset password"}
-          </Typography>
-
-          <Box component="form" sx={{ mt: 3 }} noValidate onSubmit={onSubmit}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+    <div className="min-h-screen flex flex-col bg-white dark:bg-zinc-950">
+      <header className="w-full border-b border-[#0b94d1] bg-[#0DA5E8] text-white">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
+          <Link to="/" className="inline-flex items-center gap-2">
+            <img
+              src="/faviconNoBG.png"
+              alt="Miata Fitment Logo"
+              className="h-10 w-auto"
             />
+          </Link>
+        </div>
+      </header>
+
+      <main className="flex-1 mx-auto w-full max-w-md px-4 pt-16 md:pt-24">
+        <div className={panel}>
+          {/* Card header row */}
+          <div className="flex items-start justify-between gap-4">
+            <div className="space-y-1">
+              <h1 className="text-xl font-semibold tracking-tight">{heading}</h1>
+              <p className="text-sm text-muted-foreground">{subheading}</p>
+            </div>
+
+            {/* Brand icon only */}
+            <img
+              src="/faviconNoBG.png"
+              alt="Miata Fitment"
+              className="h-8 w-auto opacity-95"
+            />
+          </div>
+
+          <Separator className="my-4" />
+
+          <form onSubmit={onSubmit} className="space-y-4">
+            <div className="space-y-1.5">
+              <Label htmlFor="email" className={label}>
+                Email Address
+              </Label>
+              <Input
+                id="email"
+                className={input}
+                type="email"
+                autoComplete="email"
+                autoFocus
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={loading}
+              />
+            </div>
 
             {mode === "signup" && (
-              <TextField
-                margin="normal"
-                fullWidth
-                required
-                id="displayName"
-                label="Display name"
-                name="displayName"
-                autoComplete="name"
-                value={displayName}
-                onChange={(e) => setDisplayName(e.target.value)}
-              />
+              <div className="space-y-1.5">
+                <Label htmlFor="displayName" className={label}>
+                  Display name
+                </Label>
+                <Input
+                  id="displayName"
+                  className={input}
+                  autoComplete="name"
+                  required
+                  value={displayName}
+                  onChange={(e) => setDisplayName(e.target.value)}
+                  disabled={loading}
+                />
+              </div>
             )}
 
             {(mode === "login" || mode === "signup") && (
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete={
-                  mode === "login" ? "current-password" : "new-password"
-                }
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            )}
-
-            <Box sx={{ display: "flex", gap: 2, mt: 3, mb: 1 }}>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                disabled={loading || !canSubmit}
-                startIcon={
-                  loading ? (
-                    <CircularProgress size={20} />
-                  ) : mode === "login" ? (
-                    <LoginIcon />
-                  ) : (
-                    <PersonAddIcon />
-                  )
-                }
-              >
-                {mode === "login"
-                  ? "Sign In"
-                  : mode === "signup"
-                  ? "Create Account"
-                  : "Send Reset Email"}
-              </Button>
-            </Box>
-
-            {mode === "login" && (
-              <Button
-                onClick={() => {
-                  setMode("reset");
-                  setMessage("");
-                }}
-                fullWidth
-                color="secondary"
-                variant="text"
-                disabled={loading}
-                sx={{ textTransform: "none", mb: 1 }}
-              >
-                Forgot password?
-              </Button>
+              <div className="space-y-1.5">
+                <Label htmlFor="password" className={label}>
+                  Password
+                </Label>
+                <Input
+                  id="password"
+                  className={input}
+                  type="password"
+                  autoComplete={
+                    mode === "login" ? "current-password" : "new-password"
+                  }
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  disabled={loading}
+                />
+              </div>
             )}
 
             <Button
-              onClick={toggleMode}
-              fullWidth
-              color="secondary"
-              variant="text"
-              disabled={loading}
-              sx={{ textTransform: "none" }}
+              type="submit"
+              className={`w-full ${primaryBtn}`}
+              disabled={loading || !canSubmit}
             >
               {mode === "login"
-                ? "Need an account? Sign up"
-                : "Have an account? Sign in"}
+                ? "Sign In"
+                : mode === "signup"
+                ? "Create Account"
+                : "Send Reset Email"}
             </Button>
 
+            <div className="space-y-1">
+              {mode === "login" && (
+                <Button
+                  type="button"
+                  variant="link"
+                  className="h-auto w-full justify-start px-0 text-sm text-muted-foreground"
+                  disabled={loading}
+                  onClick={() => {
+                    setMode("reset");
+                    setMessage("");
+                  }}
+                >
+                  Forgot password?
+                </Button>
+              )}
+
+              <Button
+                type="button"
+                variant="link"
+                className="h-auto w-full justify-start px-0 text-sm text-muted-foreground"
+                disabled={loading}
+                onClick={toggleMode}
+              >
+                {mode === "login"
+                  ? "Need an account? Sign up"
+                  : "Have an account? Sign in"}
+              </Button>
+
+              {mode === "reset" && (
+                <Button
+                  type="button"
+                  variant="link"
+                  className="h-auto w-full justify-start px-0 text-sm text-muted-foreground"
+                  disabled={loading}
+                  onClick={() => {
+                    setMode("login");
+                    setMessage("");
+                  }}
+                >
+                  Back to sign in
+                </Button>
+              )}
+            </div>
+
             {message && (
-              <Alert severity={messageType} sx={{ mt: 2 }}>
-                {message}
+              <Alert variant={messageType === "error" ? "destructive" : "default"}>
+                <AlertTitle>
+                  {messageType === "error" ? "Error" : "Success"}
+                </AlertTitle>
+                <AlertDescription>{message}</AlertDescription>
               </Alert>
             )}
-          </Box>
-        </Paper>
-      </Box>
-    </Container>
+          </form>
+        </div>
+      </main>
+
+      {/* Sticky footer (pushed down by flex-1 main) */}
+      <Footer />
+    </div>
   );
 }

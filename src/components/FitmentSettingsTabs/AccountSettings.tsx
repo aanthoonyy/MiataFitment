@@ -1,89 +1,80 @@
-import React, { useState } from "react";
-import {
-  Typography,
-  Box,
-  Tabs,
-  Tab,
-  Paper,
-  Divider,
-  Button,
-} from "@mui/material";
-import { StyledDiv } from "./FitmentSettingsStyles";
-import { User } from "@supabase/supabase-js";
+import React, { useMemo, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
+import type { User } from "@supabase/supabase-js";
+
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Garage } from "./AccountSettingsSubTabs/Garage";
+import UserSettings from "./AccountSettingsSubTabs/UserSettings";
 
 export interface AccountSettingsProps {
   user: User | null;
 }
 
 const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
-  const [innerTab, setInnerTab] = useState(0);
+  const [innerTab, setInnerTab] = useState<"garage" | "account">("garage");
+
+  const sectionCard =
+    "rounded-xl bg-zinc-50 p-4 shadow-sm shadow-black/10 dark:bg-zinc-900 dark:shadow-black/40";
+  const sectionTitle = "text-sm font-medium";
 
   if (!user) {
     return (
-      <StyledDiv>
-        <Typography variant="h6" gutterBottom>
-          Account
-        </Typography>
-        <Paper variant="outlined" sx={{ p: 2 }}>
-          <Typography variant="body1" gutterBottom>
-            You’re not signed in.
-          </Typography>
-          <Typography variant="body2" sx={{ color: "text.secondary", mb: 2 }}>
-            Sign in to access your garage and account settings.
-          </Typography>
-          <Button variant="contained" component={RouterLink} to="/login">
-            Sign in
-          </Button>
-        </Paper>
-      </StyledDiv>
+      <div className="space-y-4">
+        <div className={sectionCard}>
+          <div className={sectionTitle}>Account</div>
+          <Separator className="my-3" />
+
+          <div className="space-y-2">
+            <p className="text-sm">You’re not signed in.</p>
+            <p className="text-sm text-muted-foreground">
+              Sign in to access your garage and account settings.
+            </p>
+
+            <div className="pt-2">
+              <Button asChild>
+                <RouterLink to="/login">Sign in</RouterLink>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 
-  const displayName =
-    (user.user_metadata as any)?.displayName || user.email || "User";
+  const displayName = useMemo(() => {
+    const meta = user.user_metadata as any;
+    return meta?.displayName || user.email || "User";
+  }, [user]);
 
   return (
-    <StyledDiv>
-      <Typography variant="h6" gutterBottom>
-        Welcome, {displayName}
-      </Typography>
+    <div className="space-y-4">
+      <div className={sectionCard}>
+        <div className="flex items-center justify-between">
+          <div className={sectionTitle}>Welcome, {displayName}</div>
+        </div>
 
-      <Box sx={{ mt: 1 }}>
-        <Tabs
-          value={innerTab}
-          onChange={(_, v) => setInnerTab(v)}
-          variant="scrollable"
-          allowScrollButtonsMobile
-        >
-          <Tab label="Garage" />
-          <Tab label="Account" />
+        <Separator className="my-3" />
+
+        <Tabs value={innerTab} onValueChange={(v) => setInnerTab(v as any)}>
+          <TabsList className="w-full justify-start">
+            <TabsTrigger value="garage">Garage</TabsTrigger>
+            <TabsTrigger value="account">Account</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="garage" className="mt-4">
+            <Garage userId={user.id} />
+          </TabsContent>
+
+          <TabsContent value="account" className="mt-4">
+            <div className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
+              <UserSettings />
+            </div>
+          </TabsContent>
         </Tabs>
-      </Box>
-
-      {innerTab === 0 && (
-        <Box sx={{ mt: 2 }}>
-          <Paper variant="outlined" sx={{ p: 2 }}>
-            <Typography variant="subtitle1" gutterBottom>
-              Garage
-            </Typography>
-            <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              Saved cars will be available here soon.
-            </Typography>
-          </Paper>
-
-          <Divider sx={{ my: 2 }} />
-        </Box>
-      )}
-
-      {innerTab === 1 && (
-        <Box sx={{ mt: 2 }}>
-          <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            Account preferences will be added later.
-          </Typography>
-        </Box>
-      )}
-    </StyledDiv>
+      </div>
+    </div>
   );
 };
 

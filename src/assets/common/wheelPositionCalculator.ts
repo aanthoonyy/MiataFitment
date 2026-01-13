@@ -41,7 +41,7 @@ export function calculateWheelPosition(
 
     if (isFront) {
         const frontWheelPos = isLeft ? wheelPositions.FRONT.LEFT : wheelPositions.FRONT.RIGHT;
-        baseX = frontWheelPos.x + settings.frontCaster / frontWheelPos.casterOffset;
+        baseX = frontWheelPos.x - mmToFeet(settings.frontCaster / frontWheelPos.casterOffset);
         baseZ = frontWheelPos.z;
     } else {
         const rearWheelPos = isLeft ? wheelPositions.REAR.LEFT : wheelPositions.REAR.RIGHT;
