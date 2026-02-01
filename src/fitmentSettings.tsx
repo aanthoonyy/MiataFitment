@@ -1,11 +1,10 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import type { Settings } from "@/types/settings";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { useCarModel } from "./components/Header";
 import { useAuth } from "./provider/AuthProvider";
-import { useFitmentConfig } from "@/contexts/FitmentSettingsContext";
+import { useFitmentStore, useUIStore, type SettingsTab } from "@/stores";
 
 import SuspensionSettings from "./components/FitmentSettingsTabs/SuspensionSettings";
 import WheelSettings from "./components/FitmentSettingsTabs/WheelSettings";
@@ -13,26 +12,23 @@ import TireSettings from "./components/FitmentSettingsTabs/TireSettings";
 import CarSelectionSettings from "./components/FitmentSettingsTabs/CarSelectionSettings";
 import AccountSettings from "./components/FitmentSettingsTabs/AccountSettings";
 
-type SettingsTab = "alignment" | "wheels" | "tires" | "car" | "account";
-
 const STOCK_RIDE_HEIGHT = -2.65;
 const MM_TO_INCHES = 25.4;
 
 const CombinedSettings = () => {
-  const [activeTab, setActiveTab] = useState<SettingsTab>("alignment");
+  const activeTab = useUIStore((s) => s.activeTab);
+  const setActiveTab = useUIStore((s) => s.setActiveTab);
+  const matchWheels = useUIStore((s) => s.matchWheels);
+  const setMatchWheels = useUIStore((s) => s.setMatchWheels);
+  const matchTires = useUIStore((s) => s.matchTires);
+  const setMatchTires = useUIStore((s) => s.setMatchTires);
 
-  const { model, setModel } = useCarModel();
+  const model = useFitmentStore((s) => s.model);
+  const setModel = useFitmentStore((s) => s.setModel);
+  const settings = useFitmentStore((s) => s.settings);
+  const updateSettings = useFitmentStore((s) => s.updateSettings);
+
   const { user, loading } = useAuth();
-
-  const {
-    config,
-    updateSettings,
-  } = useFitmentConfig();
-
-  const settings = config.settings;
-
-  const [matchWheels, setMatchWheels] = useState(false);
-  const [matchTires, setMatchTires] = useState(false);
 
   const set = useCallback(
     <K extends keyof Settings>(key: K) =>

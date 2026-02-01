@@ -1,6 +1,7 @@
 import React from "react";
 import { Footer } from "./assets/footer";
 import MainImageAndSimulator from "./components/MainImageAndSimulator";
+import SupportSection from "./components/SupportSection";
 import { Header } from "./header";
 
 const LandingPage: React.FC = () => {
@@ -10,6 +11,7 @@ const LandingPage: React.FC = () => {
 
       <main className="flex-1">
         <MainImageAndSimulator />
+        <SupportSection />
       </main>
 
       <Footer />

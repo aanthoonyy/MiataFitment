@@ -6,18 +6,18 @@ import { render } from "./assets/renderer";
 import { setUpLighting } from "./assets/lighting";
 import { makeWheels } from "./assets/wheels";
 import { makeTires } from "./assets/tire";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import rollingDiameter from "./assets/common/rollingDiameter";
-import Header, { CarModelContext, SettingsContext } from "./components/Header";
-import { Settings, DEFAULT_SETTINGS } from "./types/settings";
+import Header from "./components/Header";
+import type { Settings } from "./types/settings";
 import { WheelPosition, WHEEL_POSITIONS } from "./constants/wheelPositions";
 import { mmToFeet } from "./utils/unitConversions";
-import { FitmentConfigProvider } from "./contexts/FitmentSettingsContext";
+import { useFitmentStore, useUIStore } from "./stores";
 
-const useThreeScene = (settings: Settings, currentModel: string) => {
+const useThreeScene = () => {
   const sceneRef = useRef<THREE.Scene | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const carRefs = useRef<THREE.Object3D[]>([]);
@@ -26,10 +26,14 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const controlsRef = useRef<any>(null);
 
+  // Subscribe to store values
+  const model = useFitmentStore((s) => s.model);
+  const settings = useFitmentStore((s) => s.settings);
+
   useEffect(() => {
     if (sceneRef.current) createAndAddCar();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentModel]);
+  }, [model]);
 
   const updateWheelPosition = useCallback(
     (
@@ -236,10 +240,10 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
     carRefs.current.forEach((car) => sceneRef.current?.remove(car));
     carRefs.current = [];
 
-    const car = await makeCar(THREE, -1.4, currentModel);
+    const car = await makeCar(THREE, -1.4, model);
     carRefs.current.push(car);
     sceneRef.current.add(car);
-  }, [currentModel]);
+  }, [model]);
 
   const createAndAddTires = useCallback(() => {
     if (!sceneRef.current) return;
@@ -415,92 +419,51 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
 };
 
 const MainComponent = () => {
-  const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
-  const [currentModel, setCurrentModel] = useState("na");
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const isSettingsOpen = useUIStore((s) => s.isSettingsOpen);
+  const setSettingsOpen = useUIStore((s) => s.setSettingsOpen);
 
-  useThreeScene(settings, currentModel);
-
-  const carContextValue = useMemo(
-    () => ({
-      model: currentModel,
-      setModel: (newModel: string) => setCurrentModel(newModel),
-    }),
-    [currentModel]
-  );
-
-  const settingsContextValue = useMemo(
-    () => ({ isSettingsOpen, setIsSettingsOpen }),
-    [isSettingsOpen]
-  );
-
-  const setConfig = useCallback(
-    (next: { model: string; settings: Settings }) => {
-      setCurrentModel(next.model);
-      setSettings(next.settings);
-    },
-    []
-  );
-
-  const updateSettings = useCallback((patch: Partial<Settings>) => {
-    setSettings((prev) => ({ ...prev, ...patch }));
-  }, []);
-
-  const fitmentValue = useMemo(
-    () => ({
-      config: { model: currentModel, settings },
-      setConfig,
-      updateSettings,
-    }),
-    [currentModel, settings, setConfig, updateSettings]
-  );
+  useThreeScene();
 
   return (
-    <FitmentConfigProvider value={fitmentValue}>
-      <CarModelContext.Provider value={carContextValue}>
-        <SettingsContext.Provider value={settingsContextValue}>
-          <div className="fixed inset-0 h-screen w-screen overflow-hidden bg-background">
-            <div className="fixed inset-x-0 top-0 z-50">
-              <Header />
-            </div>
+    <div className="fixed inset-0 h-screen w-screen overflow-hidden bg-background">
+      <div className="fixed inset-x-0 top-0 z-50">
+        <Header />
+      </div>
 
-            <div className="absolute inset-0">
-              <div className="relative h-full w-full">
-                <div
-                  id="three-container"
-                  className="absolute inset-0 z-0 overflow-hidden"
-                />
-              </div>
-            </div>
-            <aside
-              className={[
-                "fixed right-0 top-0 z-[60] h-full w-[350px]",
-                "bg-zinc-100",
-                "shadow-[-8px_0_24px_-8px_rgba(0,0,0,0.15)]",
-                "transform transition-transform duration-300 ease-in-out",
-                isSettingsOpen ? "translate-x-0" : "translate-x-full",
-              ].join(" ")}
-            >
-              <div className="relative h-full">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setIsSettingsOpen(false)}
-                  className="absolute right-2 top-2 z-1000"
-                  aria-label="Close settings"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
+      <div className="absolute inset-0">
+        <div className="relative h-full w-full">
+          <div
+            id="three-container"
+            className="absolute inset-0 z-0 overflow-hidden"
+          />
+        </div>
+      </div>
+      <aside
+        className={[
+          "fixed right-0 top-0 z-[60] h-full w-[350px]",
+          "bg-zinc-100",
+          "shadow-[-8px_0_24px_-8px_rgba(0,0,0,0.15)]",
+          "transform transition-transform duration-300 ease-in-out",
+          isSettingsOpen ? "translate-x-0" : "translate-x-full",
+        ].join(" ")}
+      >
+        <div className="relative h-full">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setSettingsOpen(false)}
+            className="absolute right-2 top-2 z-1000"
+            aria-label="Close settings"
+          >
+            <X className="h-4 w-4" />
+          </Button>
 
-                <div className="h-full overflow-auto">
-                  <FitmentSettings />
-                </div>
-              </div>
-            </aside>
+          <div className="h-full overflow-auto">
+            <FitmentSettings />
           </div>
-        </SettingsContext.Provider>
-      </CarModelContext.Provider>
-    </FitmentConfigProvider>
+        </div>
+      </aside>
+    </div>
   );
 };
 
