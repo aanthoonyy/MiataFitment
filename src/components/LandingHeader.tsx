@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { useAuth } from "./provider/AuthProvider";
+import { useAuth } from "@/provider/AuthProvider";
 
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -14,7 +14,7 @@ import {
 
 import { Loader2 } from "lucide-react";
 
-export const Header: React.FC = () => {
+export const LandingHeader: React.FC = () => {
   const navigate = useNavigate();
   const { user, loading, signOut } = useAuth();
 
@@ -41,8 +41,6 @@ export const Header: React.FC = () => {
             alt="Miata Fitment Logo"
             className="h-10 w-auto"
           />
-          {/* Optional brand text */}
-          {/* <span className="hidden sm:block text-sm font-semibold tracking-tight">MiataFitment</span> */}
         </Link>
 
         <div className="flex items-center gap-2">

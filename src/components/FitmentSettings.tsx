@@ -3,19 +3,19 @@ import type { Settings } from "@/types/settings";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { useAuth } from "./provider/AuthProvider";
+import { useAuth } from "@/provider/AuthProvider";
 import { useFitmentStore, useUIStore, type SettingsTab } from "@/stores";
 
-import SuspensionSettings from "./components/FitmentSettingsTabs/SuspensionSettings";
-import WheelSettings from "./components/FitmentSettingsTabs/WheelSettings";
-import TireSettings from "./components/FitmentSettingsTabs/TireSettings";
-import CarSelectionSettings from "./components/FitmentSettingsTabs/CarSelectionSettings";
-import AccountSettings from "./components/FitmentSettingsTabs/AccountSettings";
+import SuspensionSettings from "@/components/FitmentSettingsTabs/SuspensionSettings";
+import WheelSettings from "@/components/FitmentSettingsTabs/WheelSettings";
+import TireSettings from "@/components/FitmentSettingsTabs/TireSettings";
+import CarSelectionSettings from "@/components/FitmentSettingsTabs/CarSelectionSettings";
+import AccountSettings from "@/components/FitmentSettingsTabs/AccountSettings";
 
 const STOCK_RIDE_HEIGHT = -2.65;
 const MM_TO_INCHES = 25.4;
 
-const CombinedSettings = () => {
+const FitmentSettings = () => {
   const activeTab = useUIStore((s) => s.activeTab);
   const setActiveTab = useUIStore((s) => s.setActiveTab);
   const matchWheels = useUIStore((s) => s.matchWheels);
@@ -187,4 +187,4 @@ const CombinedSettings = () => {
   );
 };
 
-export default CombinedSettings;
+export default FitmentSettings;

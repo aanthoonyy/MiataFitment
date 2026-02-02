@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-import { Footer } from "../assets/footer";
+import { Footer } from "@/components/Footer";
 
 export default function LoginPage() {
   const [mode, setMode] = useState<"login" | "signup" | "reset">("login");
