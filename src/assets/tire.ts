@@ -1,4 +1,4 @@
-import { Settings } from "./common/settingsStore";
+import { Settings } from "@/types/settings";
 import rollingDiameter from "./common/rollingDiameter";
 import { calculateWheelPosition, WheelPosition } from "./common/wheelPositionCalculator";
 
