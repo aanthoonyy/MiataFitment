@@ -9,7 +9,7 @@ const SupportSection: React.FC = () => {
           <div className="relative overflow-hidden rounded-2xl shadow-lg">
             <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-black/5" />
             <img
-              src="/websiteExample1.png"
+              src="/stickerexample.png"
               alt="Support Miata Fitment"
               className="h-auto w-full"
             />
@@ -38,7 +38,11 @@ const SupportSection: React.FC = () => {
                 active:bg-[#0a84bd]
               "
               onClick={() => {
-                // Button does nothing for now
+                window.open(
+                  "https://buymeacoffee.com/miatafitment/e/506966",
+                  "_blank",
+                  "noopener,noreferrer",
+                );
               }}
             >
               Buy a Sticker
@@ -54,7 +58,11 @@ const SupportSection: React.FC = () => {
                 active:bg-[#0a84bd]
               "
               onClick={() => {
-                // Button does nothing for now
+                window.open(
+                  "https://buymeacoffee.com/miatafitment",
+                  "_blank",
+                  "noopener,noreferrer",
+                );
               }}
             >
               Buy Me a Coffee
