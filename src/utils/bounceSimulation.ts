@@ -20,7 +20,6 @@ export interface BounceParams {
 }
 
 const DEFAULT_SPRING_RATE_LB_IN = 6000;
-const DEFAULT_DAMPING_RATIO = 0.3; // underdamped
 const MIN_SPRING_RATE_LB_IN = 2000;
 const MAX_SPRING_RATE_LB_IN = 40000;
 const SPRING_MASS = 68; // chosen so 6000 lb/in ≈ 1.5 Hz

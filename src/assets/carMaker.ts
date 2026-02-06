@@ -2,7 +2,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import * as THREE from 'three';
 
 const CAR_MODELS = {
-  na: '/MiataFixed.glb',
+  na: '/na_render.glb', // You'll need to add this file
   nb: '/nb_render.glb', // You'll need to add this file
 };
 
