@@ -74,7 +74,7 @@ const FitmentSettings = () => {
   ]);
 
   return (
-    <div className="h-full overflow-auto bg-muted/30">
+    <div className="h-full overflow-hidden bg-muted/30">
       <Tabs
         value={activeTab}
         onValueChange={(v) => setActiveTab(v as SettingsTab)}
@@ -87,7 +87,7 @@ const FitmentSettings = () => {
           </div>
 
           <div className="px-4 pb-3">
-            <TabsList className="w-full justify-start overflow-x-auto">
+            <TabsList className="tabs-scroll w-full justify-start overflow-x-auto">
               <TabsTrigger value="alignment" className="shrink-0">
                 Alignment
               </TabsTrigger>
