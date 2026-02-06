@@ -448,7 +448,6 @@ const createAndAddCar = useCallback(async () => {
           const deltaCamber = camberGeomNow - camberGeomRest;
 
           // 4) add on top of the user's camber setting
-          // TODO: replace these field names with yours:
           const baseCamber = isRear
             ? curSettings.rearCamber
             : curSettings.frontCamber;
