@@ -16,8 +16,8 @@ import {
   DialogTitle,
   useMediaQuery,
 } from "@mui/material";
-import { Footer } from "./assets/footer";
-import { Header } from "./header";
+import { Footer } from "@/components/Footer";
+import { LandingHeader } from "@/components/LandingHeader";
 
 interface CarData {
   id: string;
@@ -287,12 +287,6 @@ const GalleryPage: React.FC = () => {
   ];
 
   const fetchCarData = async () => {
-    // Comment out AWS fetch for testing
-    // const { data: items } = await client.models.CarData.list();
-    // console.log("carData", items);
-    // setCarData(items);
-
-    // Use sample data instead
     setCarData(sampleImages);
   };
 
@@ -373,7 +367,7 @@ const GalleryPage: React.FC = () => {
         },
       }}
     >
-      <Header />
+      <LandingHeader />
 
       <Container maxWidth="lg">
         <Typography paddingTop="3" variant="h3" align="center" gutterBottom>

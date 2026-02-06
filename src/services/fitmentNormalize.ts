@@ -1,6 +1,6 @@
 import type { Settings } from "@/types/settings";
 import { DEFAULT_SETTINGS } from "@/types/settings";
-import type { FitmentConfig } from "@/contexts/FitmentSettingsContext";
+import type { FitmentConfig } from "@/stores/fitmentStore";
 import type { SavedConfigPayload } from "@/types/garage";
 
 const SETTINGS_KEYS = Object.keys(DEFAULT_SETTINGS) as (keyof Settings)[];

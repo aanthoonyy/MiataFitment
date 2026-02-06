@@ -1,4 +1,4 @@
-import { Settings } from "./settingsStore";
+import { Settings } from "@/types/settings";
 import { getWheelPositions, WheelPosition as WheelPositionEnum, CarModel } from "../../constants/wheelPositions";
 import rollingDiameter from "./rollingDiameter";
 

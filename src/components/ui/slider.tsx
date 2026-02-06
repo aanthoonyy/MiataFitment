@@ -1,8 +1,8 @@
 // components/ui/slider.tsx
-import * as React from "react"
-import * as SliderPrimitive from "@radix-ui/react-slider"
+import * as React from "react";
+import * as SliderPrimitive from "@radix-ui/react-slider";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 const Slider = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
@@ -12,12 +12,12 @@ const Slider = React.forwardRef<
     ref={ref}
     className={cn(
       "relative flex w-full touch-none select-none items-center",
-      className
+      className,
     )}
     {...props}
   >
     {/* Track */}
-    <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
+    <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-zinc-200">
       {/* Filled range */}
       <SliderPrimitive.Range className="absolute h-full bg-[#0DA5E8]" />
     </SliderPrimitive.Track>
@@ -31,11 +31,10 @@ const Slider = React.forwardRef<
         "focus-visible:outline-none",
         "focus-visible:ring-2 focus-visible:ring-[#0DA5E8]/60 focus-visible:ring-offset-2",
         "disabled:pointer-events-none disabled:opacity-50",
-        "dark:bg-zinc-950"
       )}
     />
   </SliderPrimitive.Root>
-))
-Slider.displayName = SliderPrimitive.Root.displayName
+));
+Slider.displayName = SliderPrimitive.Root.displayName;
 
-export { Slider }
+export { Slider };

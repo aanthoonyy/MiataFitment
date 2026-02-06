@@ -1,4 +1,4 @@
-import { Settings } from "../assets/common/settingsStore";
+import { Settings } from "@/types/settings";
 import { calculateWheelPosition, WheelPosition } from "./common/wheelPositionCalculator";
 
 
