@@ -11,6 +11,7 @@ import WheelSettings from "@/components/FitmentSettingsTabs/WheelSettings";
 import TireSettings from "@/components/FitmentSettingsTabs/TireSettings";
 import CarSelectionSettings from "@/components/FitmentSettingsTabs/CarSelectionSettings";
 import AccountSettings from "@/components/FitmentSettingsTabs/AccountSettings";
+import { BuyPartsButton } from "./BuyWheelButton";
 
 const STOCK_RIDE_HEIGHT = -2.65;
 const MM_TO_INCHES = 25.4;
@@ -34,7 +35,7 @@ const FitmentSettings = () => {
     <K extends keyof Settings>(key: K) =>
       (value: Settings[K]) =>
         updateSettings({ [key]: value } as Pick<Settings, K>),
-    [updateSettings]
+    [updateSettings],
   );
 
   useEffect(() => {
@@ -71,7 +72,10 @@ const FitmentSettings = () => {
 
   return (
     <div className="h-full overflow-auto bg-muted/30">
-      <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as SettingsTab)}>
+      <Tabs
+        value={activeTab}
+        onValueChange={(v) => setActiveTab(v as SettingsTab)}
+      >
         <div className="sticky top-0 z-10 bg-zinc-200 shadow-sm">
           <div className="p-4 pb-3">
             <div className="flex items-center justify-between">
@@ -129,9 +133,10 @@ const FitmentSettings = () => {
               mmToInches={MM_TO_INCHES}
               user={!loading ? user : null}
             />
+            <BuyPartsButton type="suspension" />
           </TabsContent>
 
-          <TabsContent value="wheels" className="mt-0">
+          <TabsContent value="wheels" className="mt-0 space-y-4">
             <WheelSettings
               matchWheels={matchWheels}
               setMatchWheels={setMatchWheels}
@@ -152,9 +157,17 @@ const FitmentSettings = () => {
               rearWheelSpacer={settings.rearWheelSpacer}
               setRearWheelSpacer={set("rearWheelSpacer")}
             />
+            <BuyPartsButton
+              type="wheel"
+              wheel={{
+                width: settings.frontWheelWidth,
+                offset: settings.frontWheelOffset,
+                diameter: settings.frontWheelDiameter,
+              }}
+            />
           </TabsContent>
 
-          <TabsContent value="tires" className="mt-0">
+          <TabsContent value="tires" className="mt-0 space-y-4">
             <TireSettings
               matchTires={matchTires}
               setMatchTires={setMatchTires}
@@ -166,6 +179,17 @@ const FitmentSettings = () => {
               setRearTireWidth={set("rearTireWidth")}
               rearTireSidewall={settings.rearTireSidewall}
               setRearTireSidewall={set("rearTireSidewall")}
+            />
+            <BuyPartsButton
+              type="tire"
+              tire={{
+                frontWidth: settings.frontTireWidth,
+                frontRatio: settings.frontTireSidewall,
+                frontDiameter: settings.frontWheelDiameter,
+                rearWidth: settings.rearTireWidth,
+                rearRatio: settings.rearTireSidewall,
+                rearDiameter: settings.rearWheelDiameter,
+              }}
             />
           </TabsContent>
 
