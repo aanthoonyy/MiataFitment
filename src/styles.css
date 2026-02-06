@@ -1,1 +1,19 @@
 @import "tailwindcss";
+
+.tabs-scroll {
+	scrollbar-width: thin;
+	scrollbar-color: rgba(113, 113, 122, 0.6) transparent;
+}
+
+.tabs-scroll::-webkit-scrollbar {
+	height: 6px;
+}
+
+.tabs-scroll::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.tabs-scroll::-webkit-scrollbar-thumb {
+	background-color: rgba(113, 113, 122, 0.45);
+	border-radius: 999px;
+}

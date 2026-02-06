@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 
 type SaveConfigRowProps = {
   saveName: string;
-  setSaveName: React.Dispatch<React.SetStateAction<string>>;
+  setSaveName: (name: string) => void;
 
   helperText: string;
 
@@ -22,7 +22,7 @@ type SaveConfigRowProps = {
   isAtLimit: boolean;
 
   saveOpen: boolean;
-  setSaveOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setSaveOpen: (open: boolean) => void;
 
   onSave: () => void;
   onOverwrite: () => void;

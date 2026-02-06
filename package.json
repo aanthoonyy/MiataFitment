@@ -37,7 +37,8 @@
     "react-router-dom": "^6.28.0",
     "tailwind-merge": "^3.4.0",
     "tailwindcss-animate": "^1.0.7",
-    "three": "^0.166.1"
+    "three": "^0.166.1",
+    "zustand": "^5.0.11"
   },
   "devDependencies": {
     "@eslint/js": "^9.2.0",

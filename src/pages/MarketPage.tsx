@@ -15,8 +15,8 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-import { Footer } from "./assets/footer";
-import { Header } from "./header";
+import { Footer } from "@/components/Footer";
+import { LandingHeader } from "@/components/LandingHeader";
 
 const marketplaceItems = [
   {
@@ -69,7 +69,7 @@ const marketplaceItems = [
   },
 ];
 
-const MarketplacePage: React.FC = () => {
+const MarketPage: React.FC = () => {
   const [category, setCategory] = useState<string>("All");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [selectedItem, setSelectedItem] = useState<any>(null);
@@ -106,7 +106,7 @@ const MarketplacePage: React.FC = () => {
         backgroundColor: "#F9F9F9",
       }}
     >
-      <Header />
+      <LandingHeader />
       <Box sx={{ flex: 1, py: 4 }}>
         <Container maxWidth="lg">
           <Typography variant="h3" align="center" gutterBottom sx={{ mt: 2 }}>
@@ -209,4 +209,4 @@ const MarketplacePage: React.FC = () => {
   );
 };
 
-export default MarketplacePage;
+export default MarketPage;

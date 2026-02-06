@@ -1,23 +1,29 @@
 import * as THREE from "three";
-import FitmentSettings from "./fitmentSettings";
-import { makeCar } from "./assets/carMaker";
-import { makeCamera } from "./assets/cameraMaker";
-import { render } from "./assets/renderer";
-import { setUpLighting } from "./assets/lighting";
-import { makeWheels } from "./assets/wheels";
-import { makeTires } from "./assets/tire";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { X } from "lucide-react";
+import { useCallback, useEffect, useRef } from "react";
 
-import { Button } from "@/components/ui/button";
-import rollingDiameter from "./assets/common/rollingDiameter";
-import Header, { CarModelContext, SettingsContext } from "./components/Header";
-import { Settings, DEFAULT_SETTINGS } from "./types/settings";
-import { WheelPosition, WHEEL_POSITIONS } from "./constants/wheelPositions";
-import { mmToFeet } from "./utils/unitConversions";
-import { FitmentConfigProvider } from "./contexts/FitmentSettingsContext";
+import { makeCar } from "@/assets/carMaker";
+import { makeCamera } from "@/assets/cameraMaker";
+import { render } from "@/assets/renderer";
+import { setUpLighting } from "@/assets/lighting";
+import { makeWheels } from "@/assets/wheels";
+import { makeTires } from "@/assets/tire";
+import rollingDiameter from "@/assets/common/rollingDiameter";
+import type { Settings } from "@/types/settings";
+import { WheelPosition, WHEEL_POSITIONS } from "@/constants/wheelPositions";
+import { mmToFeet } from "@/utils/unitConversions";
+import { useFitmentStore, useUIStore } from "@/stores";
+import {
+  type BounceState,
+  INITIAL_DISPLACEMENT,
+  stepBounce,
+  isBounceSettled,
+  frontCamberFromHubToFender,
+  rearCamberFromHubToFender,
+  hubToFenderAtRest,
+} from "@/utils/bounceSimulation";
+import { calculateWheelPosition } from "@/assets/common/wheelPositionCalculator";
 
-const useThreeScene = (settings: Settings, currentModel: string) => {
+export const useThreeScene = () => {
   const sceneRef = useRef<THREE.Scene | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const carRefs = useRef<THREE.Object3D[]>([]);
@@ -25,18 +31,24 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
   const tireRefs = useRef<THREE.Object3D[]>([]);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const controlsRef = useRef<any>(null);
+  const bounceStateRef = useRef<BounceState | null>(null);
+  const prevTimeRef = useRef<number>(0);
+
+  // Subscribe to store values
+  const model = useFitmentStore((s) => s.model);
+  const settings = useFitmentStore((s) => s.settings);
 
   useEffect(() => {
     if (sceneRef.current) createAndAddCar();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentModel]);
+  }, [model]);
 
   const updateWheelPosition = useCallback(
     (
       wheel: THREE.Object3D,
       tire: THREE.Object3D,
       position: string,
-      settings: Settings
+      settings: Settings,
     ) => {
       let camberDeg = 0,
         offset = 0,
@@ -107,7 +119,7 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
             : settings.rearTireWidth,
           position.startsWith("F")
             ? settings.frontTireSidewall
-            : settings.rearTireSidewall
+            : settings.rearTireSidewall,
         ) *
           Math.sin(toe)) /
         12;
@@ -122,7 +134,7 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
       tire.rotation.set(rotX, 0, rotZ);
       tire.position.set(baseX, rideY, zPos);
     },
-    []
+    [],
   );
 
   const updateWheelAndTireSizes = useCallback((settings: Settings) => {
@@ -140,7 +152,7 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
         settings.frontWheelWidth,
         settings.frontWheelDiameter,
         WheelPosition.FRONT_LEFT,
-        settings
+        settings,
       ),
       makeWheels(
         THREE,
@@ -150,7 +162,7 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
         settings.rearWheelWidth,
         settings.rearWheelDiameter,
         WheelPosition.REAR_LEFT,
-        settings
+        settings,
       ),
       makeWheels(
         THREE,
@@ -160,7 +172,7 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
         settings.rearWheelWidth,
         settings.rearWheelDiameter,
         WheelPosition.REAR_RIGHT,
-        settings
+        settings,
       ),
       makeWheels(
         THREE,
@@ -170,7 +182,7 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
         settings.frontWheelWidth,
         settings.frontWheelDiameter,
         WheelPosition.FRONT_RIGHT,
-        settings
+        settings,
       ),
     ];
     wheelRefs.current = wheels;
@@ -187,7 +199,7 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
         settings.frontTireWidth,
         settings.frontTireSidewall,
         WheelPosition.FRONT_LEFT,
-        settings
+        settings,
       ),
       makeTires(
         THREE,
@@ -199,7 +211,7 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
         settings.rearTireWidth,
         settings.rearTireSidewall,
         WheelPosition.REAR_LEFT,
-        settings
+        settings,
       ),
       makeTires(
         THREE,
@@ -211,7 +223,7 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
         settings.rearTireWidth,
         settings.rearTireSidewall,
         WheelPosition.REAR_RIGHT,
-        settings
+        settings,
       ),
       makeTires(
         THREE,
@@ -223,23 +235,33 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
         settings.frontTireWidth,
         settings.frontTireSidewall,
         WheelPosition.FRONT_RIGHT,
-        settings
+        settings,
       ),
     ];
     tireRefs.current = tires;
     tires.forEach((tire) => sceneRef.current?.add(tire));
   }, []);
 
-  const createAndAddCar = useCallback(async () => {
-    if (!sceneRef.current) return;
+const carLoadIdRef = useRef(0);
 
-    carRefs.current.forEach((car) => sceneRef.current?.remove(car));
-    carRefs.current = [];
+const createAndAddCar = useCallback(async () => {
+  if (!sceneRef.current) return;
 
-    const car = await makeCar(THREE, -1.4, currentModel);
-    carRefs.current.push(car);
-    sceneRef.current.add(car);
-  }, [currentModel]);
+  const loadId = ++carLoadIdRef.current;
+
+  // remove existing immediately
+  carRefs.current.forEach((c) => sceneRef.current!.remove(c));
+  carRefs.current = [];
+
+  const car = await makeCar(THREE, -1.4, model);
+
+  // if a newer request happened while we were loading, ignore this result
+  if (loadId !== carLoadIdRef.current) return;
+
+  carRefs.current = [car];
+  sceneRef.current.add(car);
+}, [model]);
+
 
   const createAndAddTires = useCallback(() => {
     if (!sceneRef.current) return;
@@ -256,7 +278,7 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
         settings.frontWheelWidth,
         settings.frontWheelDiameter,
         WheelPosition.FRONT_LEFT,
-        settings
+        settings,
       ),
       makeWheels(
         THREE,
@@ -266,7 +288,7 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
         settings.rearWheelWidth,
         settings.rearWheelDiameter,
         WheelPosition.REAR_LEFT,
-        settings
+        settings,
       ),
       makeWheels(
         THREE,
@@ -276,7 +298,7 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
         settings.rearWheelWidth,
         settings.rearWheelDiameter,
         WheelPosition.REAR_RIGHT,
-        settings
+        settings,
       ),
       makeWheels(
         THREE,
@@ -286,7 +308,7 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
         settings.frontWheelWidth,
         settings.frontWheelDiameter,
         WheelPosition.FRONT_RIGHT,
-        settings
+        settings,
       ),
     ];
     wheelRefs.current = wheels;
@@ -303,7 +325,7 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
         settings.frontTireWidth,
         settings.frontTireSidewall,
         WheelPosition.FRONT_LEFT,
-        settings
+        settings,
       ),
       makeTires(
         THREE,
@@ -315,7 +337,7 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
         settings.rearTireWidth,
         settings.rearTireSidewall,
         WheelPosition.REAR_LEFT,
-        settings
+        settings,
       ),
       makeTires(
         THREE,
@@ -327,7 +349,7 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
         settings.rearTireWidth,
         settings.rearTireSidewall,
         WheelPosition.REAR_RIGHT,
-        settings
+        settings,
       ),
       makeTires(
         THREE,
@@ -339,12 +361,26 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
         settings.frontTireWidth,
         settings.frontTireSidewall,
         WheelPosition.FRONT_RIGHT,
-        settings
+        settings,
       ),
     ];
     tireRefs.current = tires;
     tires.forEach((tire) => sceneRef.current?.add(tire));
   }, [settings]);
+
+  // Bounce trigger
+  const bounceRequested = useUIStore((s) => s.bounceRequested);
+
+  useEffect(() => {
+    if (bounceRequested) {
+      bounceStateRef.current = {
+        displacement: INITIAL_DISPLACEMENT,
+        velocity: 0,
+      };
+      prevTimeRef.current = performance.now() / 1000;
+      useUIStore.getState().clearBounceRequest();
+    }
+  }, [bounceRequested]);
 
   // initial scene setup
   useEffect(() => {
@@ -366,6 +402,112 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
     const animateLoop = () => {
       requestAnimationFrame(animateLoop);
       controlsRef.current?.update?.();
+
+      // Bounce simulation step
+      if (bounceStateRef.current) {
+        const now = performance.now() / 1000;
+        const dt = now - prevTimeRef.current;
+        prevTimeRef.current = now;
+
+        const curSettings = useFitmentStore.getState().settings;
+        bounceStateRef.current = stepBounce(bounceStateRef.current, dt, {
+          springRateLbIn: curSettings.springRateLbIn,
+        });
+        const disp = bounceStateRef.current.displacement;
+
+        // Move car body (inches → feet, negative because body drops)
+        if (carRefs.current[0]) {
+          carRefs.current[0].position.y = -(disp / 12);
+        }
+
+        // Update each wheel/tire with dynamic camber
+        const positions = ["FL", "BL", "BR", "FR"];
+        for (let i = 0; i < positions.length; i++) {
+          const wheel = wheelRefs.current[i];
+          const tire = tireRefs.current[i];
+          if (!wheel || !tire) continue;
+
+          const isRear = positions[i].startsWith("B");
+          const rideHeight = isRear
+            ? curSettings.rideHeightRear
+            : curSettings.rideHeightFront;
+          // 1) hub-to-fender at rest and now
+          const hRest = hubToFenderAtRest(rideHeight, isRear);
+          const hNow = hRest - disp;
+
+          // 2) geometry camber at rest and now
+          const camberGeomRest = isRear
+            ? rearCamberFromHubToFender(hRest)
+            : frontCamberFromHubToFender(hRest);
+
+          const camberGeomNow = isRear
+            ? rearCamberFromHubToFender(hNow)
+            : frontCamberFromHubToFender(hNow);
+
+          // 3) ONLY apply the change due to bounce
+          const deltaCamber = camberGeomNow - camberGeomRest;
+
+          // 4) add on top of the user's camber setting
+          // TODO: replace these field names with yours:
+          const baseCamber = isRear
+            ? curSettings.rearCamber
+            : curSettings.frontCamber;
+
+          const camberDeg = baseCamber + deltaCamber;
+          const camberRad = (camberDeg * Math.PI) / 180;
+
+          const toe = isRear ? curSettings.rearToe : curSettings.frontToe;
+          const toeRadiusComp =
+            (rollingDiameter(
+              isRear
+                ? curSettings.rearWheelDiameter
+                : curSettings.frontWheelDiameter,
+              isRear ? curSettings.rearTireWidth : curSettings.frontTireWidth,
+              isRear
+                ? curSettings.rearTireSidewall
+                : curSettings.frontTireSidewall,
+            ) *
+              Math.sin(positions[i].includes("L") ? toe : -toe)) /
+            12;
+
+          const isLeft = positions[i].includes("L");
+          const rotX = isLeft
+            ? Math.PI / 2 + camberRad
+            : Math.PI / 2 - camberRad;
+          wheel.rotation.x = rotX;
+          wheel.rotation.z = toeRadiusComp;
+          tire.rotation.x = rotX;
+          tire.rotation.z = toeRadiusComp;
+        }
+
+        // Check if settled
+        if (isBounceSettled(bounceStateRef.current)) {
+          bounceStateRef.current = null;
+          // Restore car body position
+          if (carRefs.current[0]) {
+            carRefs.current[0].position.y = 0;
+          }
+          // Re-apply user settings using calculateWheelPosition (matches makeWheels)
+          const s = useFitmentStore.getState().settings;
+          const posKeys: Array<"FL" | "BL" | "BR" | "FR"> = [
+            "FL",
+            "BL",
+            "BR",
+            "FR",
+          ];
+          for (let j = 0; j < posKeys.length; j++) {
+            const w = wheelRefs.current[j];
+            const t = tireRefs.current[j];
+            if (!w || !t) continue;
+            const wd = calculateWheelPosition(posKeys[j], s);
+            w.rotation.set(wd.rotation.x, 0, wd.rotation.z);
+            w.position.set(wd.position.x, wd.position.y, wd.position.z);
+            t.rotation.set(wd.rotation.x, 0, wd.rotation.z);
+            t.position.set(wd.position.x, wd.position.y, wd.position.z);
+          }
+        }
+      }
+
       renderer.render(scene, camera);
     };
     animateLoop();
@@ -387,25 +529,25 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
       wheelRefs.current[0],
       tireRefs.current[0],
       "FL",
-      settings
+      settings,
     );
     updateWheelPosition(
       wheelRefs.current[1],
       tireRefs.current[1],
       "BL",
-      settings
+      settings,
     );
     updateWheelPosition(
       wheelRefs.current[2],
       tireRefs.current[2],
       "BR",
-      settings
+      settings,
     );
     updateWheelPosition(
       wheelRefs.current[3],
       tireRefs.current[3],
       "FR",
-      settings
+      settings,
     );
 
     updateWheelAndTireSizes(settings);
@@ -413,95 +555,3 @@ const useThreeScene = (settings: Settings, currentModel: string) => {
 
   return { sceneRef };
 };
-
-const MainComponent = () => {
-  const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
-  const [currentModel, setCurrentModel] = useState("na");
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-
-  useThreeScene(settings, currentModel);
-
-  const carContextValue = useMemo(
-    () => ({
-      model: currentModel,
-      setModel: (newModel: string) => setCurrentModel(newModel),
-    }),
-    [currentModel]
-  );
-
-  const settingsContextValue = useMemo(
-    () => ({ isSettingsOpen, setIsSettingsOpen }),
-    [isSettingsOpen]
-  );
-
-  const setConfig = useCallback(
-    (next: { model: string; settings: Settings }) => {
-      setCurrentModel(next.model);
-      setSettings(next.settings);
-    },
-    []
-  );
-
-  const updateSettings = useCallback((patch: Partial<Settings>) => {
-    setSettings((prev) => ({ ...prev, ...patch }));
-  }, []);
-
-  const fitmentValue = useMemo(
-    () => ({
-      config: { model: currentModel, settings },
-      setConfig,
-      updateSettings,
-    }),
-    [currentModel, settings, setConfig, updateSettings]
-  );
-
-  return (
-    <FitmentConfigProvider value={fitmentValue}>
-      <CarModelContext.Provider value={carContextValue}>
-        <SettingsContext.Provider value={settingsContextValue}>
-          <div className="fixed inset-0 h-screen w-screen overflow-hidden bg-background">
-            <div className="fixed inset-x-0 top-0 z-50">
-              <Header />
-            </div>
-
-            <div className="absolute inset-0">
-              <div className="relative h-full w-full">
-                <div
-                  id="three-container"
-                  className="absolute inset-0 z-0 overflow-hidden"
-                />
-              </div>
-            </div>
-            <aside
-              className={[
-                "fixed right-0 top-0 z-[60] h-full w-[350px]",
-                "bg-zinc-100",
-                "shadow-[-8px_0_24px_-8px_rgba(0,0,0,0.15)]",
-                "transform transition-transform duration-300 ease-in-out",
-                isSettingsOpen ? "translate-x-0" : "translate-x-full",
-              ].join(" ")}
-            >
-              <div className="relative h-full">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setIsSettingsOpen(false)}
-                  className="absolute right-2 top-2 z-1000"
-                  aria-label="Close settings"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-
-                <div className="h-full overflow-auto">
-                  <FitmentSettings />
-                </div>
-              </div>
-            </aside>
-          </div>
-        </SettingsContext.Provider>
-      </CarModelContext.Provider>
-    </FitmentConfigProvider>
-  );
-};
-
-export default MainComponent;

@@ -1,31 +1,13 @@
-import { createContext, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Settings } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-
-export const CarModelContext = createContext<{ // do i need this
-  model: string;
-  setModel: (model: string) => void;
-}>({
-  model: "na",
-  setModel: () => {},
-});
-
-export const SettingsContext = createContext<{
-  isSettingsOpen: boolean;
-  setIsSettingsOpen: (isOpen: boolean) => void;
-}>({
-  isSettingsOpen: false,
-  setIsSettingsOpen: () => {},
-});
-
-export const useCarModel = () => useContext(CarModelContext);
-export const useSettings = () => useContext(SettingsContext);
+import { useUIStore } from "@/stores";
 
 const Header = () => {
   const navigate = useNavigate();
-  const { isSettingsOpen, setIsSettingsOpen } = useSettings();
+  const isSettingsOpen = useUIStore((s) => s.isSettingsOpen);
+  const toggleSettings = useUIStore((s) => s.toggleSettings);
 
   return (
     <>
@@ -56,7 +38,7 @@ const Header = () => {
             bg-zinc-100 shadow-md
             hover:bg-zinc-200
           "
-          onClick={() => setIsSettingsOpen(!isSettingsOpen)}
+          onClick={toggleSettings}
           aria-label="Open settings"
         >
           <Settings className="h-5 w-5" />

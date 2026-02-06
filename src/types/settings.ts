@@ -6,6 +6,7 @@ export interface Settings {
   rearToe: number;
   rideHeightFront: number;
   rideHeightRear: number;
+  springRateLbIn: number;
   frontTireWidth: number;
   frontTireSidewall: number;
   frontWheelWidth: number;
@@ -29,6 +30,8 @@ export const DEFAULT_SETTINGS: Settings = {
 
   rideHeightFront: -2.65,
   rideHeightRear: -2.65,
+
+  springRateLbIn: 6000,
 
   frontTireWidth: 185,
   frontTireSidewall: 60,
