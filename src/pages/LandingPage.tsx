@@ -6,7 +6,7 @@ import { LandingHeader } from "@/components/LandingHeader";
 
 const LandingPage: React.FC = () => {
   return (
-    <div className="flex min-h-screen w-screen flex-col overflow-x-hidden bg-white m-0 p-0 box-border">
+    <div className="flex min-h-screen w-full flex-col bg-white">
       <LandingHeader />
 
       <main className="flex-1">
