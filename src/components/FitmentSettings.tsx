@@ -3,6 +3,7 @@ import type { Settings } from "@/types/settings";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+import { Button } from "@/components/ui/button";
 import { useAuth } from "@/provider/AuthProvider";
 import { useFitmentStore, useUIStore, type SettingsTab } from "@/stores";
 
@@ -23,6 +24,8 @@ const FitmentSettings = () => {
   const setMatchWheels = useUIStore((s) => s.setMatchWheels);
   const matchTires = useUIStore((s) => s.matchTires);
   const setMatchTires = useUIStore((s) => s.setMatchTires);
+  const bounceRequested = useUIStore((s) => s.bounceRequested);
+  const requestBounce = useUIStore((s) => s.requestBounce);
 
   const model = useFitmentStore((s) => s.model);
   const setModel = useFitmentStore((s) => s.setModel);
@@ -133,6 +136,14 @@ const FitmentSettings = () => {
               mmToInches={MM_TO_INCHES}
               user={!loading ? user : null}
             />
+            <Button
+              className="w-full"
+              variant="outline"
+              onClick={() => requestBounce()}
+              disabled={bounceRequested}
+            >
+              Simulate Bounce
+            </Button>
             <BuyPartsButton type="suspension" />
           </TabsContent>
 

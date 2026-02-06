@@ -11,7 +11,17 @@ import rollingDiameter from "@/assets/common/rollingDiameter";
 import type { Settings } from "@/types/settings";
 import { WheelPosition, WHEEL_POSITIONS } from "@/constants/wheelPositions";
 import { mmToFeet } from "@/utils/unitConversions";
-import { useFitmentStore } from "@/stores";
+import { useFitmentStore, useUIStore } from "@/stores";
+import {
+  type BounceState,
+  INITIAL_DISPLACEMENT,
+  stepBounce,
+  isBounceSettled,
+  frontCamberFromHubToFender,
+  rearCamberFromHubToFender,
+  hubToFenderAtRest,
+} from "@/utils/bounceSimulation";
+import { calculateWheelPosition } from "@/assets/common/wheelPositionCalculator";
 
 export const useThreeScene = () => {
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -21,6 +31,8 @@ export const useThreeScene = () => {
   const tireRefs = useRef<THREE.Object3D[]>([]);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const controlsRef = useRef<any>(null);
+  const bounceStateRef = useRef<BounceState | null>(null);
+  const prevTimeRef = useRef<number>(0);
 
   // Subscribe to store values
   const model = useFitmentStore((s) => s.model);
@@ -346,6 +358,17 @@ export const useThreeScene = () => {
     tires.forEach((tire) => sceneRef.current?.add(tire));
   }, [settings]);
 
+  // Bounce trigger
+  const bounceRequested = useUIStore((s) => s.bounceRequested);
+
+  useEffect(() => {
+    if (bounceRequested) {
+      bounceStateRef.current = { displacement: INITIAL_DISPLACEMENT, velocity: 0 };
+      prevTimeRef.current = performance.now() / 1000;
+      useUIStore.getState().clearBounceRequest();
+    }
+  }, [bounceRequested]);
+
   // initial scene setup
   useEffect(() => {
     const scene = new THREE.Scene();
@@ -366,6 +389,82 @@ export const useThreeScene = () => {
     const animateLoop = () => {
       requestAnimationFrame(animateLoop);
       controlsRef.current?.update?.();
+
+      // Bounce simulation step
+      if (bounceStateRef.current) {
+        const now = performance.now() / 1000;
+        const dt = now - prevTimeRef.current;
+        prevTimeRef.current = now;
+
+        bounceStateRef.current = stepBounce(bounceStateRef.current, dt);
+        const disp = bounceStateRef.current.displacement;
+
+        // Move car body (inches → feet, negative because body drops)
+        if (carRefs.current[0]) {
+          carRefs.current[0].position.y = -(disp / 12);
+        }
+
+        // Update each wheel/tire with dynamic camber
+        const curSettings = useFitmentStore.getState().settings;
+        const positions = ["FL", "BL", "BR", "FR"];
+        for (let i = 0; i < positions.length; i++) {
+          const wheel = wheelRefs.current[i];
+          const tire = tireRefs.current[i];
+          if (!wheel || !tire) continue;
+
+          const isRear = positions[i].startsWith("B");
+          const rideHeight = isRear
+            ? curSettings.rideHeightRear
+            : curSettings.rideHeightFront;
+          const h = hubToFenderAtRest(rideHeight, isRear) - disp;
+          const dynamicCamber = isRear
+            ? rearCamberFromHubToFender(h)
+            : frontCamberFromHubToFender(h);
+          const camberRad = (dynamicCamber * Math.PI) / 180;
+
+          const toe = isRear ? curSettings.rearToe : curSettings.frontToe;
+          const toeRadiusComp =
+            (rollingDiameter(
+              isRear ? curSettings.rearWheelDiameter : curSettings.frontWheelDiameter,
+              isRear ? curSettings.rearTireWidth : curSettings.frontTireWidth,
+              isRear ? curSettings.rearTireSidewall : curSettings.frontTireSidewall
+            ) *
+              Math.sin(positions[i].includes("L") ? toe : -toe)) /
+            12;
+
+          const isLeft = positions[i].includes("L");
+          const rotX = isLeft
+            ? Math.PI / 2 + camberRad
+            : Math.PI / 2 - camberRad;
+          wheel.rotation.x = rotX;
+          wheel.rotation.z = toeRadiusComp;
+          tire.rotation.x = rotX;
+          tire.rotation.z = toeRadiusComp;
+        }
+
+        // Check if settled
+        if (isBounceSettled(bounceStateRef.current)) {
+          bounceStateRef.current = null;
+          // Restore car body position
+          if (carRefs.current[0]) {
+            carRefs.current[0].position.y = 0;
+          }
+          // Re-apply user settings using calculateWheelPosition (matches makeWheels)
+          const s = useFitmentStore.getState().settings;
+          const posKeys: Array<"FL" | "BL" | "BR" | "FR"> = ["FL", "BL", "BR", "FR"];
+          for (let j = 0; j < posKeys.length; j++) {
+            const w = wheelRefs.current[j];
+            const t = tireRefs.current[j];
+            if (!w || !t) continue;
+            const wd = calculateWheelPosition(posKeys[j], s);
+            w.rotation.set(wd.rotation.x, 0, wd.rotation.z);
+            w.position.set(wd.position.x, wd.position.y, wd.position.z);
+            t.rotation.set(wd.rotation.x, 0, wd.rotation.z);
+            t.position.set(wd.position.x, wd.position.y, wd.position.z);
+          }
+        }
+      }
+
       renderer.render(scene, camera);
     };
     animateLoop();
