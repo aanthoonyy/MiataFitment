@@ -45,6 +45,28 @@ export const useFitmentStore = create<FitmentStore>()(
     }),
     {
       name: "fitment-storage",
+      merge: (persistedState, currentState) => {
+        const typedState = persistedState as FitmentStore | undefined;
+        if (!typedState) return currentState;
+        const legacyHz = (typedState.settings as { springRateHz?: number })
+          ?.springRateHz;
+        const legacySpringRateLbIn =
+          typeof legacyHz === "number" && Number.isFinite(legacyHz)
+            ? Math.round(Math.pow(2 * Math.PI * legacyHz, 2) * 68)
+            : undefined;
+        return {
+          ...currentState,
+          ...typedState,
+          settings: {
+            ...DEFAULT_SETTINGS,
+            ...(typedState.settings ?? {}),
+            springRateLbIn:
+              typedState.settings?.springRateLbIn ??
+              legacySpringRateLbIn ??
+              DEFAULT_SETTINGS.springRateLbIn,
+          },
+        };
+      },
     }
   )
 );

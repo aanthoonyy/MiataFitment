@@ -13,18 +13,49 @@ export interface BounceState {
   velocity: number; // inches/sec
 }
 
-// Tuned for a Miata: ~1.5 Hz natural freq, 0.3 damping ratio
-const OMEGA = 2 * Math.PI * 1.5; // ~9.42 rad/s
-const ZETA = 0.3; // underdamped
-const K = OMEGA * OMEGA; // spring stiffness (normalized, m=1)
-const C = 2 * ZETA * OMEGA; // damping coefficient
+// Tuned for a Miata: default ~6k lb/in spring rate, 0.3-0.7 damping ratio
+export interface BounceParams {
+  springRateLbIn?: number;
+  dampingRatio?: number;
+}
+
+const DEFAULT_SPRING_RATE_LB_IN = 6000;
+const DEFAULT_DAMPING_RATIO = 0.3; // underdamped
+const MIN_SPRING_RATE_LB_IN = 2000;
+const MAX_SPRING_RATE_LB_IN = 40000;
+const SPRING_MASS = 68; // chosen so 6000 lb/in ≈ 1.5 Hz
+
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(Math.max(value, min), max);
+
+const dampingRatioFromSpringRate = (springRateLbIn: number) => {
+  const clamped = clamp(
+    springRateLbIn,
+    MIN_SPRING_RATE_LB_IN,
+    MAX_SPRING_RATE_LB_IN,
+  );
+  const t =
+    (clamped - DEFAULT_SPRING_RATE_LB_IN) /
+    (MAX_SPRING_RATE_LB_IN - DEFAULT_SPRING_RATE_LB_IN);
+  return clamp(0.25 + t * 0.45, 0.25, 0.7);
+};
 
 export const INITIAL_DISPLACEMENT = 1.5; // inches — initial bump input
 
-export function stepBounce(state: BounceState, dt: number): BounceState {
+export function stepBounce(
+  state: BounceState,
+  dt: number,
+  params: BounceParams = {},
+): BounceState {
   // Clamp dt to prevent instability on tab-switch
   const cdt = Math.min(dt, 0.05);
-  const accel = -K * state.displacement - C * state.velocity;
+  const springRateLbIn = params.springRateLbIn ?? DEFAULT_SPRING_RATE_LB_IN;
+  const omega = Math.sqrt(springRateLbIn / SPRING_MASS);
+  const zeta =
+    params.dampingRatio ?? dampingRatioFromSpringRate(springRateLbIn);
+  const k = omega * omega; // spring stiffness (normalized, m=1)
+  const c = 2 * zeta * omega; // damping coefficient
+  const accel = -k * state.displacement - c * state.velocity;
   const velocity = state.velocity + accel * cdt;
   const displacement = state.displacement + velocity * cdt;
   return { displacement, velocity };

@@ -48,7 +48,7 @@ export const useThreeScene = () => {
       wheel: THREE.Object3D,
       tire: THREE.Object3D,
       position: string,
-      settings: Settings
+      settings: Settings,
     ) => {
       let camberDeg = 0,
         offset = 0,
@@ -119,7 +119,7 @@ export const useThreeScene = () => {
             : settings.rearTireWidth,
           position.startsWith("F")
             ? settings.frontTireSidewall
-            : settings.rearTireSidewall
+            : settings.rearTireSidewall,
         ) *
           Math.sin(toe)) /
         12;
@@ -134,7 +134,7 @@ export const useThreeScene = () => {
       tire.rotation.set(rotX, 0, rotZ);
       tire.position.set(baseX, rideY, zPos);
     },
-    []
+    [],
   );
 
   const updateWheelAndTireSizes = useCallback((settings: Settings) => {
@@ -152,7 +152,7 @@ export const useThreeScene = () => {
         settings.frontWheelWidth,
         settings.frontWheelDiameter,
         WheelPosition.FRONT_LEFT,
-        settings
+        settings,
       ),
       makeWheels(
         THREE,
@@ -162,7 +162,7 @@ export const useThreeScene = () => {
         settings.rearWheelWidth,
         settings.rearWheelDiameter,
         WheelPosition.REAR_LEFT,
-        settings
+        settings,
       ),
       makeWheels(
         THREE,
@@ -172,7 +172,7 @@ export const useThreeScene = () => {
         settings.rearWheelWidth,
         settings.rearWheelDiameter,
         WheelPosition.REAR_RIGHT,
-        settings
+        settings,
       ),
       makeWheels(
         THREE,
@@ -182,7 +182,7 @@ export const useThreeScene = () => {
         settings.frontWheelWidth,
         settings.frontWheelDiameter,
         WheelPosition.FRONT_RIGHT,
-        settings
+        settings,
       ),
     ];
     wheelRefs.current = wheels;
@@ -199,7 +199,7 @@ export const useThreeScene = () => {
         settings.frontTireWidth,
         settings.frontTireSidewall,
         WheelPosition.FRONT_LEFT,
-        settings
+        settings,
       ),
       makeTires(
         THREE,
@@ -211,7 +211,7 @@ export const useThreeScene = () => {
         settings.rearTireWidth,
         settings.rearTireSidewall,
         WheelPosition.REAR_LEFT,
-        settings
+        settings,
       ),
       makeTires(
         THREE,
@@ -223,7 +223,7 @@ export const useThreeScene = () => {
         settings.rearTireWidth,
         settings.rearTireSidewall,
         WheelPosition.REAR_RIGHT,
-        settings
+        settings,
       ),
       makeTires(
         THREE,
@@ -235,23 +235,33 @@ export const useThreeScene = () => {
         settings.frontTireWidth,
         settings.frontTireSidewall,
         WheelPosition.FRONT_RIGHT,
-        settings
+        settings,
       ),
     ];
     tireRefs.current = tires;
     tires.forEach((tire) => sceneRef.current?.add(tire));
   }, []);
 
-  const createAndAddCar = useCallback(async () => {
-    if (!sceneRef.current) return;
+const carLoadIdRef = useRef(0);
 
-    carRefs.current.forEach((car) => sceneRef.current?.remove(car));
-    carRefs.current = [];
+const createAndAddCar = useCallback(async () => {
+  if (!sceneRef.current) return;
 
-    const car = await makeCar(THREE, -1.4, model);
-    carRefs.current.push(car);
-    sceneRef.current.add(car);
-  }, [model]);
+  const loadId = ++carLoadIdRef.current;
+
+  // remove existing immediately
+  carRefs.current.forEach((c) => sceneRef.current!.remove(c));
+  carRefs.current = [];
+
+  const car = await makeCar(THREE, -1.4, model);
+
+  // if a newer request happened while we were loading, ignore this result
+  if (loadId !== carLoadIdRef.current) return;
+
+  carRefs.current = [car];
+  sceneRef.current.add(car);
+}, [model]);
+
 
   const createAndAddTires = useCallback(() => {
     if (!sceneRef.current) return;
@@ -268,7 +278,7 @@ export const useThreeScene = () => {
         settings.frontWheelWidth,
         settings.frontWheelDiameter,
         WheelPosition.FRONT_LEFT,
-        settings
+        settings,
       ),
       makeWheels(
         THREE,
@@ -278,7 +288,7 @@ export const useThreeScene = () => {
         settings.rearWheelWidth,
         settings.rearWheelDiameter,
         WheelPosition.REAR_LEFT,
-        settings
+        settings,
       ),
       makeWheels(
         THREE,
@@ -288,7 +298,7 @@ export const useThreeScene = () => {
         settings.rearWheelWidth,
         settings.rearWheelDiameter,
         WheelPosition.REAR_RIGHT,
-        settings
+        settings,
       ),
       makeWheels(
         THREE,
@@ -298,7 +308,7 @@ export const useThreeScene = () => {
         settings.frontWheelWidth,
         settings.frontWheelDiameter,
         WheelPosition.FRONT_RIGHT,
-        settings
+        settings,
       ),
     ];
     wheelRefs.current = wheels;
@@ -315,7 +325,7 @@ export const useThreeScene = () => {
         settings.frontTireWidth,
         settings.frontTireSidewall,
         WheelPosition.FRONT_LEFT,
-        settings
+        settings,
       ),
       makeTires(
         THREE,
@@ -327,7 +337,7 @@ export const useThreeScene = () => {
         settings.rearTireWidth,
         settings.rearTireSidewall,
         WheelPosition.REAR_LEFT,
-        settings
+        settings,
       ),
       makeTires(
         THREE,
@@ -339,7 +349,7 @@ export const useThreeScene = () => {
         settings.rearTireWidth,
         settings.rearTireSidewall,
         WheelPosition.REAR_RIGHT,
-        settings
+        settings,
       ),
       makeTires(
         THREE,
@@ -351,7 +361,7 @@ export const useThreeScene = () => {
         settings.frontTireWidth,
         settings.frontTireSidewall,
         WheelPosition.FRONT_RIGHT,
-        settings
+        settings,
       ),
     ];
     tireRefs.current = tires;
@@ -363,7 +373,10 @@ export const useThreeScene = () => {
 
   useEffect(() => {
     if (bounceRequested) {
-      bounceStateRef.current = { displacement: INITIAL_DISPLACEMENT, velocity: 0 };
+      bounceStateRef.current = {
+        displacement: INITIAL_DISPLACEMENT,
+        velocity: 0,
+      };
       prevTimeRef.current = performance.now() / 1000;
       useUIStore.getState().clearBounceRequest();
     }
@@ -396,7 +409,10 @@ export const useThreeScene = () => {
         const dt = now - prevTimeRef.current;
         prevTimeRef.current = now;
 
-        bounceStateRef.current = stepBounce(bounceStateRef.current, dt);
+        const curSettings = useFitmentStore.getState().settings;
+        bounceStateRef.current = stepBounce(bounceStateRef.current, dt, {
+          springRateLbIn: curSettings.springRateLbIn,
+        });
         const disp = bounceStateRef.current.displacement;
 
         // Move car body (inches → feet, negative because body drops)
@@ -405,7 +421,6 @@ export const useThreeScene = () => {
         }
 
         // Update each wheel/tire with dynamic camber
-        const curSettings = useFitmentStore.getState().settings;
         const positions = ["FL", "BL", "BR", "FR"];
         for (let i = 0; i < positions.length; i++) {
           const wheel = wheelRefs.current[i];
@@ -416,18 +431,41 @@ export const useThreeScene = () => {
           const rideHeight = isRear
             ? curSettings.rideHeightRear
             : curSettings.rideHeightFront;
-          const h = hubToFenderAtRest(rideHeight, isRear) - disp;
-          const dynamicCamber = isRear
-            ? rearCamberFromHubToFender(h)
-            : frontCamberFromHubToFender(h);
-          const camberRad = (dynamicCamber * Math.PI) / 180;
+          // 1) hub-to-fender at rest and now
+          const hRest = hubToFenderAtRest(rideHeight, isRear);
+          const hNow = hRest - disp;
+
+          // 2) geometry camber at rest and now
+          const camberGeomRest = isRear
+            ? rearCamberFromHubToFender(hRest)
+            : frontCamberFromHubToFender(hRest);
+
+          const camberGeomNow = isRear
+            ? rearCamberFromHubToFender(hNow)
+            : frontCamberFromHubToFender(hNow);
+
+          // 3) ONLY apply the change due to bounce
+          const deltaCamber = camberGeomNow - camberGeomRest;
+
+          // 4) add on top of the user's camber setting
+          // TODO: replace these field names with yours:
+          const baseCamber = isRear
+            ? curSettings.rearCamber
+            : curSettings.frontCamber;
+
+          const camberDeg = baseCamber + deltaCamber;
+          const camberRad = (camberDeg * Math.PI) / 180;
 
           const toe = isRear ? curSettings.rearToe : curSettings.frontToe;
           const toeRadiusComp =
             (rollingDiameter(
-              isRear ? curSettings.rearWheelDiameter : curSettings.frontWheelDiameter,
+              isRear
+                ? curSettings.rearWheelDiameter
+                : curSettings.frontWheelDiameter,
               isRear ? curSettings.rearTireWidth : curSettings.frontTireWidth,
-              isRear ? curSettings.rearTireSidewall : curSettings.frontTireSidewall
+              isRear
+                ? curSettings.rearTireSidewall
+                : curSettings.frontTireSidewall,
             ) *
               Math.sin(positions[i].includes("L") ? toe : -toe)) /
             12;
@@ -451,7 +489,12 @@ export const useThreeScene = () => {
           }
           // Re-apply user settings using calculateWheelPosition (matches makeWheels)
           const s = useFitmentStore.getState().settings;
-          const posKeys: Array<"FL" | "BL" | "BR" | "FR"> = ["FL", "BL", "BR", "FR"];
+          const posKeys: Array<"FL" | "BL" | "BR" | "FR"> = [
+            "FL",
+            "BL",
+            "BR",
+            "FR",
+          ];
           for (let j = 0; j < posKeys.length; j++) {
             const w = wheelRefs.current[j];
             const t = tireRefs.current[j];
@@ -486,25 +529,25 @@ export const useThreeScene = () => {
       wheelRefs.current[0],
       tireRefs.current[0],
       "FL",
-      settings
+      settings,
     );
     updateWheelPosition(
       wheelRefs.current[1],
       tireRefs.current[1],
       "BL",
-      settings
+      settings,
     );
     updateWheelPosition(
       wheelRefs.current[2],
       tireRefs.current[2],
       "BR",
-      settings
+      settings,
     );
     updateWheelPosition(
       wheelRefs.current[3],
       tireRefs.current[3],
       "FR",
-      settings
+      settings,
     );
 
     updateWheelAndTireSizes(settings);

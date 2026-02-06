@@ -144,6 +144,9 @@ const FitmentSettings = () => {
             >
               Simulate Bounce
             </Button>
+            <p className="-mt-3 text-xs text-muted-foreground text-left">
+              Additional suspension settings under 'car' tab.
+            </p>
             <BuyPartsButton type="suspension" />
           </TabsContent>
 
@@ -208,6 +211,8 @@ const FitmentSettings = () => {
             <CarSelectionSettings
               model={model}
               setModel={setModel}
+              springRateLbIn={settings.springRateLbIn}
+              setSpringRateLbIn={set("springRateLbIn")}
               user={user}
               loading={loading}
             />
