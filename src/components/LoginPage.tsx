@@ -99,7 +99,7 @@ export default function LoginPage() {
     setLoading(true);
     setMessage("");
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
+      redirectTo: `https://miatafitment.com/reset-password`,
     });
     setLoading(false);
 
