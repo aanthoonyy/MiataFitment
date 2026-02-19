@@ -46,7 +46,7 @@ const VisualizerPage = () => {
             <X className="h-4 w-4" />
           </Button>
 
-          <div className="h-full overflow-auto">
+          <div className="h-full overflow-hidden">
             <FitmentSettings />
           </div>
         </div>

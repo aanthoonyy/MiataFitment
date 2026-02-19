@@ -74,12 +74,13 @@ const FitmentSettings = () => {
   ]);
 
   return (
-    <div className="h-full overflow-hidden bg-muted/30">
+    <div className="flex h-full flex-col bg-muted/30">
       <Tabs
         value={activeTab}
         onValueChange={(v) => setActiveTab(v as SettingsTab)}
+        className="flex flex-1 flex-col overflow-hidden"
       >
-        <div className="sticky top-0 z-10 bg-zinc-200 shadow-sm">
+        <div className="shrink-0 bg-zinc-200 shadow-sm">
           <div className="p-4 pb-3">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold">Settings</h2>
@@ -107,120 +108,122 @@ const FitmentSettings = () => {
           </div>
         </div>
 
-        <div className="bg-zinc-100 p-4">
-          <TabsContent value="alignment" className="mt-0 space-y-4">
-            <SuspensionSettings
-              title="Front Suspension"
-              rideHeight={settings.rideHeightFront}
-              setRideHeight={set("rideHeightFront")}
-              camber={settings.frontCamber}
-              setCamber={set("frontCamber")}
-              caster={settings.frontCaster}
-              setCaster={set("frontCaster")}
-              toe={settings.frontToe}
-              setToe={set("frontToe")}
-              stockRideHeight={STOCK_RIDE_HEIGHT}
-              mmToInches={MM_TO_INCHES}
-              user={!loading ? user : null}
-            />
+        <div className="flex-1 overflow-y-auto">
+          <div className="bg-zinc-100 p-4">
+            <TabsContent value="alignment" className="mt-0 space-y-4">
+              <SuspensionSettings
+                title="Front Suspension"
+                rideHeight={settings.rideHeightFront}
+                setRideHeight={set("rideHeightFront")}
+                camber={settings.frontCamber}
+                setCamber={set("frontCamber")}
+                caster={settings.frontCaster}
+                setCaster={set("frontCaster")}
+                toe={settings.frontToe}
+                setToe={set("frontToe")}
+                stockRideHeight={STOCK_RIDE_HEIGHT}
+                mmToInches={MM_TO_INCHES}
+                user={!loading ? user : null}
+              />
 
-            <SuspensionSettings
-              title="Rear Suspension"
-              rideHeight={settings.rideHeightRear}
-              setRideHeight={set("rideHeightRear")}
-              camber={settings.rearCamber}
-              setCamber={set("rearCamber")}
-              toe={settings.rearToe}
-              setToe={set("rearToe")}
-              stockRideHeight={STOCK_RIDE_HEIGHT}
-              mmToInches={MM_TO_INCHES}
-              user={!loading ? user : null}
-            />
-            <Button
-              className="w-full"
-              variant="outline"
-              onClick={() => requestBounce()}
-              disabled={bounceRequested}
-            >
-              Simulate Bounce
-            </Button>
-            <p className="-mt-3 text-xs text-muted-foreground text-left">
-              Additional suspension settings under 'car' tab.
-            </p>
-            <BuyPartsButton type="suspension" />
-          </TabsContent>
+              <SuspensionSettings
+                title="Rear Suspension"
+                rideHeight={settings.rideHeightRear}
+                setRideHeight={set("rideHeightRear")}
+                camber={settings.rearCamber}
+                setCamber={set("rearCamber")}
+                toe={settings.rearToe}
+                setToe={set("rearToe")}
+                stockRideHeight={STOCK_RIDE_HEIGHT}
+                mmToInches={MM_TO_INCHES}
+                user={!loading ? user : null}
+              />
+              <Button
+                className="w-full"
+                variant="outline"
+                onClick={() => requestBounce()}
+                disabled={bounceRequested}
+              >
+                Simulate Bounce
+              </Button>
+              <p className="-mt-3 text-xs text-muted-foreground text-left">
+                Additional suspension settings under 'car' tab.
+              </p>
+              <BuyPartsButton type="suspension" />
+            </TabsContent>
 
-          <TabsContent value="wheels" className="mt-0 space-y-4">
-            <WheelSettings
-              matchWheels={matchWheels}
-              setMatchWheels={setMatchWheels}
-              frontWheelWidth={settings.frontWheelWidth}
-              setFrontWheelWidth={set("frontWheelWidth")}
-              frontWheelDiameter={settings.frontWheelDiameter}
-              setFrontWheelDiameter={set("frontWheelDiameter")}
-              frontWheelOffset={settings.frontWheelOffset}
-              setFrontWheelOffset={set("frontWheelOffset")}
-              frontWheelSpacer={settings.frontWheelSpacer}
-              setFrontWheelSpacer={set("frontWheelSpacer")}
-              rearWheelWidth={settings.rearWheelWidth}
-              setRearWheelWidth={set("rearWheelWidth")}
-              rearWheelDiameter={settings.rearWheelDiameter}
-              setRearWheelDiameter={set("rearWheelDiameter")}
-              rearWheelOffset={settings.rearWheelOffset}
-              setRearWheelOffset={set("rearWheelOffset")}
-              rearWheelSpacer={settings.rearWheelSpacer}
-              setRearWheelSpacer={set("rearWheelSpacer")}
-            />
-            <BuyPartsButton
-              type="wheel"
-              wheel={{
-                width: settings.frontWheelWidth,
-                offset: settings.frontWheelOffset,
-                diameter: settings.frontWheelDiameter,
-              }}
-            />
-          </TabsContent>
+            <TabsContent value="wheels" className="mt-0 space-y-4">
+              <WheelSettings
+                matchWheels={matchWheels}
+                setMatchWheels={setMatchWheels}
+                frontWheelWidth={settings.frontWheelWidth}
+                setFrontWheelWidth={set("frontWheelWidth")}
+                frontWheelDiameter={settings.frontWheelDiameter}
+                setFrontWheelDiameter={set("frontWheelDiameter")}
+                frontWheelOffset={settings.frontWheelOffset}
+                setFrontWheelOffset={set("frontWheelOffset")}
+                frontWheelSpacer={settings.frontWheelSpacer}
+                setFrontWheelSpacer={set("frontWheelSpacer")}
+                rearWheelWidth={settings.rearWheelWidth}
+                setRearWheelWidth={set("rearWheelWidth")}
+                rearWheelDiameter={settings.rearWheelDiameter}
+                setRearWheelDiameter={set("rearWheelDiameter")}
+                rearWheelOffset={settings.rearWheelOffset}
+                setRearWheelOffset={set("rearWheelOffset")}
+                rearWheelSpacer={settings.rearWheelSpacer}
+                setRearWheelSpacer={set("rearWheelSpacer")}
+              />
+              <BuyPartsButton
+                type="wheel"
+                wheel={{
+                  width: settings.frontWheelWidth,
+                  offset: settings.frontWheelOffset,
+                  diameter: settings.frontWheelDiameter,
+                }}
+              />
+            </TabsContent>
 
-          <TabsContent value="tires" className="mt-0 space-y-4">
-            <TireSettings
-              matchTires={matchTires}
-              setMatchTires={setMatchTires}
-              frontTireWidth={settings.frontTireWidth}
-              setFrontTireWidth={set("frontTireWidth")}
-              frontTireSidewall={settings.frontTireSidewall}
-              setFrontTireSidewall={set("frontTireSidewall")}
-              rearTireWidth={settings.rearTireWidth}
-              setRearTireWidth={set("rearTireWidth")}
-              rearTireSidewall={settings.rearTireSidewall}
-              setRearTireSidewall={set("rearTireSidewall")}
-            />
-            <BuyPartsButton
-              type="tire"
-              tire={{
-                frontWidth: settings.frontTireWidth,
-                frontRatio: settings.frontTireSidewall,
-                frontDiameter: settings.frontWheelDiameter,
-                rearWidth: settings.rearTireWidth,
-                rearRatio: settings.rearTireSidewall,
-                rearDiameter: settings.rearWheelDiameter,
-              }}
-            />
-          </TabsContent>
+            <TabsContent value="tires" className="mt-0 space-y-4">
+              <TireSettings
+                matchTires={matchTires}
+                setMatchTires={setMatchTires}
+                frontTireWidth={settings.frontTireWidth}
+                setFrontTireWidth={set("frontTireWidth")}
+                frontTireSidewall={settings.frontTireSidewall}
+                setFrontTireSidewall={set("frontTireSidewall")}
+                rearTireWidth={settings.rearTireWidth}
+                setRearTireWidth={set("rearTireWidth")}
+                rearTireSidewall={settings.rearTireSidewall}
+                setRearTireSidewall={set("rearTireSidewall")}
+              />
+              <BuyPartsButton
+                type="tire"
+                tire={{
+                  frontWidth: settings.frontTireWidth,
+                  frontRatio: settings.frontTireSidewall,
+                  frontDiameter: settings.frontWheelDiameter,
+                  rearWidth: settings.rearTireWidth,
+                  rearRatio: settings.rearTireSidewall,
+                  rearDiameter: settings.rearWheelDiameter,
+                }}
+              />
+            </TabsContent>
 
-          <TabsContent value="car" className="mt-0">
-            <CarSelectionSettings
-              model={model}
-              setModel={setModel}
-              springRateLbIn={settings.springRateLbIn}
-              setSpringRateLbIn={set("springRateLbIn")}
-              user={user}
-              loading={loading}
-            />
-          </TabsContent>
+            <TabsContent value="car" className="mt-0">
+              <CarSelectionSettings
+                model={model}
+                setModel={setModel}
+                springRateLbIn={settings.springRateLbIn}
+                setSpringRateLbIn={set("springRateLbIn")}
+                user={user}
+                loading={loading}
+              />
+            </TabsContent>
 
-          <TabsContent value="account" className="mt-0">
-            <AccountSettings user={user} />
-          </TabsContent>
+            <TabsContent value="account" className="mt-0">
+              <AccountSettings user={user} />
+            </TabsContent>
+          </div>
         </div>
       </Tabs>
     </div>
