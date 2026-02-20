@@ -21,7 +21,7 @@ export interface WheelPositionData {
 export function calculateWheelPosition(
     position: WheelPosition, 
     settings: Settings,
-    model: CarModel = "na" // Default to NA for backward compatibility
+    model: CarModel | string = "na" // Default to NA for backward compatibility
 ): WheelPositionData {
     const isFront = position.startsWith("F");
     const isLeft = position.endsWith("L");

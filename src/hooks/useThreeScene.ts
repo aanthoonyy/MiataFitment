@@ -488,6 +488,7 @@ const createAndAddCar = useCallback(async () => {
           }
           // Re-apply user settings using calculateWheelPosition (matches makeWheels)
           const s = useFitmentStore.getState().settings;
+          const m = useFitmentStore.getState().model;
           const posKeys: Array<"FL" | "BL" | "BR" | "FR"> = [
             "FL",
             "BL",
@@ -498,7 +499,7 @@ const createAndAddCar = useCallback(async () => {
             const w = wheelRefs.current[j];
             const t = tireRefs.current[j];
             if (!w || !t) continue;
-            const wd = calculateWheelPosition(posKeys[j], s);
+            const wd = calculateWheelPosition(posKeys[j], s, m);
             w.rotation.set(wd.rotation.x, 0, wd.rotation.z);
             w.position.set(wd.position.x, wd.position.y, wd.position.z);
             t.rotation.set(wd.rotation.x, 0, wd.rotation.z);

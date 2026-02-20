@@ -93,9 +93,30 @@ const NC_WHEEL_POSITIONS: WheelPositions = {
   ...NA_WHEEL_POSITIONS, // Temporarily using NA positions until NC measurements are available
 };
 
-// ND Miata wheel positions (placeholder - to be filled in later)
+// ND Miata wheel positions
 const ND_WHEEL_POSITIONS: WheelPositions = {
-  ...NA_WHEEL_POSITIONS, // Temporarily using NA positions until ND measurements are available
+  FRONT: {
+    LEFT: {
+      x: -15.37,
+      z: 2.67,
+      casterOffset: 5.74 / 12,
+    },
+    RIGHT: {
+      x: -15.37,
+      z: -2.67,
+      casterOffset: 5.74 / 12,
+    },
+  },
+  REAR: {
+    LEFT: {
+      x: 2.77,
+      z: 2.68,
+    },
+    RIGHT: {
+      x: 2.77,
+      z: -2.68,
+    },
+  },
 };
 
 // Map of car models to their wheel positions
