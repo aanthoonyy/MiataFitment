@@ -2,8 +2,9 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import * as THREE from 'three';
 
 const CAR_MODELS = {
-  na: '/na_render.glb', // You'll need to add this file
-  nb: '/nb_render.glb', // You'll need to add this file
+  na: '/na_render.glb',
+  nb: '/nb_render.glb',
+  nd: '/nd_render.glb',
 };
 
 export function makeCar(THREE: any, y: number, model: string = 'na') {

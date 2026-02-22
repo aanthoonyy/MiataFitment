@@ -66,12 +66,12 @@ const NA_WHEEL_POSITIONS: WheelPositions = {
 const NB_WHEEL_POSITIONS: WheelPositions = {
   FRONT: {
     LEFT: {
-      x: -15.35, // Same as NA
+      x: -4.85, // Same as NA
       z: 2.5, // Same as NA
       casterOffset: 5.74 / 12, // Same as NA
     },
     RIGHT: {
-      x: -15.35, // Same as NA
+      x: -4.85, // Same as NA
       z: -2.5, // Same as NA
       casterOffset: 5.74 / 12, // Same as NA
     },
@@ -79,11 +79,11 @@ const NB_WHEEL_POSITIONS: WheelPositions = {
   REAR: {
     LEFT: {
       x: 2.85, // Same as NA
-      z: 2.35, // Narrower than NA (was 2.53)
+      z: 2.52, // Narrower than NA (was 2.53)
     },
     RIGHT: {
       x: 2.85, // Same as NA
-      z: -2.35, // Narrower than NA (was -2.53)
+      z: -2.52, // Narrower than NA (was -2.53)
     },
   },
 };
@@ -93,10 +93,38 @@ const NC_WHEEL_POSITIONS: WheelPositions = {
   ...NA_WHEEL_POSITIONS, // Temporarily using NA positions until NC measurements are available
 };
 
-// ND Miata wheel positions (placeholder - to be filled in later)
+// ND Miata wheel positions
 const ND_WHEEL_POSITIONS: WheelPositions = {
-  ...NA_WHEEL_POSITIONS, // Temporarily using NA positions until ND measurements are available
+  FRONT: {
+    LEFT: {
+      x: -4.85,
+      z: 2.61,
+      casterOffset: 5.74 / 12,
+    },
+    RIGHT: {
+      x: -4.85,
+      z: -2.61,
+      casterOffset: 5.74 / 12,
+    },
+  },
+  REAR: {
+    LEFT: {
+      x: 2.77,
+      z: 2.63,
+    },
+    RIGHT: {
+      x: 2.77,
+      z: -2.63,
+    },
+  },
 };
+
+// ND Miata wheel positions (feet)
+// FRONT.LEFT:  { x: -15.370, z:  2.610, casterOffset: 5.74 / 12 }
+// FRONT.RIGHT: { x: -15.370, z: -2.610, casterOffset: 5.74 / 12 }
+// REAR.LEFT:   { x: 2.850,  z:  2.630 }
+// REAR.RIGHT:  { x: 2.850,  z: -2.630 }
+// Car body: gltf.scene.position.x = 5.000
 
 // Map of car models to their wheel positions
 const MODEL_WHEEL_POSITIONS: Record<CarModel, WheelPositions> = {

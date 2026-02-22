@@ -2,8 +2,9 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { Settings } from "@/types/settings";
 import { DEFAULT_SETTINGS } from "@/types/settings";
+import type { CarModel } from "@/constants/wheelPositions";
 
-export type CarModel = "na" | "nb" | "nc" | "nd" | string;
+export type { CarModel };
 
 export interface FitmentConfig {
   model: CarModel;

@@ -1,4 +1,5 @@
 import { Settings } from "@/types/settings";
+import { CarModel } from "@/constants/wheelPositions";
 import rollingDiameter from "./common/rollingDiameter";
 import { calculateWheelPosition, WheelPosition } from "./common/wheelPositionCalculator";
 
@@ -12,7 +13,8 @@ export function makeTires(
     tireWidth: number,
     tireSidewall: number,
     position: WheelPosition,
-    settings: Settings
+    settings: Settings,
+    model: CarModel = "na"
 ) {
     const totalDiameter = rollingDiameter(wheelDiameter, tireWidth, tireSidewall);
     let points = [];
@@ -57,7 +59,7 @@ export function makeTires(
     tireMaterial.specularIntensity = 0.1;
     const tire = new THREE.Mesh(tireGeometry, tireMaterial);
 
-    const wheelData = calculateWheelPosition(position, settings);
+    const wheelData = calculateWheelPosition(position, settings, model);
     
     tire.rotation.x = wheelData.rotation.x;
     tire.rotation.z = wheelData.rotation.z;
