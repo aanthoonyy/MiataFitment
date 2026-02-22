@@ -11,10 +11,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { CarModel } from "@/stores";
 
 export interface CarSelectionSettingsProps {
   model: "na" | "nb" | "nc" | "nd" | string;
-  setModel: (value: string) => void;
+  setModel: (value: CarModel) => void;
   springRateLbIn: number;
   setSpringRateLbIn: (value: number) => void;
   user: unknown | null;
