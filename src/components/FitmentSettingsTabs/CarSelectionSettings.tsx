@@ -11,10 +11,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { CarModel } from "@/stores";
 
 export interface CarSelectionSettingsProps {
   model: "na" | "nb" | "nc" | "nd" | string;
-  setModel: (value: string) => void;
+  setModel: (value: CarModel) => void;
   springRateLbIn: number;
   setSpringRateLbIn: (value: number) => void;
   user: unknown | null;
@@ -88,7 +89,7 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
 
             <Select
               value={model}
-              onValueChange={(v) => setModel(v)}
+              onValueChange={(v) => setModel(v as CarModel)}
               disabled={disabled}
             >
               <SelectTrigger className="h-9">
@@ -101,8 +102,8 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
                 <SelectItem value="nc" disabled>
                   NC Miata (2006–2015)
                 </SelectItem>
-                <SelectItem value="nd" disabled>
-                  ND Miata (2016–Present)
+                <SelectItem value="nd">
+                  ND Miata (2016–Present) (IN TEST)
                 </SelectItem>
               </SelectContent>
             </Select>
