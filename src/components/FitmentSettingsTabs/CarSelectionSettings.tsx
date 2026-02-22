@@ -52,7 +52,8 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
   const sectionTitle = "text-sm font-medium";
   const sectionCard = "rounded-xl bg-zinc-50 p-4 shadow-sm shadow-black/10";
 
-  const disabled = !user || loading;
+  const disabled = loading;
+  // const disabled = !user || loading;
 
   const safeSpringRateLbIn = Number.isFinite(springRateLbIn)
     ? springRateLbIn
