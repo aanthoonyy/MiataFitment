@@ -1,4 +1,5 @@
 import { Settings } from "@/types/settings";
+import { CarModel } from "@/constants/wheelPositions";
 import { calculateWheelPosition, WheelPosition } from "./common/wheelPositionCalculator";
 
 
@@ -10,7 +11,8 @@ export function makeWheels(
     wheelWidth: number,
     wheelDiameter: number,
     position: WheelPosition,
-    settings: Settings
+    settings: Settings,
+    model: CarModel = "na"
 ) {
     const wheelGeometry = new THREE.CylinderGeometry(7/12, 7/12, 0.01/12, 32);
     const wheelMaterial = new THREE.MeshBasicMaterial({color: 0xC0C0C0, transparent: true, opacity: 0.5});
@@ -38,7 +40,7 @@ export function makeWheels(
     wheel.add(sideCylinder2);
 
     // Calculate wheel position and rotation
-    const wheelData = calculateWheelPosition(position, settings);
+    const wheelData = calculateWheelPosition(position, settings, model);
     
     // Apply position and rotation
     wheel.rotation.x = wheelData.rotation.x;
