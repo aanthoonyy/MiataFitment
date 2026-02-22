@@ -102,7 +102,7 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
                   NC Miata (2006–2015)
                 </SelectItem>
                 <SelectItem value="nd">
-                  ND Miata (2016–Present) (WIP)
+                  ND Miata (2016–Present) (IN TEST)
                 </SelectItem>
               </SelectContent>
             </Select>

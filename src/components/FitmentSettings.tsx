@@ -142,7 +142,7 @@ const FitmentSettings = () => {
                 className="w-full"
                 variant="outline"
                 onClick={() => requestBounce()}
-                disabled={bounceRequested}
+                disabled={bounceRequested || model == "nd"}
               >
                 Simulate Bounce
               </Button>
