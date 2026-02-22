@@ -89,7 +89,7 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
 
             <Select
               value={model}
-              onValueChange={(v) => setModel(v)}
+              onValueChange={(v) => setModel(v as CarModel)}
               disabled={disabled}
             >
               <SelectTrigger className="h-9">
