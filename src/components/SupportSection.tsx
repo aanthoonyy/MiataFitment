@@ -30,6 +30,7 @@ const SupportSection: React.FC = () => {
           <div className="flex flex-col gap-4 sm:flex-row">
             <Button
               size="lg"
+              disabled
               className="
                 h-14 flex-1
                 bg-[#0DA5E8] text-white
@@ -45,7 +46,7 @@ const SupportSection: React.FC = () => {
                 );
               }}
             >
-              Buy a Sticker
+              STICKERS SOLD OUT
             </Button>
 
             <Button
