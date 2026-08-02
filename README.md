@@ -1,54 +1,29 @@
-# Miatafitment.com
+# Miata Fitment
 
-## About the Project
+A 3D wheel and tire fitment visualizer for the Mazda Miata. Pick a chassis, dial in wheel
+size, offset, spacers, tire dimensions and alignment, and see the result on the car before
+you buy anything.
 
-![alt text](/public/websiteExample1.png)
+![The visualizer with a NA Miata and the fitment settings panel open](public/websiteExample1.png)
 
-[Miatafitment.com](https://miatafitment.com) is a web application that allows Mazda Miata drivers to test their perfect wheel, tire, and alignment setup. Whether the goal is optimizing performance or enhancing aesthetics, the app uses interactive 3D models to help you visualize and select the ideal fitment
+Live at [miatafitment.com](https://miatafitment.com).
 
-## Built With
+## What it does
 
-- **ReactJS** for efficient, component-based user interface development
-- **ThreeJS** to create 3D visualizations of wheel and tire setups
-- **TypeScript** ensures robust and scalable code with type safety
-- **Vite** for lightning-fast build and hot module replacement during development
+- Three chassis to choose from: NA, NB and ND
+- Wheel diameter, width, offset and spacer thickness, front and rear
+- Tire width and sidewall, with rolling diameter worked out for you
+- Camber, caster, toe and ride height, using measured Miata suspension geometry
+- Spring rate and a bounce simulation to check clearance under compression
+- Save setups to a garage, or share one with a link
 
-## Features
+## Contributing
 
-- 3D interactive models of wheels and tires
-- Real-time fitment calculations
-- Customizable alignment options
-
-## Getting Started
-
-Here's how to set up the project locally.
-
-### Prerequisites
-
-- Node.js and NPM installed globally.
-  ```bash
-  npm install npm@latest -g
-  ```
-
-### Installation
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/aanthoonyy/miataFitment.git
-   ```
-
-2. Install dependencies:
-
-   ```bash
-   npm install
-   ```
-
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
+I am not taking code contributions at the moment. If you hit a bug or have an idea, open an
+[issue](https://github.com/aanthoonyy/MiataFitment/issues) and I will take a look.
 
 ## License
 
-This project is licensed under the GNU General Public License v3.0 – see the [LICENSE](LICENSE) file for details.
+Copyright (C) 2026 aanthoonyy.
+
+Licensed under the GNU General Public License v3.0. See [LICENSE.txt](LICENSE.txt).
