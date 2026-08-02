@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
-import { useAuth } from "@/provider/AuthProvider";
+import { useAuth } from "@/hooks/useAuth";
 import { useUserSettingsStore } from "@/stores/userSettingsStore";
 
 export default function UserSettings() {

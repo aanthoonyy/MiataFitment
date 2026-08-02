@@ -1,4 +1,4 @@
-import { supabase } from "@/provider/AuthProvider";
+import { supabase } from "@/lib/supabase";
 
 export type UserSettings = {
   id: string;

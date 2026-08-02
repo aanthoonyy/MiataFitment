@@ -4,7 +4,7 @@ import type { Settings } from "@/types/settings";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/provider/AuthProvider";
+import { useAuth } from "@/hooks/useAuth";
 import { useFitmentStore, useUIStore, type SettingsTab } from "@/stores";
 import { useUserSettingsStore } from "@/stores/userSettingsStore";
 

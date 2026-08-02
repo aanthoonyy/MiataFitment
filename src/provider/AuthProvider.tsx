@@ -1,27 +1,8 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { User, Session } from "@supabase/supabase-js";
-import { createClient } from "@supabase/supabase-js";
+import { useEffect, useState } from "react";
+import type { Session, User } from "@supabase/supabase-js";
 
-const supabaseUrl = "https://mqssxezjhxadweeoxsjf.supabase.co";
-const supabaseKey = import.meta.env.VITE_SUPABASE_KEY || "";
-
-export const supabase = createClient(supabaseUrl, supabaseKey);
-
-interface AuthContextType {
-  user: User | null;
-  session: Session | null;
-  loading: boolean;
-  signOut: () => Promise<void>;
-}
-
-const AuthContext = createContext<AuthContextType>({
-  user: null,
-  session: null,
-  loading: true,
-  signOut: async () => {},
-});
-
-export const useAuth = () => useContext(AuthContext);
+import { supabase } from "@/lib/supabase";
+import { AuthContext } from "@/hooks/useAuth";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);

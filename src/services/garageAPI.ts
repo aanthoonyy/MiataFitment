@@ -1,4 +1,4 @@
-import { supabase } from "@/provider/AuthProvider";
+import { supabase } from "@/lib/supabase";
 import type { SavedConfig, SavedConfigPayload } from "@/types/garage";
 
 export async function createGarageConfig(args: {
