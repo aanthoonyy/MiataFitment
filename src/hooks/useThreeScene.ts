@@ -285,7 +285,7 @@ const createAndAddCar = useCallback(async () => {
     cameraRef.current = camera;
     controlsRef.current = controls;
 
-    setUpLighting(scene);
+    const disposeLighting = setUpLighting(scene, renderer);
     createAndAddCar();
     createAndAddTires();
 
@@ -412,6 +412,7 @@ const createAndAddCar = useCallback(async () => {
       // double-mount, which would otherwise run two loops at once.
       cancelAnimationFrame(frameId);
       controlsRef.current?.dispose?.();
+      disposeLighting();
       renderer.dispose();
       renderer.domElement.remove();
     };
