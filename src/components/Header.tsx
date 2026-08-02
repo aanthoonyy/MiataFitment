@@ -6,7 +6,6 @@ import { useUIStore } from "@/stores";
 
 const Header = () => {
   const navigate = useNavigate();
-  const isSettingsOpen = useUIStore((s) => s.isSettingsOpen);
   const toggleSettings = useUIStore((s) => s.toggleSettings);
 
   return (

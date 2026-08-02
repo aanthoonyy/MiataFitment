@@ -57,7 +57,6 @@ const FitmentSettings = () => {
       rearWheelOffset: settings.frontWheelOffset,
       rearWheelSpacer: settings.frontWheelSpacer,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     matchWheels,
     settings.frontWheelWidth,
@@ -73,7 +72,6 @@ const FitmentSettings = () => {
       rearTireWidth: settings.frontTireWidth,
       rearTireSidewall: settings.frontTireSidewall,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     matchTires,
     settings.frontTireWidth,
@@ -153,7 +151,7 @@ const FitmentSettings = () => {
                 Simulate Bounce
               </Button>
               <p className="-mt-3 text-xs text-muted-foreground text-left">
-                Additional suspension settings under 'car' tab.
+                Additional suspension settings under the &ldquo;Car&rdquo; tab.
               </p>
               <BuyPartsButton type="suspension" />
             </TabsContent>

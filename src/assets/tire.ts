@@ -17,7 +17,7 @@ export function makeTires(
     model: CarModel = "na"
 ) {
     const totalDiameter = rollingDiameter(wheelDiameter, tireWidth, tireSidewall);
-    let points = [];
+    const points = [];
     let beadleft = new THREE.Vector2(wheelDiameter/2, -1 * (wheelWidth - 0.0)/2);
     let treadleft = new THREE.Vector2(totalDiameter/2, -1 * tireWidth/2/12/2);
     let treadright = new THREE.Vector2(totalDiameter/2, tireWidth/2/12/2);
@@ -29,31 +29,31 @@ export function makeTires(
     treadmidpoint = treadmidpoint.divideScalar(12);
     beadright = beadright.divideScalar(12);
 
-    let bevelpercent = 0.1;
-    let betweenbeadleftandtreadleft = beadleft.clone().lerp(treadleft, 1 - bevelpercent);
-    let betweentreadleftandmidpoint = treadleft.clone().lerp(treadmidpoint, bevelpercent);
-    let betweentreadrightandmidpoint = treadright.clone().lerp(treadmidpoint, bevelpercent);
-    let betweenbeadrightandtreadright = beadright.clone().lerp(treadright, 1 - bevelpercent);
+    const bevelpercent = 0.1;
+    const betweenbeadleftandtreadleft = beadleft.clone().lerp(treadleft, 1 - bevelpercent);
+    const betweentreadleftandmidpoint = treadleft.clone().lerp(treadmidpoint, bevelpercent);
+    const betweentreadrightandmidpoint = treadright.clone().lerp(treadmidpoint, bevelpercent);
+    const betweenbeadrightandtreadright = beadright.clone().lerp(treadright, 1 - bevelpercent);
 
     points.push(beadleft);
 
-    let numpoints = 10;
+    const numpoints = 10;
     for (let i = 0; i < numpoints; i++){
-        let t = i / numpoints;
-        let x = (1 - t) * (1 - t) * betweenbeadleftandtreadleft.x + 2 * (1 - t) * t * treadleft.x + t * t * betweentreadleftandmidpoint.x;
-        let y = (1 - t) * (1 - t) * betweenbeadleftandtreadleft.y + 2 * (1 - t) * t * treadleft.y + t * t * betweentreadleftandmidpoint.y;
+        const t = i / numpoints;
+        const x = (1 - t) * (1 - t) * betweenbeadleftandtreadleft.x + 2 * (1 - t) * t * treadleft.x + t * t * betweentreadleftandmidpoint.x;
+        const y = (1 - t) * (1 - t) * betweenbeadleftandtreadleft.y + 2 * (1 - t) * t * treadleft.y + t * t * betweentreadleftandmidpoint.y;
         points.push(new THREE.Vector2(x, y));
     }
     for (let i = numpoints; i > 0; i--){
-        let t = i / numpoints;
-        let x = (1 - t) * (1 - t) * betweenbeadrightandtreadright.x + 2 * (1 - t) * t * treadright.x + t * t * betweentreadrightandmidpoint.x;
-        let y = (1 - t) * (1 - t) * betweenbeadrightandtreadright.y + 2 * (1 - t) * t * treadright.y + t * t * betweentreadrightandmidpoint.y;
+        const t = i / numpoints;
+        const x = (1 - t) * (1 - t) * betweenbeadrightandtreadright.x + 2 * (1 - t) * t * treadright.x + t * t * betweentreadrightandmidpoint.x;
+        const y = (1 - t) * (1 - t) * betweenbeadrightandtreadright.y + 2 * (1 - t) * t * treadright.y + t * t * betweentreadrightandmidpoint.y;
         points.push(new THREE.Vector2(x, y));
     }
 
     points.push(beadright);
     const tireGeometry = new THREE.LatheGeometry(points, 64);
-    let tireMaterial = new THREE.MeshPhysicalMaterial({color: 0x202227}, false);
+    const tireMaterial = new THREE.MeshPhysicalMaterial({color: 0x202227}, false);
     tireMaterial.roughness = 0.5;
     tireMaterial.metalness = 0;
     tireMaterial.specularIntensity = 0.1;
