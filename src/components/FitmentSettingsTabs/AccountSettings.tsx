@@ -12,8 +12,10 @@ interface AccountSettingsProps {
   user: User | null;
 }
 
+type InnerTab = "garage" | "account";
+
 const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
-  const [innerTab, setInnerTab] = useState<"garage" | "account">("garage");
+  const [innerTab, setInnerTab] = useState<InnerTab>("garage");
 
   const sectionCard =
     "rounded-xl bg-zinc-50 p-4 shadow-sm shadow-black/10";
@@ -23,8 +25,12 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
   // conditionally, or the hook order changes on sign-in/sign-out.
   const displayName = useMemo(() => {
     if (!user) return "User";
-    const meta = user.user_metadata as Record<string, unknown> | undefined;
-    return (meta?.displayName as string) || user.email || "User";
+    const metadataName = user.user_metadata?.displayName;
+    return (
+      (typeof metadataName === "string" ? metadataName : undefined) ||
+      user.email ||
+      "User"
+    );
   }, [user]);
 
   if (!user) {
@@ -60,7 +66,7 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
 
         <Separator className="my-3" />
 
-        <Tabs value={innerTab} onValueChange={(v) => setInnerTab(v as any)}>
+        <Tabs value={innerTab} onValueChange={(v) => setInnerTab(v as InnerTab)}>
           <TabsList className="w-full justify-start">
             <TabsTrigger value="garage">Garage</TabsTrigger>
             <TabsTrigger value="account">Account</TabsTrigger>

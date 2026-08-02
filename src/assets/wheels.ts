@@ -1,13 +1,10 @@
+import * as THREE from "three";
 import { Settings } from "@/types/settings";
 import type { CarModel, WheelPosition } from "@/constants/wheelPositions";
 import { calculateWheelPosition } from "./common/wheelPositionCalculator";
 
 
 export function makeWheels(
-    THREE: any,
-    _x: number,
-    _y: number,
-    _z: number,
     wheelWidth: number,
     wheelDiameter: number,
     position: WheelPosition,

@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import type { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { useCallback, useEffect, useRef } from "react";
 
 import { makeCar } from "@/assets/carMaker";
@@ -31,7 +32,7 @@ export const useThreeScene = () => {
   const wheelRefs = useRef<THREE.Object3D[]>([]);
   const tireRefs = useRef<THREE.Object3D[]>([]);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
-  const controlsRef = useRef<any>(null);
+  const controlsRef = useRef<OrbitControls | null>(null);
   const bounceStateRef = useRef<BounceState | null>(null);
   const prevTimeRef = useRef<number>(0);
 
@@ -74,7 +75,6 @@ export const useThreeScene = () => {
 
     const wheels = [
       makeWheels(
-        THREE, 0, 0, 0,
         settings.frontWheelWidth,
         settings.frontWheelDiameter,
         WheelPosition.FRONT_LEFT,
@@ -82,7 +82,6 @@ export const useThreeScene = () => {
         curModel,
       ),
       makeWheels(
-        THREE, 0, 0, 0,
         settings.rearWheelWidth,
         settings.rearWheelDiameter,
         WheelPosition.REAR_LEFT,
@@ -90,7 +89,6 @@ export const useThreeScene = () => {
         curModel,
       ),
       makeWheels(
-        THREE, 0, 0, 0,
         settings.rearWheelWidth,
         settings.rearWheelDiameter,
         WheelPosition.REAR_RIGHT,
@@ -98,7 +96,6 @@ export const useThreeScene = () => {
         curModel,
       ),
       makeWheels(
-        THREE, 0, 0, 0,
         settings.frontWheelWidth,
         settings.frontWheelDiameter,
         WheelPosition.FRONT_RIGHT,
@@ -111,7 +108,6 @@ export const useThreeScene = () => {
 
     const tires = [
       makeTires(
-        THREE, 0, 0, 0,
         settings.frontWheelDiameter,
         settings.frontWheelWidth,
         settings.frontTireWidth,
@@ -121,7 +117,6 @@ export const useThreeScene = () => {
         curModel,
       ),
       makeTires(
-        THREE, 0, 0, 0,
         settings.rearWheelDiameter,
         settings.rearWheelWidth,
         settings.rearTireWidth,
@@ -131,7 +126,6 @@ export const useThreeScene = () => {
         curModel,
       ),
       makeTires(
-        THREE, 0, 0, 0,
         settings.rearWheelDiameter,
         settings.rearWheelWidth,
         settings.rearTireWidth,
@@ -141,7 +135,6 @@ export const useThreeScene = () => {
         curModel,
       ),
       makeTires(
-        THREE, 0, 0, 0,
         settings.frontWheelDiameter,
         settings.frontWheelWidth,
         settings.frontTireWidth,
@@ -192,7 +185,6 @@ const createAndAddCar = useCallback(async () => {
 
     const wheels = [
       makeWheels(
-        THREE, 0, 0, 0,
         settings.frontWheelWidth,
         settings.frontWheelDiameter,
         WheelPosition.FRONT_LEFT,
@@ -200,7 +192,6 @@ const createAndAddCar = useCallback(async () => {
         curModel,
       ),
       makeWheels(
-        THREE, 0, 0, 0,
         settings.rearWheelWidth,
         settings.rearWheelDiameter,
         WheelPosition.REAR_LEFT,
@@ -208,7 +199,6 @@ const createAndAddCar = useCallback(async () => {
         curModel,
       ),
       makeWheels(
-        THREE, 0, 0, 0,
         settings.rearWheelWidth,
         settings.rearWheelDiameter,
         WheelPosition.REAR_RIGHT,
@@ -216,7 +206,6 @@ const createAndAddCar = useCallback(async () => {
         curModel,
       ),
       makeWheels(
-        THREE, 0, 0, 0,
         settings.frontWheelWidth,
         settings.frontWheelDiameter,
         WheelPosition.FRONT_RIGHT,
@@ -229,7 +218,6 @@ const createAndAddCar = useCallback(async () => {
 
     const tires = [
       makeTires(
-        THREE, 0, 0, 0,
         settings.frontWheelDiameter,
         settings.frontWheelWidth,
         settings.frontTireWidth,
@@ -239,7 +227,6 @@ const createAndAddCar = useCallback(async () => {
         curModel,
       ),
       makeTires(
-        THREE, 0, 0, 0,
         settings.rearWheelDiameter,
         settings.rearWheelWidth,
         settings.rearTireWidth,
@@ -249,7 +236,6 @@ const createAndAddCar = useCallback(async () => {
         curModel,
       ),
       makeTires(
-        THREE, 0, 0, 0,
         settings.rearWheelDiameter,
         settings.rearWheelWidth,
         settings.rearTireWidth,
@@ -259,7 +245,6 @@ const createAndAddCar = useCallback(async () => {
         curModel,
       ),
       makeTires(
-        THREE, 0, 0, 0,
         settings.frontWheelDiameter,
         settings.frontWheelWidth,
         settings.frontTireWidth,

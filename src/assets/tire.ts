@@ -1,13 +1,10 @@
+import * as THREE from "three";
 import { Settings } from "@/types/settings";
 import type { CarModel, WheelPosition } from "@/constants/wheelPositions";
 import rollingDiameter from "./common/rollingDiameter";
 import { calculateWheelPosition } from "./common/wheelPositionCalculator";
 
 export function makeTires(
-    THREE: any,
-    _x: number,
-    _y: number,
-    _z: number,
     wheelDiameter: number,
     wheelWidth: number,
     tireWidth: number,
@@ -53,7 +50,7 @@ export function makeTires(
 
     points.push(beadright);
     const tireGeometry = new THREE.LatheGeometry(points, 64);
-    const tireMaterial = new THREE.MeshPhysicalMaterial({color: 0x202227}, false);
+    const tireMaterial = new THREE.MeshPhysicalMaterial({color: 0x202227});
     tireMaterial.roughness = 0.5;
     tireMaterial.metalness = 0;
     tireMaterial.specularIntensity = 0.1;

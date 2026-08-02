@@ -7,7 +7,16 @@ export const WheelPosition = {
 
 export type WheelPosition = (typeof WheelPosition)[keyof typeof WheelPosition];
 
-export type CarModel = "na" | "nb" | "nc" | "nd";
+export const CAR_MODELS = ["na", "nb", "nc", "nd"] as const;
+
+export type CarModel = (typeof CAR_MODELS)[number];
+
+export function isCarModel(value: unknown): value is CarModel {
+  return (
+    typeof value === "string" &&
+    (CAR_MODELS as readonly string[]).includes(value)
+  );
+}
 
 interface BaseWheelPosition {
   x: number;

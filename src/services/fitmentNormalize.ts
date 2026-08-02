@@ -2,10 +2,11 @@ import type { Settings } from "@/types/settings";
 import { DEFAULT_SETTINGS } from "@/types/settings";
 import type { FitmentConfig } from "@/stores/fitmentStore";
 import type { SavedConfigPayload } from "@/types/garage";
+import { isCarModel } from "@/constants/wheelPositions";
 
 const SETTINGS_KEYS = Object.keys(DEFAULT_SETTINGS) as (keyof Settings)[];
 
-function isObject(v: unknown): v is Record<string, any> {
+function isObject(v: unknown): v is Record<string, unknown> {
   return !!v && typeof v === "object" && !Array.isArray(v);
 }
 
@@ -21,10 +22,10 @@ function toNumber(v: unknown): number | undefined {
 function pickSettings(input: unknown): Partial<Settings> {
   if (!isObject(input)) return {};
 
-  const out: Partial<Settings> = {};
+  const out: Partial<Record<keyof Settings, number>> = {};
   for (const key of SETTINGS_KEYS) {
-    const n = toNumber((input as any)[key]);
-    if (n !== undefined) (out as any)[key] = n;
+    const n = toNumber(input[key]);
+    if (n !== undefined) out[key] = n;
   }
   return out;
 }
@@ -38,27 +39,23 @@ export function payloadToFitmentConfig(
   };
 
   if (!payload) return fallback;
+  if (!isObject(payload)) return fallback;
 
-  if (isObject(payload) && ("settings" in payload || "model" in payload)) {
-    const model =
-      typeof (payload as any).model === "string" ? (payload as any).model : "na";
+  if ("settings" in payload || "model" in payload) {
+    const model = isCarModel(payload.model) ? payload.model : "na";
 
-    const picked = pickSettings((payload as any).settings);
     return {
       model,
-      settings: { ...DEFAULT_SETTINGS, ...picked },
+      settings: { ...DEFAULT_SETTINGS, ...pickSettings(payload.settings) },
     };
   }
 
-  if (isObject(payload)) {
-    const picked = pickSettings(payload);
-    const hasAny = Object.keys(picked).length > 0;
-    if (hasAny) {
-      return {
-        model: "na",
-        settings: { ...DEFAULT_SETTINGS, ...picked },
-      };
-    }
+  const picked = pickSettings(payload);
+  if (Object.keys(picked).length > 0) {
+    return {
+      model: "na",
+      settings: { ...DEFAULT_SETTINGS, ...picked },
+    };
   }
 
   return fallback;

@@ -25,8 +25,10 @@ export const LandingHeader: React.FC = () => {
 
   const goLogin = () => navigate("/login");
 
+  const metadataName = user?.user_metadata?.displayName;
+
   const displayName =
-    (user?.user_metadata as any)?.displayName ||
+    (typeof metadataName === "string" ? metadataName : undefined) ||
     user?.email?.split("@")[0] ||
     "Account";
 
