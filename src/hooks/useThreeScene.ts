@@ -304,8 +304,9 @@ const createAndAddCar = useCallback(async () => {
     createAndAddCar();
     createAndAddTires();
 
+    let frameId = 0;
     const animateLoop = () => {
-      requestAnimationFrame(animateLoop);
+      frameId = requestAnimationFrame(animateLoop);
       controlsRef.current?.update?.();
 
       // Bounce simulation step
@@ -421,7 +422,13 @@ const createAndAddCar = useCallback(async () => {
     if (container) container.appendChild(renderer.domElement);
 
     return () => {
-      container?.removeChild(renderer.domElement);
+      // Without all three of these the scene leaks a live render loop and a
+      // WebGL context on every unmount — including StrictMode's dev-only
+      // double-mount, which would otherwise run two loops at once.
+      cancelAnimationFrame(frameId);
+      controlsRef.current?.dispose?.();
+      renderer.dispose();
+      renderer.domElement.remove();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
