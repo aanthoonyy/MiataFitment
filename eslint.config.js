@@ -52,6 +52,12 @@ export default [
       ],
     },
   },
+  {
+    files: ["src/components/ui/**"],
+    rules: {
+      "react-refresh/only-export-components": "off",
+    },
+  },
 
   // Config files run in Node, not the browser.
   {
