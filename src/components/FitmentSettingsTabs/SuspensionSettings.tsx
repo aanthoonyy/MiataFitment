@@ -4,6 +4,15 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { inchesToMM } from "@/services/inchesToCM";
 import { useUserSettingsStore } from "@/stores/userSettingsStore";
+import {
+  CAMBER_RANGE,
+  CASTER_RANGE,
+  RIDE_HEIGHT_RANGE,
+  STOCK_RIDE_HEIGHT,
+  TOE_RANGE,
+  hubToFenderAtRest,
+  stockHubToFender,
+} from "@/utils/suspensionGeometry";
 
 interface SuspensionSettingsProps {
   title: string;
@@ -19,9 +28,6 @@ interface SuspensionSettingsProps {
 
   toe?: number;
   setToe?: (value: number) => void;
-
-  stockRideHeight: number;
-  mmToInches: number;
 }
 
 const clampToStep = (value: number, step: number) =>
@@ -72,8 +78,6 @@ const SuspensionSettings: React.FC<SuspensionSettingsProps> = ({
   setCaster,
   toe,
   setToe,
-  stockRideHeight,
-  mmToInches,
 }) => {
   const sectionTitle = "text-sm font-medium";
   const sectionCard =
@@ -84,18 +88,14 @@ const SuspensionSettings: React.FC<SuspensionSettingsProps> = ({
 
   const isRear = title.toLowerCase().includes("rear");
 
-  const dropIn = (rideHeight - stockRideHeight) * mmToInches;
-
-  const stockHubFenderIn = isRear ? 13.0 : 13.5;
-  const ratio = isRear ? 1.5 / 5.0 : 2.5 / 4.0;
-
-  const hubFenderIn = stockHubFenderIn - dropIn * ratio;
+  const stockHubFenderIn = stockHubToFender(isRear);
+  const hubFenderIn = hubToFenderAtRest(rideHeight, isRear);
 
   const formatValue = (inches: number) =>
     isMetric ? `${inchesToMM(inches)} mm` : `${inches.toFixed(2)}\u2033`;
 
   const rideHeightText =
-    rideHeight === stockRideHeight
+    rideHeight === STOCK_RIDE_HEIGHT
       ? `Stock (${formatValue(stockHubFenderIn)})`
       : formatValue(hubFenderIn);
 
@@ -116,9 +116,9 @@ const SuspensionSettings: React.FC<SuspensionSettingsProps> = ({
           <Slider
             id={`${title}-rideHeight`}
             value={[rideHeight]}
-            min={-3}
-            max={-2}
-            step={0.01}
+            min={RIDE_HEIGHT_RANGE.min}
+            max={RIDE_HEIGHT_RANGE.max}
+            step={RIDE_HEIGHT_RANGE.step}
             onValueChange={([v]) => setRideHeight(v)}
           />
         </Field>
@@ -132,10 +132,10 @@ const SuspensionSettings: React.FC<SuspensionSettingsProps> = ({
           <Slider
             id={`${title}-camber`}
             value={[camber]}
-            min={-20}
-            max={1}
-            step={0.1}
-            onValueChange={([v]) => setCamber(clampToStep(v, 0.1))}
+            min={CAMBER_RANGE.min}
+            max={CAMBER_RANGE.max}
+            step={CAMBER_RANGE.step}
+            onValueChange={([v]) => setCamber(clampToStep(v, CAMBER_RANGE.step))}
           />
         </Field>
 
@@ -149,10 +149,10 @@ const SuspensionSettings: React.FC<SuspensionSettingsProps> = ({
             <Slider
               id={`${title}-caster`}
               value={[caster]}
-              min={5}
-              max={8}
-              step={0.1}
-              onValueChange={([v]) => setCaster(clampToStep(v, 0.1))}
+              min={CASTER_RANGE.min}
+              max={CASTER_RANGE.max}
+              step={CASTER_RANGE.step}
+              onValueChange={([v]) => setCaster(clampToStep(v, CASTER_RANGE.step))}
             />
           </Field>
         ) : null}
@@ -167,10 +167,10 @@ const SuspensionSettings: React.FC<SuspensionSettingsProps> = ({
             <Slider
               id={`${title}-toe`}
               value={[toe]}
-              min={-0.05}
-              max={0.05}
-              step={0.01}
-              onValueChange={([v]) => setToe(clampToStep(v, 0.01))}
+              min={TOE_RANGE.min}
+              max={TOE_RANGE.max}
+              step={TOE_RANGE.step}
+              onValueChange={([v]) => setToe(clampToStep(v, TOE_RANGE.step))}
             />
           </Field>
         ) : null}

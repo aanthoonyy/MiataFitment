@@ -1,7 +1,7 @@
 import { Settings } from "@/types/settings";
-import { CarModel } from "@/constants/wheelPositions";
+import type { CarModel, WheelPosition } from "@/constants/wheelPositions";
 import rollingDiameter from "./common/rollingDiameter";
-import { calculateWheelPosition, WheelPosition } from "./common/wheelPositionCalculator";
+import { calculateWheelPosition } from "./common/wheelPositionCalculator";
 
 export function makeTires(
     THREE: any,

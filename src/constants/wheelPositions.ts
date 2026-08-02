@@ -1,9 +1,11 @@
-export enum WheelPosition {
-  FRONT_LEFT = "FL",
-  FRONT_RIGHT = "FR",
-  REAR_LEFT = "BL",
-  REAR_RIGHT = "BR",
-}
+export const WheelPosition = {
+  FRONT_LEFT: "FL",
+  FRONT_RIGHT: "FR",
+  REAR_LEFT: "BL",
+  REAR_RIGHT: "BR",
+} as const;
+
+export type WheelPosition = (typeof WheelPosition)[keyof typeof WheelPosition];
 
 export type CarModel = "na" | "nb" | "nc" | "nd";
 
@@ -36,18 +38,22 @@ interface WheelPositions {
 // Right = left looking at the front of the car
 // Left = right looking at the front of the car
 
+// Converts the caster setting (degrees) into a fore/aft offset in feet.
+// Identical across every generation measured so far.
+const CASTER_OFFSET_FEET = 5.74 / 12;
+
 // NA Miata wheel positions
 const NA_WHEEL_POSITIONS: WheelPositions = {
   FRONT: {
     LEFT: {
       x: -4.85, // Distance from car center to front wheel center (negative = front of car)
       z: 2.5, // Distance from car centerline to wheel center (positive = left side)
-      casterOffset: 5.74 / 12, // Used to calculate caster effect (converts degrees to feet)
+      casterOffset: CASTER_OFFSET_FEET,
     },
     RIGHT: {
       x: -4.85, // Same as left, but mirrored
       z: -2.5, // Negative of left side (mirrored)
-      casterOffset: 5.74 / 12, // Same as left side
+      casterOffset: CASTER_OFFSET_FEET,
     },
   },
   REAR: {
@@ -68,12 +74,12 @@ const NB_WHEEL_POSITIONS: WheelPositions = {
     LEFT: {
       x: -4.85, // Same as NA
       z: 2.5, // Same as NA
-      casterOffset: 5.74 / 12, // Same as NA
+      casterOffset: CASTER_OFFSET_FEET,
     },
     RIGHT: {
       x: -4.85, // Same as NA
       z: -2.5, // Same as NA
-      casterOffset: 5.74 / 12, // Same as NA
+      casterOffset: CASTER_OFFSET_FEET,
     },
   },
   REAR: {
@@ -99,12 +105,12 @@ const ND_WHEEL_POSITIONS: WheelPositions = {
     LEFT: {
       x: -4.85,
       z: 2.61,
-      casterOffset: 5.74 / 12,
+      casterOffset: CASTER_OFFSET_FEET,
     },
     RIGHT: {
       x: -4.85,
       z: -2.61,
-      casterOffset: 5.74 / 12,
+      casterOffset: CASTER_OFFSET_FEET,
     },
   },
   REAR: {

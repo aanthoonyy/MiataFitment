@@ -1,13 +1,7 @@
-// --- Camber functions from real suspension geometry ---
-export function frontCamberFromHubToFender(h: number): number {
-  return -0.09632 * h * h + 3.37758 * h - 29.64574;
-}
+// Damped spring simulation for the "Simulate Bounce" action.
+// Suspension geometry (hub-to-fender, camber curves) lives in
+// ./suspensionGeometry.
 
-export function rearCamberFromHubToFender(h: number): number {
-  return -0.07764 * h * h + 2.73651 * h - 24.17385;
-}
-
-// --- Damped spring simulation ---
 export interface BounceState {
   displacement: number; // inches, positive = compression (body dropped)
   velocity: number; // inches/sec
@@ -19,10 +13,16 @@ export interface BounceParams {
   dampingRatio?: number;
 }
 
-const DEFAULT_SPRING_RATE_LB_IN = 6000;
+export const DEFAULT_SPRING_RATE_LB_IN = 6000;
 const MIN_SPRING_RATE_LB_IN = 2000;
 const MAX_SPRING_RATE_LB_IN = 40000;
-const SPRING_MASS = 68; // chosen so 6000 lb/in ≈ 1.5 Hz
+
+/**
+ * Effective sprung mass, chosen so 6000 lb/in lands at ~1.5 Hz.
+ * Exported because the persisted-state migration in fitmentStore needs the
+ * same value to convert a legacy springRateHz back into lb/in.
+ */
+export const SPRING_MASS = 68;
 
 const clamp = (value: number, min: number, max: number) =>
   Math.min(Math.max(value, min), max);
@@ -62,15 +62,4 @@ export function stepBounce(
 
 export function isBounceSettled(state: BounceState): boolean {
   return Math.abs(state.displacement) < 0.01 && Math.abs(state.velocity) < 0.01;
-}
-
-// --- Hub-to-fender at rest (same formula as SuspensionSettings.tsx) ---
-const STOCK_RIDE_HEIGHT = -2.65;
-const MM_TO_INCHES = 25.4;
-
-export function hubToFenderAtRest(rideHeight: number, isRear: boolean): number {
-  const dropIn = (rideHeight - STOCK_RIDE_HEIGHT) * MM_TO_INCHES;
-  const stockHubFender = isRear ? 13.0 : 13.5;
-  const ratio = isRear ? 1.5 / 5.0 : 2.5 / 4.0;
-  return stockHubFender - dropIn * ratio;
 }

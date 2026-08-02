@@ -1,3 +1,6 @@
+import { STOCK_RIDE_HEIGHT } from "@/utils/suspensionGeometry";
+import { DEFAULT_SPRING_RATE_LB_IN } from "@/utils/bounceSimulation";
+
 export interface Settings {
   frontCamber: number;
   rearCamber: number;
@@ -28,10 +31,12 @@ export const DEFAULT_SETTINGS: Settings = {
   frontToe: 0,
   rearToe: 0,
 
-  rideHeightFront: -2.65,
-  rideHeightRear: -2.65,
+  // SuspensionSettings compares ride height against STOCK_RIDE_HEIGHT with
+  // === to show the "Stock (…)" label, so these must stay exactly equal.
+  rideHeightFront: STOCK_RIDE_HEIGHT,
+  rideHeightRear: STOCK_RIDE_HEIGHT,
 
-  springRateLbIn: 6000,
+  springRateLbIn: DEFAULT_SPRING_RATE_LB_IN,
 
   frontTireWidth: 185,
   frontTireSidewall: 60,

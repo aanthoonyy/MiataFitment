@@ -3,6 +3,7 @@ import { persist } from "zustand/middleware";
 import type { Settings } from "@/types/settings";
 import { DEFAULT_SETTINGS } from "@/types/settings";
 import type { CarModel } from "@/constants/wheelPositions";
+import { SPRING_MASS } from "@/utils/bounceSimulation";
 
 export type { CarModel };
 
@@ -51,9 +52,10 @@ export const useFitmentStore = create<FitmentStore>()(
         if (!typedState) return currentState;
         const legacyHz = (typedState.settings as { springRateHz?: number })
           ?.springRateHz;
+        // Inverse of omega = sqrt(k / m) — recover lb/in from a legacy Hz value.
         const legacySpringRateLbIn =
           typeof legacyHz === "number" && Number.isFinite(legacyHz)
-            ? Math.round(Math.pow(2 * Math.PI * legacyHz, 2) * 68)
+            ? Math.round(Math.pow(2 * Math.PI * legacyHz, 2) * SPRING_MASS)
             : undefined;
         return {
           ...currentState,

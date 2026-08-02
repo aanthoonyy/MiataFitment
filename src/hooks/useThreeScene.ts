@@ -16,10 +16,12 @@ import {
   INITIAL_DISPLACEMENT,
   stepBounce,
   isBounceSettled,
+} from "@/utils/bounceSimulation";
+import {
   frontCamberFromHubToFender,
   rearCamberFromHubToFender,
   hubToFenderAtRest,
-} from "@/utils/bounceSimulation";
+} from "@/utils/suspensionGeometry";
 import { calculateWheelPosition } from "@/assets/common/wheelPositionCalculator";
 
 export const useThreeScene = () => {
@@ -49,7 +51,7 @@ export const useThreeScene = () => {
     (
       wheel: THREE.Object3D,
       tire: THREE.Object3D,
-      position: "FL" | "FR" | "BL" | "BR",
+      position: WheelPosition,
       settings: Settings,
     ) => {
       const curModel = useFitmentStore.getState().model;
@@ -324,7 +326,7 @@ const createAndAddCar = useCallback(async () => {
         }
 
         // Update each wheel/tire with dynamic camber
-        const positions = ["FL", "BL", "BR", "FR"];
+        const positions: WheelPosition[] = ["FL", "BL", "BR", "FR"];
         for (let i = 0; i < positions.length; i++) {
           const wheel = wheelRefs.current[i];
           const tire = tireRefs.current[i];
@@ -392,7 +394,7 @@ const createAndAddCar = useCallback(async () => {
           // Re-apply user settings using calculateWheelPosition (matches makeWheels)
           const s = useFitmentStore.getState().settings;
           const m = useFitmentStore.getState().model;
-          const posKeys: Array<"FL" | "BL" | "BR" | "FR"> = [
+          const posKeys: WheelPosition[] = [
             "FL",
             "BL",
             "BR",

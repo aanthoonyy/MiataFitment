@@ -1,6 +1,6 @@
 import { Settings } from "@/types/settings";
-import { CarModel } from "@/constants/wheelPositions";
-import { calculateWheelPosition, WheelPosition } from "./common/wheelPositionCalculator";
+import type { CarModel, WheelPosition } from "@/constants/wheelPositions";
+import { calculateWheelPosition } from "./common/wheelPositionCalculator";
 
 
 export function makeWheels(

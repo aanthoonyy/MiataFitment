@@ -15,9 +15,6 @@ import CarSelectionSettings from "@/components/FitmentSettingsTabs/CarSelectionS
 import AccountSettings from "@/components/FitmentSettingsTabs/AccountSettings";
 import { BuyPartsButton } from "./BuyWheelButton";
 
-const STOCK_RIDE_HEIGHT = -2.65;
-const MM_TO_INCHES = 25.4;
-
 const FitmentSettings = () => {
   const activeTab = useUIStore((s) => s.activeTab);
   const setActiveTab = useUIStore((s) => s.setActiveTab);
@@ -127,8 +124,6 @@ const FitmentSettings = () => {
                 setCaster={set("frontCaster")}
                 toe={settings.frontToe}
                 setToe={set("frontToe")}
-                stockRideHeight={STOCK_RIDE_HEIGHT}
-                mmToInches={MM_TO_INCHES}
               />
 
               <SuspensionSettings
@@ -139,8 +134,6 @@ const FitmentSettings = () => {
                 setCamber={set("rearCamber")}
                 toe={settings.rearToe}
                 setToe={set("rearToe")}
-                stockRideHeight={STOCK_RIDE_HEIGHT}
-                mmToInches={MM_TO_INCHES}
               />
               <Button
                 className="w-full"

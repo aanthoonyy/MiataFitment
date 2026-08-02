@@ -1,10 +1,13 @@
 import { Settings } from "@/types/settings";
-import { getWheelPositions, CarModel } from "../../constants/wheelPositions";
+import {
+  getWheelPositions,
+  type CarModel,
+  type WheelPosition,
+} from "@/constants/wheelPositions";
 import rollingDiameter from "./rollingDiameter";
+import { clampCamber } from "@/utils/suspensionGeometry";
 
 const mmToFeet = (mm: number) => mm / 25.4 / 12;
-
-export type WheelPosition = "FL" | "FR" | "BL" | "BR";
 
 export interface WheelPositionData {
     rotation: {
@@ -49,7 +52,7 @@ export function calculateWheelPosition(
         baseZ = rearWheelPos.z;
     }
 
-    const camberRad = (Math.min(Math.max(camber, -20), 1) * Math.PI) / 180;
+    const camberRad = (clampCamber(camber) * Math.PI) / 180;
     const toeRadiusComp = (rollingDiameter(wheelDiameter, tireWidth, tireSidewall) * 
         Math.sin(isLeft ? toe : -toe)) / 12;
 
