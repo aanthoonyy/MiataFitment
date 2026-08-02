@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/provider/AuthProvider";
 import { useFitmentStore, useUIStore, type SettingsTab } from "@/stores";
+import { useUserSettingsStore } from "@/stores/userSettingsStore";
 
 import SuspensionSettings from "@/components/FitmentSettingsTabs/SuspensionSettings";
 import WheelSettings from "@/components/FitmentSettingsTabs/WheelSettings";
@@ -33,6 +34,13 @@ const FitmentSettings = () => {
   const updateSettings = useFitmentStore((s) => s.updateSettings);
 
   const { user, loading } = useAuth();
+
+  // Hydrate unit preferences once the user is known, so the Alignment tab
+  // renders the right units without needing a visit to the Account tab.
+  const fetchUserSettings = useUserSettingsStore((s) => s.fetchSettings);
+  useEffect(() => {
+    if (user?.id) fetchUserSettings(user.id);
+  }, [user?.id, fetchUserSettings]);
 
   const set = useCallback(
     <K extends keyof Settings>(key: K) =>
@@ -123,7 +131,6 @@ const FitmentSettings = () => {
                 setToe={set("frontToe")}
                 stockRideHeight={STOCK_RIDE_HEIGHT}
                 mmToInches={MM_TO_INCHES}
-                user={!loading ? user : null}
               />
 
               <SuspensionSettings
@@ -136,7 +143,6 @@ const FitmentSettings = () => {
                 setToe={set("rearToe")}
                 stockRideHeight={STOCK_RIDE_HEIGHT}
                 mmToInches={MM_TO_INCHES}
-                user={!loading ? user : null}
               />
               <Button
                 className="w-full"

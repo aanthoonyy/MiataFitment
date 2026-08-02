@@ -16,13 +16,7 @@ import { EmptyState } from "./GarageEmptyState";
 import { SaveConfigRow } from "./GarageSaveConfigRow";
 import { payloadToFitmentConfig } from "@/services/fitmentNormalize";
 
-export const Garage: React.FC<GarageProps> = ({
-  userId,
-  maxSaves = 5,
-  onLoad,
-  onDelete,
-  onOverwrite,
-}) => {
+export const Garage: React.FC<GarageProps> = ({ userId, maxSaves = 5 }) => {
   const loadConfig = useFitmentStore((s) => s.loadConfig);
   const model = useFitmentStore((s) => s.model);
   const settings = useFitmentStore((s) => s.settings);
@@ -35,9 +29,8 @@ export const Garage: React.FC<GarageProps> = ({
   const setMaxSaves = useGarageStore((s) => s.setMaxSaves);
   const fetchConfigs = useGarageStore((s) => s.fetchConfigs);
   const saveConfig = useGarageStore((s) => s.saveConfig);
+  const overwriteConfig = useGarageStore((s) => s.overwriteConfig);
   const deleteConfig = useGarageStore((s) => s.deleteConfig);
-  const updateConfigLocally = useGarageStore((s) => s.updateConfigLocally);
-  const resetSaveDialog = useGarageStore((s) => s.resetSaveDialog);
 
   // Derived selectors
   const isAtLimit = useGarageStore(selectIsAtLimit);
@@ -59,21 +52,17 @@ export const Garage: React.FC<GarageProps> = ({
 
   const handleSave = async () => {
     if (!userId) return;
-    const currentConfig = { model, settings };
-    await saveConfig(userId, saveName, currentConfig, "Saved config");
+    await saveConfig(userId, saveName, { model, settings });
   };
 
-  const handleLoad = async (id: string) => {
+  const handleLoad = (id: string) => {
     const row = configs.find((c) => c.id === id);
     if (!row) return;
 
-    const next = payloadToFitmentConfig(row.payload);
-    loadConfig(next);
-    await onLoad?.(id);
+    loadConfig(payloadToFitmentConfig(row.payload));
   };
 
   const handleDelete = async (id: string) => {
-    await onDelete?.(id);
     await deleteConfig(id);
   };
 
@@ -86,14 +75,7 @@ export const Garage: React.FC<GarageProps> = ({
     );
     if (!existing) return;
 
-    await onOverwrite?.(existing.id, name);
-
-    updateConfigLocally(existing.id, {
-      updatedAt: new Date().toISOString(),
-      payloadPreview: "Updated current config",
-    });
-
-    resetSaveDialog();
+    await overwriteConfig(existing.id, { model, settings });
   };
 
   return (

@@ -48,7 +48,9 @@ export function SaveConfigRow({
     }
   };
 
-  const primaryDisabled = !canSave || isAtLimit || !saveName.trim();
+  // Overwriting replaces an existing row, so the save limit doesn't apply —
+  // otherwise a full garage can never be updated, only deleted from.
+  const primaryDisabled = !canSave || !saveName.trim() || (isAtLimit && !nameTaken);
 
   return (
     <div className="flex w-full flex-col gap-3">

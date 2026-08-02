@@ -25,7 +25,7 @@ export function payloadToPreview(payload?: SavedConfigPayload): string | null {
   if (!payload || typeof payload !== "object") return null;
 
   const model = up(payload.model);
-  const s = (payload as any).settings ?? {};
+  const s = payload.settings ?? {};
 
   // Wheels
   const fw = fmtIn(s.frontWheelWidth);

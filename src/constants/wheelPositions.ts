@@ -119,13 +119,6 @@ const ND_WHEEL_POSITIONS: WheelPositions = {
   },
 };
 
-// ND Miata wheel positions (feet)
-// FRONT.LEFT:  { x: -15.370, z:  2.610, casterOffset: 5.74 / 12 }
-// FRONT.RIGHT: { x: -15.370, z: -2.610, casterOffset: 5.74 / 12 }
-// REAR.LEFT:   { x: 2.850,  z:  2.630 }
-// REAR.RIGHT:  { x: 2.850,  z: -2.630 }
-// Car body: gltf.scene.position.x = 5.000
-
 // Map of car models to their wheel positions
 const MODEL_WHEEL_POSITIONS: Record<CarModel, WheelPositions> = {
   na: NA_WHEEL_POSITIONS,
@@ -137,7 +130,4 @@ const MODEL_WHEEL_POSITIONS: Record<CarModel, WheelPositions> = {
 // Function to get wheel positions for a specific model
 export function getWheelPositions(model: CarModel): WheelPositions {
   return MODEL_WHEEL_POSITIONS[model];
-}
-
-// For backward compatibility, export NA positions as default
-export const WHEEL_POSITIONS = NA_WHEEL_POSITIONS; 
+} 

@@ -3,6 +3,7 @@ import {
   createGarageConfig,
   listGarageConfigs,
   deleteGarageConfig,
+  updateGarageConfig,
 } from "@/services/garageAPI";
 import type { SavedConfig, SavedConfigPayload } from "@/types/garage";
 
@@ -24,11 +25,13 @@ interface GarageStore {
   saveConfig: (
     userId: string,
     name: string,
-    payload: SavedConfigPayload,
-    payloadPreview?: string
+    payload: SavedConfigPayload
+  ) => Promise<void>;
+  overwriteConfig: (
+    configId: string,
+    payload: SavedConfigPayload
   ) => Promise<void>;
   deleteConfig: (configId: string) => Promise<void>;
-  updateConfigLocally: (configId: string, updates: Partial<SavedConfig>) => void;
   resetSaveDialog: () => void;
 }
 
@@ -81,7 +84,7 @@ export const useGarageStore = create<GarageStore>((set, get) => ({
     }
   },
 
-  saveConfig: async (userId, name, payload, payloadPreview = "Saved config") => {
+  saveConfig: async (userId, name, payload) => {
     if (!userId) return;
 
     const state = get();
@@ -96,7 +99,6 @@ export const useGarageStore = create<GarageStore>((set, get) => ({
         userId,
         name: trimmedName,
         payload,
-        payloadPreview,
       });
 
       set((s) => ({
@@ -109,6 +111,24 @@ export const useGarageStore = create<GarageStore>((set, get) => ({
     }
   },
 
+  overwriteConfig: async (configId, payload) => {
+    if (!configId) return;
+
+    try {
+      const updated = await updateGarageConfig({ id: configId, payload });
+
+      set((s) => ({
+        configs: s.configs.map((c) =>
+          c.id === configId ? { ...c, ...updated, payload } : c
+        ),
+      }));
+
+      get().resetSaveDialog();
+    } catch (e) {
+      console.error("Garage overwrite failed", { configId }, e);
+    }
+  },
+
   deleteConfig: async (configId) => {
     try {
       await deleteGarageConfig(configId);
@@ -118,14 +138,6 @@ export const useGarageStore = create<GarageStore>((set, get) => ({
     } catch (e) {
       console.error("Garage delete failed", { configId }, e);
     }
-  },
-
-  updateConfigLocally: (configId, updates) => {
-    set((state) => ({
-      configs: state.configs.map((c) =>
-        c.id === configId ? { ...c, ...updates } : c
-      ),
-    }));
   },
 
   resetSaveDialog: () => {

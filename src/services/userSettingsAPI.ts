@@ -54,11 +54,3 @@ export async function saveUserSettings(args: {
     metric: data.metric,
   };
 }
-
-export async function isMetricUser(userId: string): Promise<boolean> {
-  const settings = await getUserSettings(userId);
-
-  if (!settings) return false
-
-  return settings.metric;
-}

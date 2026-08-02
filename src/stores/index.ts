@@ -1,10 +1,4 @@
-export { useFitmentStore, type CarModel, type FitmentConfig } from "./fitmentStore";
+// Only re-exports that are actually consumed through "@/stores".
+// The garage and user-settings stores are imported by direct path.
+export { useFitmentStore, type CarModel } from "./fitmentStore";
 export { useUIStore, type SettingsTab } from "./uiStore";
-export {
-  useGarageStore,
-  selectIsAtLimit,
-  selectCanSaveName,
-  selectNameTaken,
-  selectSaveHelperText,
-} from "./garageStore";
-export { useUserSettingsStore } from "./userSettingsStore";

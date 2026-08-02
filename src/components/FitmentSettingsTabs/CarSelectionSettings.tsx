@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select";
 import { CarModel } from "@/stores";
 
-export interface CarSelectionSettingsProps {
+interface CarSelectionSettingsProps {
   model: "na" | "nb" | "nc" | "nd" | string;
   setModel: (value: CarModel) => void;
   springRateLbIn: number;
@@ -54,7 +54,6 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
   const sectionCard = "rounded-xl bg-zinc-50 p-4 shadow-sm shadow-black/10";
 
   const disabled = loading;
-  // const disabled = !user || loading;
 
   const safeSpringRateLbIn = Number.isFinite(springRateLbIn)
     ? springRateLbIn

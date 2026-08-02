@@ -5,7 +5,6 @@ import {
   Typography,
   Grid,
   Card,
-  CardMedia,
   Select,
   MenuItem,
   OutlinedInput,
@@ -68,6 +67,50 @@ const marketplaceItems = [
     description: "Weighted shift knob for smoother gear shifts.",
   },
 ];
+
+/**
+ * The /marketplace/*.png assets these items reference do not exist yet, so a
+ * plain <img> renders a broken-image icon. Fall back to a neutral placeholder
+ * until real product photography is available.
+ */
+const ProductImage: React.FC<{
+  src: string;
+  alt: string;
+  height: number;
+  radius: string;
+}> = ({ src, alt, height, radius }) => {
+  const [failed, setFailed] = useState(false);
+
+  if (failed) {
+    return (
+      <Box
+        sx={{
+          height,
+          borderRadius: radius,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          bgcolor: "grey.100",
+          color: "text.secondary",
+          border: "1px dashed",
+          borderColor: "grey.300",
+        }}
+      >
+        <Typography variant="body2">Image coming soon</Typography>
+      </Box>
+    );
+  }
+
+  return (
+    <Box
+      component="img"
+      src={src}
+      alt={alt}
+      onError={() => setFailed(true)}
+      sx={{ height, width: "100%", objectFit: "cover", borderRadius: radius }}
+    />
+  );
+};
 
 const MarketPage: React.FC = () => {
   const [category, setCategory] = useState<string>("All");
@@ -147,11 +190,11 @@ const MarketPage: React.FC = () => {
                   sx={{ cursor: "pointer", textAlign: "center" }}
                   onClick={() => handleOpenDialog(item)}
                 >
-                  <CardMedia
-                    component="img"
-                    image={item.src}
+                  <ProductImage
+                    src={item.src}
                     alt={item.name}
-                    sx={{ height: 200, borderRadius: "8px 8px 0 0" }}
+                    height={200}
+                    radius="8px 8px 0 0"
                   />
                   <Box sx={{ p: 2 }}>
                     <Typography variant="h6" gutterBottom>
@@ -185,15 +228,15 @@ const MarketPage: React.FC = () => {
         <DialogTitle>{selectedItem?.name}</DialogTitle>
         <DialogContent>
           <Box sx={{ textAlign: "center" }}>
-            <img
-              src={selectedItem?.src}
-              alt={selectedItem?.name}
-              style={{
-                maxWidth: "100%",
-                borderRadius: "8px",
-                marginBottom: "1rem",
-              }}
-            />
+            <Box sx={{ mb: 2 }}>
+              <ProductImage
+                key={selectedItem?.id}
+                src={selectedItem?.src ?? ""}
+                alt={selectedItem?.name ?? ""}
+                height={260}
+                radius="8px"
+              />
+            </Box>
             <Typography variant="body1" gutterBottom>
               {selectedItem?.description}
             </Typography>

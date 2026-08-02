@@ -164,10 +164,16 @@ const createAndAddCar = useCallback(async () => {
   carRefs.current.forEach((c) => sceneRef.current!.remove(c));
   carRefs.current = [];
 
-  const car = await makeCar(THREE, -1.4, model);
+  let car: THREE.Object3D;
+  try {
+    car = await makeCar(-1.4, model);
+  } catch (e) {
+    console.error("Failed to load car model", { model }, e);
+    return;
+  }
 
   // if a newer request happened while we were loading, ignore this result
-  if (loadId !== carLoadIdRef.current) return;
+  if (loadId !== carLoadIdRef.current || !sceneRef.current) return;
 
   carRefs.current = [car];
   sceneRef.current.add(car);

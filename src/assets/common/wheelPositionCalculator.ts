@@ -1,5 +1,5 @@
 import { Settings } from "@/types/settings";
-import { getWheelPositions, WheelPosition as WheelPositionEnum, CarModel } from "../../constants/wheelPositions";
+import { getWheelPositions, CarModel } from "../../constants/wheelPositions";
 import rollingDiameter from "./rollingDiameter";
 
 const mmToFeet = (mm: number) => mm / 25.4 / 12;

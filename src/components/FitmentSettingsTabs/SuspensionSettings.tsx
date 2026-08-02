@@ -2,9 +2,8 @@ import React from "react";
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { User } from "@supabase/supabase-js";
-import { isMetricUser } from "@/services/userSettingsAPI";
 import { inchesToMM } from "@/services/inchesToCM";
+import { useUserSettingsStore } from "@/stores/userSettingsStore";
 
 interface SuspensionSettingsProps {
   title: string;
@@ -23,8 +22,6 @@ interface SuspensionSettingsProps {
 
   stockRideHeight: number;
   mmToInches: number;
-
-  user?: User | null;
 }
 
 const clampToStep = (value: number, step: number) =>
@@ -77,37 +74,13 @@ const SuspensionSettings: React.FC<SuspensionSettingsProps> = ({
   setToe,
   stockRideHeight,
   mmToInches,
-  user,
 }) => {
   const sectionTitle = "text-sm font-medium";
   const sectionCard =
     "rounded-xl bg-zinc-50 p-4 shadow-sm shadow-black/10";
 
-  const [isMetric, setIsMetric] = React.useState(false);
-
-  React.useEffect(() => {
-    const userId = user?.id;
-    if (!userId) {
-      // optional: choose your logged-out default behavior
-      setIsMetric(false);
-      return;
-    }
-
-    let cancelled = false;
-
-    (async () => {
-      try {
-        const value = await isMetricUser(userId);
-        if (!cancelled) setIsMetric(value ?? false);
-      } catch {
-        if (!cancelled) setIsMetric(false);
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [user?.id]);
+  // Single source of truth — kept in sync with the Account tab's toggle.
+  const isMetric = useUserSettingsStore((s) => s.metric);
 
   const isRear = title.toLowerCase().includes("rear");
 

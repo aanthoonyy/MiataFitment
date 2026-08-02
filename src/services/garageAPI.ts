@@ -1,11 +1,10 @@
 import { supabase } from "@/provider/AuthProvider";
-import type { SavedConfig } from "@/types/garage";
+import type { SavedConfig, SavedConfigPayload } from "@/types/garage";
 
 export async function createGarageConfig(args: {
   userId: string;
   name: string;
-  payload: any;
-  payloadPreview: any;
+  payload: SavedConfigPayload;
 }) {
   const { userId, name, payload } = args;
 
@@ -39,12 +38,34 @@ export async function listGarageConfigs(
 
   if (error) throw error;
 
-  return (data ?? []).map((row: any) => ({
+  return (data ?? []).map((row) => ({
     id: row.id,
     name: row.name,
     updatedAt: row.updated_at,
     payload: row.payload,
   }));
+}
+
+export async function updateGarageConfig(args: {
+  id: string;
+  payload: SavedConfigPayload;
+}): Promise<Pick<SavedConfig, "id" | "name" | "updatedAt">> {
+  const { id, payload } = args;
+
+  const { data, error } = await supabase
+    .from("garage_configs")
+    .update({ payload, updated_at: new Date().toISOString() })
+    .eq("id", id)
+    .select("id,name,updated_at")
+    .single();
+
+  if (error) throw error;
+
+  return {
+    id: data.id,
+    name: data.name,
+    updatedAt: data.updated_at,
+  };
 }
 
 export async function deleteGarageConfig(id: string) {

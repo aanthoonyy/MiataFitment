@@ -8,7 +8,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Garage } from "./AccountSettingsSubTabs/Garage";
 import UserSettings from "./AccountSettingsSubTabs/UserSettings";
 
-export interface AccountSettingsProps {
+interface AccountSettingsProps {
   user: User | null;
 }
 
@@ -18,6 +18,14 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
   const sectionCard =
     "rounded-xl bg-zinc-50 p-4 shadow-sm shadow-black/10";
   const sectionTitle = "text-sm font-medium";
+
+  // Must stay above the early return below — hooks cannot be called
+  // conditionally, or the hook order changes on sign-in/sign-out.
+  const displayName = useMemo(() => {
+    if (!user) return "User";
+    const meta = user.user_metadata as Record<string, unknown> | undefined;
+    return (meta?.displayName as string) || user.email || "User";
+  }, [user]);
 
   if (!user) {
     return (
@@ -42,11 +50,6 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
       </div>
     );
   }
-
-  const displayName = useMemo(() => {
-    const meta = user.user_metadata as any;
-    return meta?.displayName || user.email || "User";
-  }, [user]);
 
   return (
     <div className="space-y-4">
