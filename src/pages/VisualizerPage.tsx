@@ -1,14 +1,26 @@
+import { useEffect } from "react";
 import { X } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import FitmentSettings from "@/components/FitmentSettings";
 import { useUIStore } from "@/stores";
+import { useFitmentStore } from "@/stores/fitmentStore";
 import { useThreeScene } from "@/hooks/useThreeScene";
+import { parseShareParams } from "@/utils/shareableUrl";
 
 const VisualizerPage = () => {
   const isSettingsOpen = useUIStore((s) => s.isSettingsOpen);
   const setSettingsOpen = useUIStore((s) => s.setSettingsOpen);
+  const loadConfig = useFitmentStore((s) => s.loadConfig);
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.size === 0) return;
+    const config = parseShareParams(searchParams);
+    if (config) loadConfig(config);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useThreeScene();
 
