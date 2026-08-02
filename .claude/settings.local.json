@@ -27,7 +27,8 @@
       "mcp__blender__execute_blender_code",
       "Bash(npx vite *)",
       "Bash(npx eslint *)",
-      "Bash(grep -v \"^$\")"
+      "Bash(grep -v \"^$\")",
+      "Bash(npm pkg *)"
     ]
   }
 }
