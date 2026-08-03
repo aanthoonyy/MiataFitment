@@ -24,6 +24,7 @@ import {
   hubToFenderAtRest,
 } from "@/utils/suspensionGeometry";
 import { calculateWheelPosition } from "@/assets/common/wheelPositionCalculator";
+import { disposeObject } from "@/assets/common/disposeObject";
 
 export const useThreeScene = () => {
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -39,6 +40,7 @@ export const useThreeScene = () => {
   // Subscribe to store values
   const model = useFitmentStore((s) => s.model);
   const settings = useFitmentStore((s) => s.settings);
+  const wheelDesign = useFitmentStore((s) => s.wheelDesign);
 
   useEffect(() => {
     if (sceneRef.current) {
@@ -47,6 +49,12 @@ export const useThreeScene = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [model]);
+
+  // Swapping wheel design only needs the wheels rebuilt, not the car reloaded.
+  useEffect(() => {
+    if (sceneRef.current) createAndAddTires();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [wheelDesign]);
 
   const applyWheelPosition = useCallback(
     (
@@ -69,9 +77,16 @@ export const useThreeScene = () => {
     if (!sceneRef.current || wheelRefs.current.length === 0) return;
 
     const curModel = useFitmentStore.getState().model;
+    const curDesign = useFitmentStore.getState().wheelDesign;
 
-    wheelRefs.current.forEach((wheel) => sceneRef.current?.remove(wheel));
-    tireRefs.current.forEach((tire) => sceneRef.current?.remove(tire));
+    wheelRefs.current.forEach((wheel) => {
+      sceneRef.current?.remove(wheel);
+      disposeObject(wheel);
+    });
+    tireRefs.current.forEach((tire) => {
+      sceneRef.current?.remove(tire);
+      disposeObject(tire);
+    });
 
     const wheels = [
       makeWheels(
@@ -80,6 +95,7 @@ export const useThreeScene = () => {
         WheelPosition.FRONT_LEFT,
         settings,
         curModel,
+        curDesign,
       ),
       makeWheels(
         settings.rearWheelWidth,
@@ -87,6 +103,7 @@ export const useThreeScene = () => {
         WheelPosition.REAR_LEFT,
         settings,
         curModel,
+        curDesign,
       ),
       makeWheels(
         settings.rearWheelWidth,
@@ -94,6 +111,7 @@ export const useThreeScene = () => {
         WheelPosition.REAR_RIGHT,
         settings,
         curModel,
+        curDesign,
       ),
       makeWheels(
         settings.frontWheelWidth,
@@ -101,6 +119,7 @@ export const useThreeScene = () => {
         WheelPosition.FRONT_RIGHT,
         settings,
         curModel,
+        curDesign,
       ),
     ];
     wheelRefs.current = wheels;
@@ -179,9 +198,16 @@ const createAndAddCar = useCallback(async () => {
     if (!sceneRef.current) return;
 
     const curModel = useFitmentStore.getState().model;
+    const curDesign = useFitmentStore.getState().wheelDesign;
 
-    tireRefs.current.forEach((tire) => sceneRef.current?.remove(tire));
-    wheelRefs.current.forEach((wheel) => sceneRef.current?.remove(wheel));
+    tireRefs.current.forEach((tire) => {
+      sceneRef.current?.remove(tire);
+      disposeObject(tire);
+    });
+    wheelRefs.current.forEach((wheel) => {
+      sceneRef.current?.remove(wheel);
+      disposeObject(wheel);
+    });
 
     const wheels = [
       makeWheels(
@@ -190,6 +216,7 @@ const createAndAddCar = useCallback(async () => {
         WheelPosition.FRONT_LEFT,
         settings,
         curModel,
+        curDesign,
       ),
       makeWheels(
         settings.rearWheelWidth,
@@ -197,6 +224,7 @@ const createAndAddCar = useCallback(async () => {
         WheelPosition.REAR_LEFT,
         settings,
         curModel,
+        curDesign,
       ),
       makeWheels(
         settings.rearWheelWidth,
@@ -204,6 +232,7 @@ const createAndAddCar = useCallback(async () => {
         WheelPosition.REAR_RIGHT,
         settings,
         curModel,
+        curDesign,
       ),
       makeWheels(
         settings.frontWheelWidth,
@@ -211,6 +240,7 @@ const createAndAddCar = useCallback(async () => {
         WheelPosition.FRONT_RIGHT,
         settings,
         curModel,
+        curDesign,
       ),
     ];
     wheelRefs.current = wheels;

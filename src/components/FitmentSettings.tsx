@@ -27,6 +27,8 @@ const FitmentSettings = () => {
 
   const model = useFitmentStore((s) => s.model);
   const setModel = useFitmentStore((s) => s.setModel);
+  const wheelDesign = useFitmentStore((s) => s.wheelDesign);
+  const setWheelDesign = useFitmentStore((s) => s.setWheelDesign);
   const settings = useFitmentStore((s) => s.settings);
   const updateSettings = useFitmentStore((s) => s.updateSettings);
 
@@ -212,6 +214,8 @@ const FitmentSettings = () => {
                 setModel={setModel}
                 springRateLbIn={settings.springRateLbIn}
                 setSpringRateLbIn={set("springRateLbIn")}
+                wheelDesign={wheelDesign}
+                setWheelDesign={setWheelDesign}
                 user={user}
                 loading={loading}
               />
