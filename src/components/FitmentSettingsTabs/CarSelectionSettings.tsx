@@ -258,7 +258,9 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
               <SelectTrigger className="h-9">
                 <SelectValue placeholder="Select a wheel design" />
               </SelectTrigger>
-              <SelectContent className="bg-white text-black border shadow-md">
+              {/* Far more designs than fit on screen, so cap the list and let
+                  it scroll rather than running the full window height. */}
+              <SelectContent className="max-h-72 bg-white text-black border shadow-md">
                 {WHEEL_DESIGNS.map((d) => (
                   <SelectItem key={d.value} value={d.value}>
                     {d.label}

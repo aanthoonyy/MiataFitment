@@ -87,8 +87,13 @@ const SelectContent = React.forwardRef<
       <SelectPrimitive.Viewport
         className={cn(
           "p-1",
+          // Deliberately no h-[--radix-select-trigger-height] here: that ships
+          // with shadcn's popper variant and pins the scrollable area to the
+          // height of one row, so a long list can't be scrolled. Width still
+          // tracks the trigger; height follows the content, capped by the
+          // max-h on Content above.
           position === "popper" &&
-            "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]"
+            "w-full min-w-[var(--radix-select-trigger-width)]"
         )}
       >
         {children}

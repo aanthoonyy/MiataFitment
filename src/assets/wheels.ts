@@ -3,6 +3,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Settings } from "@/types/settings";
 import type { CarModel, WheelPosition } from "@/constants/wheelPositions";
 import type { WheelDesign } from "@/constants/wheelDesigns";
+import { wheelModelPath } from "@/constants/wheelDesigns";
 import { calculateWheelPosition } from "./common/wheelPositionCalculator";
 
 // --- knobs for fitting a .glb design onto the default wheel ---------------
@@ -20,31 +21,23 @@ const WIDTH_FIT = 1.02;
 const PLATE_FOLLOWS_OFFSET = false;
 const MAX_PLATE_FRACTION_OF_HALF_WIDTH = 0.9;
 
-interface WheelModelConfig {
-    path: string;
-    // Where this model's own hub plate sits, as a fraction of overall width in
-    // from the outboard flange. It's the plane pinned to the default wheel's
-    // plate, so it needs to be roughly right. Read it off the model as the
-    // point where the vertex radius drops to zero, i.e. the hub bore.
-    plateFraction: number;
-    // Which end of the model's axle carries the spoke face.
-    outboardEnd: "min" | "max";
-}
+// How close to the axle a vertex has to be, as a fraction of wheel radius, to
+// count as part of the hub plate. Loose enough to catch the spider and the bore
+// lip, tight enough to exclude the spokes.
+const HUB_RADIUS_THRESHOLD = 0.15;
 
-// Every design but "default" is a .glb. Typing it against WheelDesign makes
-// adding one to WHEEL_DESIGNS without a model here a compile error.
-const WHEEL_MODELS: Record<Exclude<WheelDesign, "default">, WheelModelConfig> = {
-    advan: {
-        path: "/superadvan.glb",
-        plateFraction: 0.28,
-        outboardEnd: "min",
-    },
-    sp1: {
-        path: "/sp1.glb",
-        plateFraction: 0.25,
-        outboardEnd: "min",
-    },
-};
+// Used when a model has nothing near its axle at all, so the plate can't be
+// located. Roughly a mid-dish wheel.
+const FALLBACK_PLATE_FRACTION = 0.3;
+
+// The plate sits (halfWidth - offset) in from the outboard flange, so for any
+// offset a Miata could actually run it lands near a quarter of the width; even
+// ET55 on a 6" wheel only reaches 0.14. A reading below that means the material
+// nearest the axle isn't the plate at all -- usually a centre cap covering the
+// bore out at the face -- and a reading of exactly 0 would divide by zero in
+// the fitter. Clamping keeps a bad measurement merely inaccurate.
+const MIN_PLATE_FRACTION = 0.1;
+const MAX_PLATE_FRACTION = 0.45;
 
 // -------------------------------------------------------------------------
 
@@ -53,19 +46,23 @@ interface WheelPart {
     material: THREE.Material | THREE.Material[];
 }
 
+interface WheelModel {
+    parts: WheelPart[];
+    // Where this model's hub plate sits, as a fraction of overall width in from
+    // the outboard flange. Measured, not configured.
+    plateFraction: number;
+}
+
 // One fetch, parse and normalise per design, shared by all four corners, and
 // only for designs actually selected.
-const wheelModelPromises = new Map<string, Promise<WheelPart[]>>();
+const wheelModelPromises = new Map<string, Promise<WheelModel>>();
 
 // Bakes the .glb into a canonical shape the fitter can work in: Y is the axle
 // with +Y outboard, Y runs 0 (inboard flange) to 1 (outboard flange), and the
 // radial axes are centred on the axle with a max radius of 1. Doing this once
 // means re-exporting the model at a different orientation or scale costs
 // nothing.
-function normalizeWheelModel(
-    scene: THREE.Object3D,
-    config: WheelModelConfig,
-): WheelPart[] {
+function normalizeWheelModel(scene: THREE.Object3D, path: string): WheelModel {
     scene.updateWorldMatrix(true, true);
 
     const parts: WheelPart[] = [];
@@ -102,10 +99,6 @@ function normalizeWheelModel(
         axleLength = size.z;
         radialLength = Math.max(size.x, size.y);
     }
-    if (config.outboardEnd === "min") {
-        toAxleY.premultiply(new THREE.Matrix4().makeRotationX(Math.PI));
-    }
-
     const normalize = new THREE.Matrix4()
         .multiply(new THREE.Matrix4().makeTranslation(0, 0.5, 0))
         .multiply(
@@ -121,19 +114,63 @@ function normalizeWheelModel(
         );
 
     for (const part of parts) part.geometry.applyMatrix4(normalize);
-    return parts;
+
+    // Everything past here is measured off the model so a new design needs no
+    // hand-entered numbers.
+    //
+    // The hub plate is whatever material sits closest to the axle, so the axle
+    // positions of the near-axis vertices locate it. Median rather than mean,
+    // so a stray vertex or a lug boss can't drag it.
+    const hub: number[] = [];
+    for (const part of parts) {
+        const position = part.geometry.attributes.position as THREE.BufferAttribute;
+        for (let i = 0; i < position.count; i++) {
+            const radius = Math.hypot(position.getX(i), position.getZ(i));
+            if (radius < HUB_RADIUS_THRESHOLD) hub.push(position.getY(i));
+        }
+    }
+
+    if (!hub.length) {
+        console.warn(
+            "Wheel model has no material near its axle, so the hub plate " +
+                "can't be located and the face may end up inboard",
+            path,
+        );
+        return { parts, plateFraction: FALLBACK_PLATE_FRACTION };
+    }
+
+    hub.sort((a, b) => a - b);
+    const plateAt = hub[hub.length >> 1];
+
+    // A wheel's plate always sits nearer the face than the back, so the end the
+    // plate leans towards is the outboard one. If that's the 0 end, the model is
+    // back to front: flip it so +Y is outboard for every design.
+    if (plateAt <= 0.5) {
+        const flip = new THREE.Matrix4()
+            .multiply(new THREE.Matrix4().makeTranslation(0, 1, 0))
+            .multiply(new THREE.Matrix4().makeRotationX(Math.PI));
+        for (const part of parts) part.geometry.applyMatrix4(flip);
+    }
+
+    // Whichever way it was facing, the plate is now this far in from the
+    // outboard flange.
+    return {
+        parts,
+        plateFraction: THREE.MathUtils.clamp(
+            Math.min(plateAt, 1 - plateAt),
+            MIN_PLATE_FRACTION,
+            MAX_PLATE_FRACTION,
+        ),
+    };
 }
 
-function loadWheelModel(
-    design: Exclude<WheelDesign, "default">,
-): Promise<WheelPart[]> {
-    const config = WHEEL_MODELS[design];
+function loadWheelModel(design: WheelDesign, path: string): Promise<WheelModel> {
     let promise = wheelModelPromises.get(design);
     if (!promise) {
         promise = new Promise((resolve, reject) => {
             new GLTFLoader().load(
-                config.path,
-                (gltf) => resolve(normalizeWheelModel(gltf.scene, config)),
+                path,
+                (gltf) => resolve(normalizeWheelModel(gltf.scene, path)),
                 undefined,
                 (error) => reject(error),
             );
@@ -234,7 +271,8 @@ export function makeWheels(
     wheel.position.y = wheelData.position.y;
     wheel.position.z = wheelData.position.z;
 
-    if (design !== "default") {
+    const modelPath = wheelModelPath(design);
+    if (modelPath) {
         // Everything above stays exactly where it is -- sizing, placement and
         // the bounce simulation all still read off these meshes. The default
         // design just stops being drawn.
@@ -251,14 +289,14 @@ export function makeWheels(
 
         // The model arrives after this returns; the caller has already placed
         // the wheel by then, so it just pops in a frame later.
-        loadWheelModel(design)
-            .then((parts) => {
+        loadWheelModel(design, modelPath)
+            .then((wheelModel) => {
                 const fitted = fitWheelModel(
-                    parts,
+                    wheelModel.parts,
                     wheelWidth,
                     wheelDiameter,
                     plateY,
-                    WHEEL_MODELS[design].plateFraction,
+                    wheelModel.plateFraction,
                 );
                 // Both sides get the same rotation onto the axle, so local +Y
                 // points outboard on the left of the car and inboard on the
@@ -267,11 +305,7 @@ export function makeWheels(
                 wheel.add(fitted);
             })
             .catch((error) =>
-                console.error(
-                    "Failed to load wheel model",
-                    WHEEL_MODELS[design].path,
-                    error,
-                ),
+                console.error("Failed to load wheel model", modelPath, error),
             );
     }
 
