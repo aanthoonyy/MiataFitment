@@ -40,16 +40,27 @@ const BULGE_HEIGHT_PER_RIM_INCH = 0.12;
 const MIN_BULGE_HEIGHT = 0.15;
 const MAX_BULGE_HEIGHT = 0.8;
 
-// How much the tread falls away from centre to shoulder, as a fraction of tread
-// half width. A stretched tire pulls the crown flat; a bulged one rounds it.
+// How much the CROWN alone falls away from centre to shoulder, as a fraction of
+// tread half width. A stretched tire pulls the crown flat; a bulged one rounds
+// it. The shoulder round-over below adds its own drop on top of this -- the two
+// are separate features on a real tire and can't share one curve.
 const CROWN_DROP = 0.08;
 const CROWN_DROP_PER_BULGE = 0.06;
 
+// The shoulder round-over is a physical radius in the mould, about 17mm on a
+// 225, and it does not scale with how flat the crown is. Left to CROWN_DROP it
+// comes out at fractions of a millimetre on a wide tire -- a knife edge where
+// the sidewall hands over to the tread.
+const SHOULDER_RADIUS_RATIO = 0.075;
+
 const SIDEWALL_SEGMENTS = 14;
-const TREAD_SEGMENTS = 8;
+const SHOULDER_SEGMENTS = 8;
+const CROWN_SEGMENTS = 5;
 const LATHE_SEGMENTS = 64;
 
 const smoothstep = (t: number) => t * t * (3 - 2 * t);
+const inverseSmoothstep = (s: number) =>
+    0.5 - Math.sin(Math.asin(1 - 2 * THREE.MathUtils.clamp(s, 0, 1)) / 3);
 
 // Half width of the carcass at height h up the sidewall, 0 at the bead and 1 at
 // the shoulder: out from the bead to the widest point, then back in to the
@@ -78,21 +89,24 @@ function sidewallHalfWidthAt(
     );
 }
 
-function sampleQuadratic(
-    from: THREE.Vector2,
-    control: THREE.Vector2,
-    to: THREE.Vector2,
+// An arc swept about `centre`, with the angle measured off the tread centreline
+// and opening out towards the shoulder -- so angle 0 is the crown and larger
+// angles walk down the outboard side.
+function sampleArc(
+    centre: THREE.Vector2,
+    radius: number,
+    fromAngle: number,
+    toAngle: number,
     segments: number,
     into: THREE.Vector2[],
 ) {
-    // Starts at i = 1: `from` is already the last point pushed.
+    // Starts at i = 1: the arc's first point is already the last point pushed.
     for (let i = 1; i <= segments; i++) {
-        const t = i / segments;
-        const u = 1 - t;
+        const angle = fromAngle + ((toAngle - fromAngle) * i) / segments;
         into.push(
             new THREE.Vector2(
-                u * u * from.x + 2 * u * t * control.x + t * t * to.x,
-                u * u * from.y + 2 * u * t * control.y + t * t * to.y,
+                centre.x + radius * Math.cos(angle),
+                centre.y - radius * Math.sin(angle),
             ),
         );
     }
@@ -148,43 +162,131 @@ export function makeTires(
         MIN_BULGE_HEIGHT,
         MAX_BULGE_HEIGHT,
     );
-    // Never let the crown eat the whole sidewall on a very low profile tire.
+
+    // --- tread: sidewall, then shoulder round-over, then crown -------------
+    //
+    // Three radii, each tangent to the next, instead of one curve doing all of
+    // it. The shoulder is small and physical, the crown is enormous and nearly
+    // flat, and the sidewall hands over part way up its easing so it arrives
+    // already sweeping inboard.
+
+    const shoulderRadius = Math.min(
+        nominalSectionWidth * SHOULDER_RADIUS_RATIO,
+        treadHalfWidth * 0.4,
+        // Never let the round-over eat a low profile tire's whole sidewall.
+        sidewallHeight * 0.2,
+    );
+
+    // Drop belonging to the crown on its own, which fixes its radius: a shallow
+    // drop over a wide tread is a very large arc.
     const crownDrop = Math.min(
         treadHalfWidth *
-            (CROWN_DROP +
-                (bulgeHeight - NEUTRAL_BULGE_HEIGHT) * CROWN_DROP_PER_BULGE),
-        sidewallHeight * 0.4,
+            Math.max(
+                CROWN_DROP +
+                    (bulgeHeight - NEUTRAL_BULGE_HEIGHT) * CROWN_DROP_PER_BULGE,
+                0.01,
+            ),
+        sidewallHeight * 0.25,
     );
-    const shoulderRadius = treadRadius - crownDrop;
+    const crownRadius = Math.max(
+        (treadHalfWidth * treadHalfWidth) / (2 * crownDrop),
+        // The crown still has to be able to swallow the shoulder arc inside it.
+        (treadHalfWidth + shoulderRadius) / 0.9,
+    );
+
+    // The easing is flat at both ends, so carrying the sidewall all the way to
+    // h = 1 leaves the profile stalled -- moving purely radially, width
+    // momentarily constant -- exactly where the tread wants to be sweeping
+    // hardest inboard. Hand over at the easing's inflection instead. The easing
+    // is then aimed at a narrower tread than the tire really has, so that by
+    // the handover it has arrived at the real tread half width.
+    const handover = THREE.MathUtils.clamp(
+        // Far enough along that the aimed-at width stays sane on a tire being
+        // stretched hard over a much wider rim.
+        (sectionHalfWidth - treadHalfWidth) /
+            (sectionHalfWidth - treadHalfWidth * 0.25),
+        0.5,
+        0.9,
+    );
+    const handoverEase = inverseSmoothstep(handover);
+    const handoverHeight = bulgeHeight + (1 - bulgeHeight) * handoverEase;
+    const easedTreadHalfWidth =
+        sectionHalfWidth - (sectionHalfWidth - treadHalfWidth) / handover;
+    // d(half width)/dh at the handover, from the easing's derivative.
+    const handoverSlope =
+        ((sectionHalfWidth - easedTreadHalfWidth) *
+            6 *
+            handoverEase *
+            (1 - handoverEase)) /
+        (1 - bulgeHeight);
+
+    // Closing the chain is mildly circular: how far the sidewall climbs sets
+    // the angle it arrives at, which sets how much of the quarter turn the
+    // shoulder and crown have left to make, which sets how deep the tread sits
+    // and so how far the sidewall climbs. It settles in a couple of passes.
+    let treadDrop = 0;
+    let joinAngle = 0;
+    let crownAngle = 0;
+    let sidewallSpan = 0;
+    for (let pass = 0; pass < 12; pass++) {
+        sidewallSpan = (treadRadius - treadDrop - rimRadius) / handoverHeight;
+        // Angle of the profile off radial where the sidewall meets the
+        // shoulder. Capped so a hugely stretched, very low profile tire can't
+        // demand more turn than the shoulder and crown have left between them.
+        joinAngle = Math.min(Math.atan(handoverSlope / sidewallSpan), 1.1);
+        // How much of the turn the crown takes, fixed by the shoulder having to
+        // come out at exactly the tread half width.
+        crownAngle = Math.asin(
+            THREE.MathUtils.clamp(
+                (treadHalfWidth - shoulderRadius * Math.cos(joinAngle)) /
+                    (crownRadius - shoulderRadius),
+                0,
+                1,
+            ),
+        );
+        treadDrop =
+            crownRadius * (1 - Math.cos(crownAngle)) +
+            shoulderRadius * (Math.cos(crownAngle) - Math.sin(joinAngle));
+    }
 
     // Half the cross section, from the left bead round to the centre of the
     // tread. The bead stays exactly on the rim at exactly the rim's width
     // whatever the carcass does, so the tire still seats on the wheel.
     const half: THREE.Vector2[] = [];
     for (let i = 0; i <= SIDEWALL_SEGMENTS; i++) {
-        const h = i / SIDEWALL_SEGMENTS;
+        const h = (i / SIDEWALL_SEGMENTS) * handoverHeight;
         half.push(
             new THREE.Vector2(
-                rimRadius + h * (shoulderRadius - rimRadius),
+                rimRadius + h * sidewallSpan,
                 -sidewallHalfWidthAt(
                     h,
                     bulgeHeight,
                     rimHalfWidth,
                     sectionHalfWidth,
-                    treadHalfWidth,
+                    easedTreadHalfWidth,
                 ),
             ),
         );
     }
 
-    // Shoulder rounding into the crown of the tread.
-    sampleQuadratic(
-        half[half.length - 1],
-        new THREE.Vector2(treadRadius, -treadHalfWidth),
-        new THREE.Vector2(treadRadius, 0),
-        TREAD_SEGMENTS,
+    // Shoulder and crown share a centre line, the shoulder sitting inside the
+    // crown circle and touching it, which is what makes them tangent.
+    const crownCentre = new THREE.Vector2(treadRadius - crownRadius, 0);
+    const shoulderCentre = new THREE.Vector2(
+        crownCentre.x + (crownRadius - shoulderRadius) * Math.cos(crownAngle),
+        -(crownRadius - shoulderRadius) * Math.sin(crownAngle),
+    );
+    // Up over the shoulder from the sidewall...
+    sampleArc(
+        shoulderCentre,
+        shoulderRadius,
+        Math.PI / 2 - joinAngle,
+        crownAngle,
+        SHOULDER_SEGMENTS,
         half,
     );
+    // ...then across the crown to the centre of the tread.
+    sampleArc(crownCentre, crownRadius, crownAngle, 0, CROWN_SEGMENTS, half);
 
     // Mirror everything but the centre point back out to the right bead.
     const points = half.slice();
