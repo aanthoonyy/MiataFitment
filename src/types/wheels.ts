@@ -14,7 +14,6 @@ export interface WheelModel {
     plateFraction: number;
 }
 
-// All measurements are in feet (1 unit = 1 foot in Three.js).
 interface BaseWheelPosition {
     x: number;
     z: number;

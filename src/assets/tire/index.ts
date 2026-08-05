@@ -2,7 +2,7 @@ import * as THREE from "three";
 import type { Settings } from "@/types/settings";
 import type { CarModel, WheelPosition } from "@/constants/wheelPositions";
 import rollingDiameter from "../common/rollingDiameter";
-import { axleFitment } from "../common/axleFitment";
+import { axleSettings } from "../common/axleSettings";
 import { calculateWheelPosition } from "../common/wheelPositionCalculator";
 import { mountCarcass } from "./carcass";
 import { solveTreadChain } from "./treadChain";
@@ -50,7 +50,7 @@ export function makeTires(
     settings: Settings,
     model: CarModel = "na",
 ) {
-    const { wheelDiameter, wheelWidth, tireWidth, tireSidewall } = axleFitment(
+    const { wheelDiameter, wheelWidth, tireWidth, tireSidewall } = axleSettings(
         position,
         settings,
     );

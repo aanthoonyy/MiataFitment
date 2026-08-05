@@ -1,10 +1,11 @@
+import type { WheelPositions } from "@/types/wheels";
+
 export const WheelPosition = {
   FRONT_LEFT: "FL",
   FRONT_RIGHT: "FR",
   REAR_LEFT: "BL",
   REAR_RIGHT: "BR",
 } as const;
-import type { WheelPositions } from "@/types/wheels";
 
 export type WheelPosition = (typeof WheelPosition)[keyof typeof WheelPosition];
 

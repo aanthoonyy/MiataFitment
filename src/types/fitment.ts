@@ -1,9 +1,17 @@
-// Front and rear carry independent fitment. Which set applies is decided by the
-// corner being built, so anything that takes a WheelPosition can read its own
-// dimensions off the settings rather than having them passed down alongside.
-export interface AxleFitment {
+// Nearly every setting comes as a front/rear pair, and which half applies is
+// decided by the corner being worked on. This is that half, resolved once, so
+// anything taking a WheelPosition can read its own values rather than having
+// them passed down alongside -- or picking them apart a second time.
+//
+// Caster is deliberately absent: it is a front-only setting with no rear twin.
+export interface AxleSettings {
+    camber: number;
+    toe: number;
+    rideHeight: number;
     wheelDiameter: number;
     wheelWidth: number;
+    wheelOffset: number;
+    wheelSpacer: number;
     tireWidth: number;
     tireSidewall: number;
 }
