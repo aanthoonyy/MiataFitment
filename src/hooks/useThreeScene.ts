@@ -14,7 +14,7 @@ import { WheelPosition } from "@/constants/wheelPositions";
 import { useFitmentStore, useUIStore } from "@/stores";
 import type { BounceState } from "@/types/bounce";
 import {
-  INITIAL_DISPLACEMENT,
+  createBounceState,
   stepBounce,
   isBounceSettled,
 } from "@/utils/bounceSimulation";
@@ -229,10 +229,7 @@ const createAndAddCar = useCallback(async () => {
 
   useEffect(() => {
     if (bounceRequested) {
-      bounceStateRef.current = {
-        displacement: INITIAL_DISPLACEMENT,
-        velocity: 0,
-      };
+      bounceStateRef.current = createBounceState(bounceStateRef.current);
       prevTimeRef.current = performance.now() / 1000;
       useUIStore.getState().clearBounceRequest();
     }
