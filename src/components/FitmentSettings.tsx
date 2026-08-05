@@ -5,7 +5,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
-import { useFitmentStore, useUIStore, type SettingsTab } from "@/stores";
+import { useFitmentStore, useUIStore } from "@/stores";
+import type { SettingsTab } from "@/types/stores";
 import { useUserSettingsStore } from "@/stores/userSettingsStore";
 
 import SuspensionSettings from "@/components/FitmentSettingsTabs/SuspensionSettings";
@@ -27,6 +28,8 @@ const FitmentSettings = () => {
 
   const model = useFitmentStore((s) => s.model);
   const setModel = useFitmentStore((s) => s.setModel);
+  const wheelDesign = useFitmentStore((s) => s.wheelDesign);
+  const setWheelDesign = useFitmentStore((s) => s.setWheelDesign);
   const settings = useFitmentStore((s) => s.settings);
   const updateSettings = useFitmentStore((s) => s.updateSettings);
 
@@ -212,6 +215,8 @@ const FitmentSettings = () => {
                 setModel={setModel}
                 springRateLbIn={settings.springRateLbIn}
                 setSpringRateLbIn={set("springRateLbIn")}
+                wheelDesign={wheelDesign}
+                setWheelDesign={setWheelDesign}
                 user={user}
                 loading={loading}
               />

@@ -12,9 +12,9 @@ import rollingDiameter from "@/assets/common/rollingDiameter";
 import type { Settings } from "@/types/settings";
 import { WheelPosition } from "@/constants/wheelPositions";
 import { useFitmentStore, useUIStore } from "@/stores";
+import type { BounceState } from "@/types/bounce";
 import {
-  type BounceState,
-  INITIAL_DISPLACEMENT,
+  createBounceState,
   stepBounce,
   isBounceSettled,
 } from "@/utils/bounceSimulation";
@@ -24,6 +24,7 @@ import {
   hubToFenderAtRest,
 } from "@/utils/suspensionGeometry";
 import { calculateWheelPosition } from "@/assets/common/wheelPositionCalculator";
+import { disposeObject } from "@/assets/common/disposeObject";
 
 export const useThreeScene = () => {
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -39,6 +40,7 @@ export const useThreeScene = () => {
   // Subscribe to store values
   const model = useFitmentStore((s) => s.model);
   const settings = useFitmentStore((s) => s.settings);
+  const wheelDesign = useFitmentStore((s) => s.wheelDesign);
 
   useEffect(() => {
     if (sceneRef.current) {
@@ -47,6 +49,12 @@ export const useThreeScene = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [model]);
+
+  // Swapping wheel design only needs the wheels rebuilt, not the car reloaded.
+  useEffect(() => {
+    if (sceneRef.current) createAndAddTires();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [wheelDesign]);
 
   const applyWheelPosition = useCallback(
     (
@@ -69,9 +77,16 @@ export const useThreeScene = () => {
     if (!sceneRef.current || wheelRefs.current.length === 0) return;
 
     const curModel = useFitmentStore.getState().model;
+    const curDesign = useFitmentStore.getState().wheelDesign;
 
-    wheelRefs.current.forEach((wheel) => sceneRef.current?.remove(wheel));
-    tireRefs.current.forEach((tire) => sceneRef.current?.remove(tire));
+    wheelRefs.current.forEach((wheel) => {
+      sceneRef.current?.remove(wheel);
+      disposeObject(wheel);
+    });
+    tireRefs.current.forEach((tire) => {
+      sceneRef.current?.remove(tire);
+      disposeObject(tire);
+    });
 
     const wheels = [
       makeWheels(
@@ -80,6 +95,7 @@ export const useThreeScene = () => {
         WheelPosition.FRONT_LEFT,
         settings,
         curModel,
+        curDesign,
       ),
       makeWheels(
         settings.rearWheelWidth,
@@ -87,6 +103,7 @@ export const useThreeScene = () => {
         WheelPosition.REAR_LEFT,
         settings,
         curModel,
+        curDesign,
       ),
       makeWheels(
         settings.rearWheelWidth,
@@ -94,6 +111,7 @@ export const useThreeScene = () => {
         WheelPosition.REAR_RIGHT,
         settings,
         curModel,
+        curDesign,
       ),
       makeWheels(
         settings.frontWheelWidth,
@@ -101,48 +119,17 @@ export const useThreeScene = () => {
         WheelPosition.FRONT_RIGHT,
         settings,
         curModel,
+        curDesign,
       ),
     ];
     wheelRefs.current = wheels;
     wheels.forEach((wheel) => sceneRef.current?.add(wheel));
 
     const tires = [
-      makeTires(
-        settings.frontWheelDiameter,
-        settings.frontWheelWidth,
-        settings.frontTireWidth,
-        settings.frontTireSidewall,
-        WheelPosition.FRONT_LEFT,
-        settings,
-        curModel,
-      ),
-      makeTires(
-        settings.rearWheelDiameter,
-        settings.rearWheelWidth,
-        settings.rearTireWidth,
-        settings.rearTireSidewall,
-        WheelPosition.REAR_LEFT,
-        settings,
-        curModel,
-      ),
-      makeTires(
-        settings.rearWheelDiameter,
-        settings.rearWheelWidth,
-        settings.rearTireWidth,
-        settings.rearTireSidewall,
-        WheelPosition.REAR_RIGHT,
-        settings,
-        curModel,
-      ),
-      makeTires(
-        settings.frontWheelDiameter,
-        settings.frontWheelWidth,
-        settings.frontTireWidth,
-        settings.frontTireSidewall,
-        WheelPosition.FRONT_RIGHT,
-        settings,
-        curModel,
-      ),
+      makeTires(WheelPosition.FRONT_LEFT, settings, curModel),
+      makeTires(WheelPosition.REAR_LEFT, settings, curModel),
+      makeTires(WheelPosition.REAR_RIGHT, settings, curModel),
+      makeTires(WheelPosition.FRONT_RIGHT, settings, curModel),
     ];
     tireRefs.current = tires;
     tires.forEach((tire) => sceneRef.current?.add(tire));
@@ -179,9 +166,16 @@ const createAndAddCar = useCallback(async () => {
     if (!sceneRef.current) return;
 
     const curModel = useFitmentStore.getState().model;
+    const curDesign = useFitmentStore.getState().wheelDesign;
 
-    tireRefs.current.forEach((tire) => sceneRef.current?.remove(tire));
-    wheelRefs.current.forEach((wheel) => sceneRef.current?.remove(wheel));
+    tireRefs.current.forEach((tire) => {
+      sceneRef.current?.remove(tire);
+      disposeObject(tire);
+    });
+    wheelRefs.current.forEach((wheel) => {
+      sceneRef.current?.remove(wheel);
+      disposeObject(wheel);
+    });
 
     const wheels = [
       makeWheels(
@@ -190,6 +184,7 @@ const createAndAddCar = useCallback(async () => {
         WheelPosition.FRONT_LEFT,
         settings,
         curModel,
+        curDesign,
       ),
       makeWheels(
         settings.rearWheelWidth,
@@ -197,6 +192,7 @@ const createAndAddCar = useCallback(async () => {
         WheelPosition.REAR_LEFT,
         settings,
         curModel,
+        curDesign,
       ),
       makeWheels(
         settings.rearWheelWidth,
@@ -204,6 +200,7 @@ const createAndAddCar = useCallback(async () => {
         WheelPosition.REAR_RIGHT,
         settings,
         curModel,
+        curDesign,
       ),
       makeWheels(
         settings.frontWheelWidth,
@@ -211,48 +208,17 @@ const createAndAddCar = useCallback(async () => {
         WheelPosition.FRONT_RIGHT,
         settings,
         curModel,
+        curDesign,
       ),
     ];
     wheelRefs.current = wheels;
     wheels.forEach((wheel) => sceneRef.current?.add(wheel));
 
     const tires = [
-      makeTires(
-        settings.frontWheelDiameter,
-        settings.frontWheelWidth,
-        settings.frontTireWidth,
-        settings.frontTireSidewall,
-        WheelPosition.FRONT_LEFT,
-        settings,
-        curModel,
-      ),
-      makeTires(
-        settings.rearWheelDiameter,
-        settings.rearWheelWidth,
-        settings.rearTireWidth,
-        settings.rearTireSidewall,
-        WheelPosition.REAR_LEFT,
-        settings,
-        curModel,
-      ),
-      makeTires(
-        settings.rearWheelDiameter,
-        settings.rearWheelWidth,
-        settings.rearTireWidth,
-        settings.rearTireSidewall,
-        WheelPosition.REAR_RIGHT,
-        settings,
-        curModel,
-      ),
-      makeTires(
-        settings.frontWheelDiameter,
-        settings.frontWheelWidth,
-        settings.frontTireWidth,
-        settings.frontTireSidewall,
-        WheelPosition.FRONT_RIGHT,
-        settings,
-        curModel,
-      ),
+      makeTires(WheelPosition.FRONT_LEFT, settings, curModel),
+      makeTires(WheelPosition.REAR_LEFT, settings, curModel),
+      makeTires(WheelPosition.REAR_RIGHT, settings, curModel),
+      makeTires(WheelPosition.FRONT_RIGHT, settings, curModel),
     ];
     tireRefs.current = tires;
     tires.forEach((tire) => sceneRef.current?.add(tire));
@@ -263,10 +229,7 @@ const createAndAddCar = useCallback(async () => {
 
   useEffect(() => {
     if (bounceRequested) {
-      bounceStateRef.current = {
-        displacement: INITIAL_DISPLACEMENT,
-        velocity: 0,
-      };
+      bounceStateRef.current = createBounceState(bounceStateRef.current);
       prevTimeRef.current = performance.now() / 1000;
       useUIStore.getState().clearBounceRequest();
     }

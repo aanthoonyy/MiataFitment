@@ -12,12 +12,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CarModel } from "@/stores";
+import { WHEEL_DESIGNS, type WheelDesign } from "@/constants/wheelDesigns";
 
 interface CarSelectionSettingsProps {
   model: "na" | "nb" | "nc" | "nd" | string;
   setModel: (value: CarModel) => void;
   springRateLbIn: number;
   setSpringRateLbIn: (value: number) => void;
+  wheelDesign: WheelDesign;
+  setWheelDesign: (value: WheelDesign) => void;
   user: unknown | null;
   loading: boolean;
 }
@@ -47,6 +50,8 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
   setModel,
   springRateLbIn,
   setSpringRateLbIn,
+  wheelDesign,
+  setWheelDesign,
   user,
   loading,
 }) => {
@@ -246,21 +251,28 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
             <Label className="text-xs text-muted-foreground">
               Wheel Design
             </Label>
-            <Select disabled={customizationDisabled} value="">
+            <Select
+              value={wheelDesign}
+              onValueChange={(v) => setWheelDesign(v as WheelDesign)}
+            >
               <SelectTrigger className="h-9">
-                <SelectValue placeholder="Coming soon" />
+                <SelectValue placeholder="Select a wheel design" />
               </SelectTrigger>
-              <SelectContent className="bg-white text-black border shadow-md">
-                <SelectItem value="te37">TE37 Style</SelectItem>
-                <SelectItem value="mesh">Mesh</SelectItem>
-                <SelectItem value="5spoke">5-Spoke</SelectItem>
-                <SelectItem value="turbofan">Turbofan</SelectItem>
+              {/* Far more designs than fit on screen, so cap the list and let
+                  it scroll rather than running the full window height. */}
+              <SelectContent className="max-h-72 bg-white text-black border shadow-md">
+                {WHEEL_DESIGNS.map((d) => (
+                  <SelectItem key={d.value} value={d.value}>
+                    {d.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
 
           <p className="text-xs text-muted-foreground">
-            Customization options are coming soon (color, kits, wheel styling).
+            Wheel design only changes how the wheel is drawn — sizing and
+            fitment are unaffected. Color and kits are coming soon.
           </p>
         </div>
       </div>

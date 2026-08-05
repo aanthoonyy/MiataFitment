@@ -1,4 +1,4 @@
-import type { FitmentConfig } from "@/stores/fitmentStore";
+import type { FitmentConfig } from "@/types/stores";
 import type { CarModel } from "@/constants/wheelPositions";
 import { DEFAULT_SETTINGS } from "@/types/settings";
 

@@ -5,21 +5,11 @@ import {
   type WheelPosition,
 } from "@/constants/wheelPositions";
 import rollingDiameter from "./rollingDiameter";
+import { axleSettings } from "./axleSettings";
 import { clampCamber } from "@/utils/suspensionGeometry";
+import type { WheelPositionData } from "@/types/fitment";
 
 const mmToFeet = (mm: number) => mm / 25.4 / 12;
-
-export interface WheelPositionData {
-    rotation: {
-        x: number;
-        z: number;
-    };
-    position: {
-        x: number;
-        y: number;
-        z: number;
-    };
-}
 
 export function calculateWheelPosition(
     position: WheelPosition, 
@@ -28,15 +18,17 @@ export function calculateWheelPosition(
 ): WheelPositionData {
     const isFront = position.startsWith("F");
     const isLeft = position.endsWith("L");
-    
-    const camber = isFront ? settings.frontCamber : settings.rearCamber;
-    const toe = isFront ? settings.frontToe : settings.rearToe;
-    const wheelDiameter = isFront ? settings.frontWheelDiameter : settings.rearWheelDiameter;
-    const tireWidth = isFront ? settings.frontTireWidth : settings.rearTireWidth;
-    const tireSidewall = isFront ? settings.frontTireSidewall : settings.rearTireSidewall;
-    const wheelOffset = isFront ? settings.frontWheelOffset : settings.rearWheelOffset;
-    const wheelSpacer = isFront ? settings.frontWheelSpacer : settings.rearWheelSpacer;
-    const rideHeight = isFront ? settings.rideHeightFront : settings.rideHeightRear;
+
+    const {
+        camber,
+        toe,
+        rideHeight,
+        wheelDiameter,
+        wheelOffset,
+        wheelSpacer,
+        tireWidth,
+        tireSidewall,
+    } = axleSettings(position, settings);
 
     const wheelPositions = getWheelPositions(model);
     let baseX: number;

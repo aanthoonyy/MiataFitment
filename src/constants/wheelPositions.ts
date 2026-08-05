@@ -1,3 +1,5 @@
+import type { WheelPositions } from "@/types/wheels";
+
 export const WheelPosition = {
   FRONT_LEFT: "FL",
   FRONT_RIGHT: "FR",
@@ -16,28 +18,6 @@ export function isCarModel(value: unknown): value is CarModel {
     typeof value === "string" &&
     (CAR_MODELS as readonly string[]).includes(value)
   );
-}
-
-interface BaseWheelPosition {
-  x: number;
-  z: number;
-}
-
-interface FrontWheelPosition extends BaseWheelPosition {
-  casterOffset: number;
-}
-
-interface RearWheelPosition extends BaseWheelPosition {}
-
-interface WheelPositions {
-  FRONT: {
-    LEFT: FrontWheelPosition;
-    RIGHT: FrontWheelPosition;
-  };
-  REAR: {
-    LEFT: RearWheelPosition;
-    RIGHT: RearWheelPosition;
-  };
 }
 
 // All measurements are in feet (1 unit = 1 foot in Three.js)

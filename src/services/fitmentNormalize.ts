@@ -1,6 +1,6 @@
 import type { Settings } from "@/types/settings";
 import { DEFAULT_SETTINGS } from "@/types/settings";
-import type { FitmentConfig } from "@/stores/fitmentStore";
+import type { FitmentConfig } from "@/types/stores";
 import type { SavedConfigPayload } from "@/types/garage";
 import { isCarModel } from "@/constants/wheelPositions";
 
