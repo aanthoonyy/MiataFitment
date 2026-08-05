@@ -40,6 +40,16 @@ const BULGE_HEIGHT_PER_RIM_INCH = 0.12;
 const MIN_BULGE_HEIGHT = 0.15;
 const MAX_BULGE_HEIGHT = 0.8;
 
+// Sliding the widest point down is only half of stretch. Pulling the bead out
+// onto a wider rim also puts the sidewall in tension, and a taut membrane is
+// straight -- so everything above the widest point flattens into one long run
+// up to the shoulder. That straight run over a short hook off the bead is the J
+// a stretched tire makes in section; a relaxed carcass keeps its belly and
+// makes a C. Straightens the easing above the widest point towards linear.
+const SIDEWALL_TAUT_PER_RIM_INCH = 0.35;
+// Never dead straight: even a hard stretch leaves a little belly in the cords.
+const MAX_SIDEWALL_TAUT = 0.95;
+
 // How much the CROWN alone falls away from centre to shoulder, as a fraction of
 // tread half width. A stretched tire pulls the crown flat; a bulged one rounds
 // it. The shoulder round-over below adds its own drop on top of this -- the two
@@ -59,8 +69,15 @@ const CROWN_SEGMENTS = 5;
 const LATHE_SEGMENTS = 64;
 
 const smoothstep = (t: number) => t * t * (3 - 2 * t);
-const inverseSmoothstep = (s: number) =>
-    0.5 - Math.sin(Math.asin(1 - 2 * THREE.MathUtils.clamp(s, 0, 1)) / 3);
+
+// The easing used above the widest point, from round to straight. Since the
+// radius climbs linearly with h, a linear width against h is a dead straight
+// line in section -- so tautness really does straighten the sidewall rather
+// than just redistributing where it curves.
+const tautEase = (u: number, taut: number) =>
+    THREE.MathUtils.lerp(smoothstep(u), u, taut);
+const tautEaseSlope = (u: number, taut: number) =>
+    THREE.MathUtils.lerp(6 * u * (1 - u), 1, taut);
 
 // Half width of the carcass at height h up the sidewall, 0 at the bead and 1 at
 // the shoulder: out from the bead to the widest point, then back in to the
@@ -68,12 +85,16 @@ const inverseSmoothstep = (s: number) =>
 // point in both axes, is what keeps the radius climbing steadily -- a bezier
 // aimed through a low widest point puts its control behind the bead and dents
 // the sidewall inside the rim.
+//
+// The hook off the bead stays round however hard the tire is pulled: that part
+// is the carcass wrapping the flange, not membrane under tension.
 function sidewallHalfWidthAt(
     h: number,
     bulgeHeight: number,
     beadHalfWidth: number,
     sectionHalfWidth: number,
     treadHalfWidth: number,
+    taut: number,
 ) {
     if (h <= bulgeHeight) {
         return THREE.MathUtils.lerp(
@@ -85,7 +106,7 @@ function sidewallHalfWidthAt(
     return THREE.MathUtils.lerp(
         sectionHalfWidth,
         treadHalfWidth,
-        smoothstep((h - bulgeHeight) / (1 - bulgeHeight)),
+        tautEase((h - bulgeHeight) / (1 - bulgeHeight), taut),
     );
 }
 
@@ -162,6 +183,13 @@ export function makeTires(
         MIN_BULGE_HEIGHT,
         MAX_BULGE_HEIGHT,
     );
+    // Only stretch pulls the sidewall taut. Squeezing a tire onto a narrow rim
+    // leaves the cords slack, so the belly stays.
+    const sidewallTaut = THREE.MathUtils.clamp(
+        rimDelta * SIDEWALL_TAUT_PER_RIM_INCH,
+        0,
+        MAX_SIDEWALL_TAUT,
+    );
 
     // --- tread: sidewall, then shoulder round-over, then crown -------------
     //
@@ -201,23 +229,25 @@ export function makeTires(
     // is then aimed at a narrower tread than the tire really has, so that by
     // the handover it has arrived at the real tread half width.
     const handover = THREE.MathUtils.clamp(
-        // Far enough along that the aimed-at width stays sane on a tire being
-        // stretched hard over a much wider rim.
+        // Pushed past the inflection only when the tire is stretched hard
+        // enough that the aimed-at width below would otherwise go silly. Past
+        // half way every easing here returns at least its own input, so using
+        // the ratio directly is enough to hold that floor without inverting the
+        // easing -- which has no closed form once it is blended towards
+        // straight anyway.
         (sectionHalfWidth - treadHalfWidth) /
             (sectionHalfWidth - treadHalfWidth * 0.25),
         0.5,
         0.9,
     );
-    const handoverEase = inverseSmoothstep(handover);
-    const handoverHeight = bulgeHeight + (1 - bulgeHeight) * handoverEase;
+    const handoverHeight = bulgeHeight + (1 - bulgeHeight) * handover;
     const easedTreadHalfWidth =
-        sectionHalfWidth - (sectionHalfWidth - treadHalfWidth) / handover;
+        sectionHalfWidth -
+        (sectionHalfWidth - treadHalfWidth) / tautEase(handover, sidewallTaut);
     // d(half width)/dh at the handover, from the easing's derivative.
     const handoverSlope =
         ((sectionHalfWidth - easedTreadHalfWidth) *
-            6 *
-            handoverEase *
-            (1 - handoverEase)) /
+            tautEaseSlope(handover, sidewallTaut)) /
         (1 - bulgeHeight);
 
     // Closing the chain is mildly circular: how far the sidewall climbs sets
@@ -264,6 +294,7 @@ export function makeTires(
                     rimHalfWidth,
                     sectionHalfWidth,
                     easedTreadHalfWidth,
+                    sidewallTaut,
                 ),
             ),
         );
