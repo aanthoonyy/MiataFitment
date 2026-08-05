@@ -12,8 +12,8 @@ import rollingDiameter from "@/assets/common/rollingDiameter";
 import type { Settings } from "@/types/settings";
 import { WheelPosition } from "@/constants/wheelPositions";
 import { useFitmentStore, useUIStore } from "@/stores";
+import type { BounceState } from "@/types/bounce";
 import {
-  type BounceState,
   INITIAL_DISPLACEMENT,
   stepBounce,
   isBounceSettled,
@@ -126,42 +126,10 @@ export const useThreeScene = () => {
     wheels.forEach((wheel) => sceneRef.current?.add(wheel));
 
     const tires = [
-      makeTires(
-        settings.frontWheelDiameter,
-        settings.frontWheelWidth,
-        settings.frontTireWidth,
-        settings.frontTireSidewall,
-        WheelPosition.FRONT_LEFT,
-        settings,
-        curModel,
-      ),
-      makeTires(
-        settings.rearWheelDiameter,
-        settings.rearWheelWidth,
-        settings.rearTireWidth,
-        settings.rearTireSidewall,
-        WheelPosition.REAR_LEFT,
-        settings,
-        curModel,
-      ),
-      makeTires(
-        settings.rearWheelDiameter,
-        settings.rearWheelWidth,
-        settings.rearTireWidth,
-        settings.rearTireSidewall,
-        WheelPosition.REAR_RIGHT,
-        settings,
-        curModel,
-      ),
-      makeTires(
-        settings.frontWheelDiameter,
-        settings.frontWheelWidth,
-        settings.frontTireWidth,
-        settings.frontTireSidewall,
-        WheelPosition.FRONT_RIGHT,
-        settings,
-        curModel,
-      ),
+      makeTires(WheelPosition.FRONT_LEFT, settings, curModel),
+      makeTires(WheelPosition.REAR_LEFT, settings, curModel),
+      makeTires(WheelPosition.REAR_RIGHT, settings, curModel),
+      makeTires(WheelPosition.FRONT_RIGHT, settings, curModel),
     ];
     tireRefs.current = tires;
     tires.forEach((tire) => sceneRef.current?.add(tire));
@@ -247,42 +215,10 @@ const createAndAddCar = useCallback(async () => {
     wheels.forEach((wheel) => sceneRef.current?.add(wheel));
 
     const tires = [
-      makeTires(
-        settings.frontWheelDiameter,
-        settings.frontWheelWidth,
-        settings.frontTireWidth,
-        settings.frontTireSidewall,
-        WheelPosition.FRONT_LEFT,
-        settings,
-        curModel,
-      ),
-      makeTires(
-        settings.rearWheelDiameter,
-        settings.rearWheelWidth,
-        settings.rearTireWidth,
-        settings.rearTireSidewall,
-        WheelPosition.REAR_LEFT,
-        settings,
-        curModel,
-      ),
-      makeTires(
-        settings.rearWheelDiameter,
-        settings.rearWheelWidth,
-        settings.rearTireWidth,
-        settings.rearTireSidewall,
-        WheelPosition.REAR_RIGHT,
-        settings,
-        curModel,
-      ),
-      makeTires(
-        settings.frontWheelDiameter,
-        settings.frontWheelWidth,
-        settings.frontTireWidth,
-        settings.frontTireSidewall,
-        WheelPosition.FRONT_RIGHT,
-        settings,
-        curModel,
-      ),
+      makeTires(WheelPosition.FRONT_LEFT, settings, curModel),
+      makeTires(WheelPosition.REAR_LEFT, settings, curModel),
+      makeTires(WheelPosition.REAR_RIGHT, settings, curModel),
+      makeTires(WheelPosition.FRONT_RIGHT, settings, curModel),
     ];
     tireRefs.current = tires;
     tires.forEach((tire) => sceneRef.current?.add(tire));

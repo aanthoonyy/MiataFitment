@@ -5,35 +5,8 @@ import {
   deleteGarageConfig,
   updateGarageConfig,
 } from "@/services/garageAPI";
-import type { SavedConfig, SavedConfigPayload } from "@/types/garage";
+import type { GarageStore } from "@/types/stores";
 
-interface GarageStore {
-  // State
-  configs: SavedConfig[];
-  saveName: string;
-  saveDialogOpen: boolean;
-  loading: boolean;
-  maxSaves: number;
-
-  // Actions
-  setConfigs: (configs: SavedConfig[]) => void;
-  setSaveName: (name: string) => void;
-  setSaveDialogOpen: (open: boolean) => void;
-  setMaxSaves: (max: number) => void;
-
-  fetchConfigs: (userId: string) => Promise<void>;
-  saveConfig: (
-    userId: string,
-    name: string,
-    payload: SavedConfigPayload
-  ) => Promise<void>;
-  overwriteConfig: (
-    configId: string,
-    payload: SavedConfigPayload
-  ) => Promise<void>;
-  deleteConfig: (configId: string) => Promise<void>;
-  resetSaveDialog: () => void;
-}
 
 // Derived state selectors (use these to prevent re-renders)
 export const selectIsAtLimit = (state: GarageStore) =>

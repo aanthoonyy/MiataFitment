@@ -6,20 +6,9 @@ import {
 } from "@/constants/wheelPositions";
 import rollingDiameter from "./rollingDiameter";
 import { clampCamber } from "@/utils/suspensionGeometry";
+import type { WheelPositionData } from "@/types/fitment";
 
 const mmToFeet = (mm: number) => mm / 25.4 / 12;
-
-export interface WheelPositionData {
-    rotation: {
-        x: number;
-        z: number;
-    };
-    position: {
-        x: number;
-        y: number;
-        z: number;
-    };
-}
 
 export function calculateWheelPosition(
     position: WheelPosition, 

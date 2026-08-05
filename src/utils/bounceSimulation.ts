@@ -1,17 +1,7 @@
 // Damped spring simulation for the "Simulate Bounce" action.
 // Suspension geometry (hub-to-fender, camber curves) lives in
 // ./suspensionGeometry.
-
-export interface BounceState {
-  displacement: number; // inches, positive = compression (body dropped)
-  velocity: number; // inches/sec
-}
-
-// Tuned for a Miata: default ~6k lb/in spring rate, 0.3-0.7 damping ratio
-export interface BounceParams {
-  springRateLbIn?: number;
-  dampingRatio?: number;
-}
+import type { BounceState, BounceParams } from "@/types/bounce";
 
 export const DEFAULT_SPRING_RATE_LB_IN = 6000;
 const MIN_SPRING_RATE_LB_IN = 2000;

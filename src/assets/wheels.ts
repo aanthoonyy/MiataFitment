@@ -5,6 +5,7 @@ import type { CarModel, WheelPosition } from "@/constants/wheelPositions";
 import type { WheelDesign } from "@/constants/wheelDesigns";
 import { wheelModelPath } from "@/constants/wheelDesigns";
 import { calculateWheelPosition } from "./common/wheelPositionCalculator";
+import type { WheelPart, WheelModel } from "@/types/wheels";
 
 // --- knobs for fitting a .glb design onto the default wheel ---------------
 
@@ -40,18 +41,6 @@ const MIN_PLATE_FRACTION = 0.1;
 const MAX_PLATE_FRACTION = 0.45;
 
 // -------------------------------------------------------------------------
-
-interface WheelPart {
-    geometry: THREE.BufferGeometry;
-    material: THREE.Material | THREE.Material[];
-}
-
-interface WheelModel {
-    parts: WheelPart[];
-    // Where this model's hub plate sits, as a fraction of overall width in from
-    // the outboard flange. Measured, not configured.
-    plateFraction: number;
-}
 
 // One fetch, parse and normalise per design, shared by all four corners, and
 // only for designs actually selected.

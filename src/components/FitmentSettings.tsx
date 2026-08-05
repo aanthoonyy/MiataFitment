@@ -5,7 +5,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
-import { useFitmentStore, useUIStore, type SettingsTab } from "@/stores";
+import { useFitmentStore, useUIStore } from "@/stores";
+import type { SettingsTab } from "@/types/stores";
 import { useUserSettingsStore } from "@/stores/userSettingsStore";
 
 import SuspensionSettings from "@/components/FitmentSettingsTabs/SuspensionSettings";

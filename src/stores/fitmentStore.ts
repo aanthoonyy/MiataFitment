@@ -1,34 +1,12 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { Settings } from "@/types/settings";
 import { DEFAULT_SETTINGS } from "@/types/settings";
 import type { CarModel } from "@/constants/wheelPositions";
-import type { WheelDesign } from "@/constants/wheelDesigns";
 import { DEFAULT_WHEEL_DESIGN } from "@/constants/wheelDesigns";
 import { SPRING_MASS } from "@/utils/bounceSimulation";
+import type { FitmentStore } from "@/types/stores";
 
 export type { CarModel };
-
-export interface FitmentConfig {
-  model: CarModel;
-  settings: Settings;
-}
-
-interface FitmentStore {
-  // State
-  model: CarModel;
-  settings: Settings;
-  // Purely how the wheel is drawn, so it stays out of Settings and out of
-  // saved/shared configs.
-  wheelDesign: WheelDesign;
-
-  // Actions
-  setModel: (model: CarModel) => void;
-  setWheelDesign: (design: WheelDesign) => void;
-  updateSettings: (patch: Partial<Settings>) => void;
-  resetSettings: () => void;
-  loadConfig: (config: FitmentConfig) => void;
-}
 
 export const useFitmentStore = create<FitmentStore>()(
   persist(

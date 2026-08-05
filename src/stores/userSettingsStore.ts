@@ -1,22 +1,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { getUserSettings, saveUserSettings } from "@/services/userSettingsAPI";
+import type { UserSettingsStore } from "@/types/stores";
 
-interface UserSettingsStore {
-  // State
-  darkMode: boolean;
-  metric: boolean;
-  loading: boolean;
-  saving: boolean;
-  error: unknown;
-
-  // Actions
-  setDarkMode: (dark: boolean, userId?: string | null) => Promise<void>;
-  setMetric: (metric: boolean, userId?: string | null) => Promise<void>;
-  toggleDarkMode: (userId?: string | null) => Promise<void>;
-  toggleMetric: (userId?: string | null) => Promise<void>;
-  fetchSettings: (userId: string) => Promise<void>;
-}
 
 export const useUserSettingsStore = create<UserSettingsStore>()(
   persist(

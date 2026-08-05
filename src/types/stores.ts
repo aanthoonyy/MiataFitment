@@ -1,0 +1,96 @@
+import type { Settings } from "./settings";
+import type { SavedConfig, SavedConfigPayload } from "./garage";
+import type { CarModel } from "@/constants/wheelPositions";
+import type { WheelDesign } from "@/constants/wheelDesigns";
+
+// The model plus settings pair that gets saved, shared and restored.
+export interface FitmentConfig {
+    model: CarModel;
+    settings: Settings;
+}
+
+export interface FitmentStore {
+    // State
+    model: CarModel;
+    settings: Settings;
+    // Purely how the wheel is drawn, so it stays out of Settings and out of
+    // saved/shared configs.
+    wheelDesign: WheelDesign;
+
+    // Actions
+    setModel: (model: CarModel) => void;
+    setWheelDesign: (design: WheelDesign) => void;
+    updateSettings: (patch: Partial<Settings>) => void;
+    resetSettings: () => void;
+    loadConfig: (config: FitmentConfig) => void;
+}
+
+export interface GarageStore {
+    // State
+    configs: SavedConfig[];
+    saveName: string;
+    saveDialogOpen: boolean;
+    loading: boolean;
+    maxSaves: number;
+
+    // Actions
+    setConfigs: (configs: SavedConfig[]) => void;
+    setSaveName: (name: string) => void;
+    setSaveDialogOpen: (open: boolean) => void;
+    setMaxSaves: (max: number) => void;
+
+    fetchConfigs: (userId: string) => Promise<void>;
+    saveConfig: (
+        userId: string,
+        name: string,
+        payload: SavedConfigPayload,
+    ) => Promise<void>;
+    overwriteConfig: (
+        configId: string,
+        payload: SavedConfigPayload,
+    ) => Promise<void>;
+    deleteConfig: (configId: string) => Promise<void>;
+    resetSaveDialog: () => void;
+}
+
+// Lives here rather than with UIStore's other members because UIStore refers to
+// it, and a type this small is not worth an import cycle.
+export type SettingsTab = "alignment" | "wheels" | "tires" | "car" | "account";
+
+export interface UIStore {
+    // Settings panel state
+    isSettingsOpen: boolean;
+    activeTab: SettingsTab;
+
+    // Match toggles
+    matchWheels: boolean;
+    matchTires: boolean;
+
+    // Bounce simulation
+    bounceRequested: boolean;
+
+    // Actions
+    setSettingsOpen: (open: boolean) => void;
+    toggleSettings: () => void;
+    setActiveTab: (tab: SettingsTab) => void;
+    setMatchWheels: (match: boolean) => void;
+    setMatchTires: (match: boolean) => void;
+    requestBounce: () => void;
+    clearBounceRequest: () => void;
+}
+
+export interface UserSettingsStore {
+    // State
+    darkMode: boolean;
+    metric: boolean;
+    loading: boolean;
+    saving: boolean;
+    error: unknown;
+
+    // Actions
+    setDarkMode: (dark: boolean, userId?: string | null) => Promise<void>;
+    setMetric: (metric: boolean, userId?: string | null) => Promise<void>;
+    toggleDarkMode: (userId?: string | null) => Promise<void>;
+    toggleMetric: (userId?: string | null) => Promise<void>;
+    fetchSettings: (userId: string) => Promise<void>;
+}
