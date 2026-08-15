@@ -5,8 +5,47 @@ import type { CarModel } from "@/constants/wheelPositions";
 import { DEFAULT_WHEEL_DESIGN } from "@/constants/wheelDesigns";
 import { SPRING_MASS } from "@/utils/bounceSimulation";
 import type { FitmentStore } from "@/types/stores";
+import type { Settings } from "@/types/settings";
 
 export type { CarModel };
+
+type SettingPair = readonly [keyof Settings, keyof Settings];
+
+// The front/rear pairs each match toggle keeps equal. A new paired setting has
+// to be listed here too, or the toggle will quietly leave it unmatched.
+const MATCHED_WHEEL_KEYS: readonly SettingPair[] = [
+  ["frontWheelWidth", "rearWheelWidth"],
+  ["frontWheelDiameter", "rearWheelDiameter"],
+  ["frontWheelOffset", "rearWheelOffset"],
+  ["frontWheelSpacer", "rearWheelSpacer"],
+];
+
+const MATCHED_TIRE_KEYS: readonly SettingPair[] = [
+  ["frontTireWidth", "rearTireWidth"],
+  ["frontTireSidewall", "rearTireSidewall"],
+];
+
+function mirrorToRear(
+  settings: Settings,
+  pairs: readonly SettingPair[],
+): Settings {
+  const mirrored = { ...settings };
+  for (const [front, rear] of pairs) mirrored[rear] = settings[front];
+  return mirrored;
+}
+
+// Applied on every write rather than from an effect watching the front values,
+// so the rear can never be briefly out of step with the front.
+function applyMatching(
+  settings: Settings,
+  matchWheels: boolean,
+  matchTires: boolean,
+): Settings {
+  let matched = settings;
+  if (matchWheels) matched = mirrorToRear(matched, MATCHED_WHEEL_KEYS);
+  if (matchTires) matched = mirrorToRear(matched, MATCHED_TIRE_KEYS);
+  return matched;
+}
 
 export const useFitmentStore = create<FitmentStore>()(
   persist(
@@ -14,6 +53,8 @@ export const useFitmentStore = create<FitmentStore>()(
       model: "na",
       settings: DEFAULT_SETTINGS,
       wheelDesign: DEFAULT_WHEEL_DESIGN,
+      matchWheels: false,
+      matchTires: false,
 
       setModel: (model) => set({ model }),
 
@@ -21,16 +62,40 @@ export const useFitmentStore = create<FitmentStore>()(
 
       updateSettings: (patch) =>
         set((state) => ({
-          settings: { ...state.settings, ...patch },
+          settings: applyMatching(
+            { ...state.settings, ...patch },
+            state.matchWheels,
+            state.matchTires,
+          ),
         })),
 
       resetSettings: () => set({ settings: DEFAULT_SETTINGS }),
 
       loadConfig: (config) =>
-        set({
+        set((state) => ({
           model: config.model,
-          settings: config.settings,
-        }),
+          settings: applyMatching(
+            config.settings,
+            state.matchWheels,
+            state.matchTires,
+          ),
+        })),
+
+      setMatchWheels: (match) =>
+        set((state) => ({
+          matchWheels: match,
+          settings: match
+            ? mirrorToRear(state.settings, MATCHED_WHEEL_KEYS)
+            : state.settings,
+        })),
+
+      setMatchTires: (match) =>
+        set((state) => ({
+          matchTires: match,
+          settings: match
+            ? mirrorToRear(state.settings, MATCHED_TIRE_KEYS)
+            : state.settings,
+        })),
     }),
     {
       name: "fitment-storage",

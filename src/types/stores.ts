@@ -17,12 +17,20 @@ export interface FitmentStore {
     // saved/shared configs.
     wheelDesign: WheelDesign;
 
+    // Whether the rear axle tracks the front. Lives here rather than with the
+    // UI state because it decides what the settings themselves are, and the
+    // store keeps the pair in step on every write.
+    matchWheels: boolean;
+    matchTires: boolean;
+
     // Actions
     setModel: (model: CarModel) => void;
     setWheelDesign: (design: WheelDesign) => void;
     updateSettings: (patch: Partial<Settings>) => void;
     resetSettings: () => void;
     loadConfig: (config: FitmentConfig) => void;
+    setMatchWheels: (match: boolean) => void;
+    setMatchTires: (match: boolean) => void;
 }
 
 export interface GarageStore {
@@ -62,10 +70,6 @@ export interface UIStore {
     isSettingsOpen: boolean;
     activeTab: SettingsTab;
 
-    // Match toggles
-    matchWheels: boolean;
-    matchTires: boolean;
-
     // Bounce simulation
     bounceRequested: boolean;
 
@@ -73,8 +77,6 @@ export interface UIStore {
     setSettingsOpen: (open: boolean) => void;
     toggleSettings: () => void;
     setActiveTab: (tab: SettingsTab) => void;
-    setMatchWheels: (match: boolean) => void;
-    setMatchTires: (match: boolean) => void;
     requestBounce: () => void;
     clearBounceRequest: () => void;
 }

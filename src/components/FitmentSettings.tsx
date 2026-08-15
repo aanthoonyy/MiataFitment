@@ -19,10 +19,6 @@ import { BuyPartsButton } from "./BuyWheelButton";
 const FitmentSettings = () => {
   const activeTab = useUIStore((s) => s.activeTab);
   const setActiveTab = useUIStore((s) => s.setActiveTab);
-  const matchWheels = useUIStore((s) => s.matchWheels);
-  const setMatchWheels = useUIStore((s) => s.setMatchWheels);
-  const matchTires = useUIStore((s) => s.matchTires);
-  const setMatchTires = useUIStore((s) => s.setMatchTires);
   const bounceRequested = useUIStore((s) => s.bounceRequested);
   const requestBounce = useUIStore((s) => s.requestBounce);
 
@@ -32,6 +28,10 @@ const FitmentSettings = () => {
   const setWheelDesign = useFitmentStore((s) => s.setWheelDesign);
   const settings = useFitmentStore((s) => s.settings);
   const updateSettings = useFitmentStore((s) => s.updateSettings);
+  const matchWheels = useFitmentStore((s) => s.matchWheels);
+  const setMatchWheels = useFitmentStore((s) => s.setMatchWheels);
+  const matchTires = useFitmentStore((s) => s.matchTires);
+  const setMatchTires = useFitmentStore((s) => s.setMatchTires);
 
   const { user, loading } = useAuth();
 
@@ -48,36 +48,6 @@ const FitmentSettings = () => {
         updateSettings({ [key]: value } as Pick<Settings, K>),
     [updateSettings],
   );
-
-  useEffect(() => {
-    if (!matchWheels) return;
-    updateSettings({
-      rearWheelWidth: settings.frontWheelWidth,
-      rearWheelDiameter: settings.frontWheelDiameter,
-      rearWheelOffset: settings.frontWheelOffset,
-      rearWheelSpacer: settings.frontWheelSpacer,
-    });
-  }, [
-    matchWheels,
-    settings.frontWheelWidth,
-    settings.frontWheelDiameter,
-    settings.frontWheelOffset,
-    settings.frontWheelSpacer,
-    updateSettings,
-  ]);
-
-  useEffect(() => {
-    if (!matchTires) return;
-    updateSettings({
-      rearTireWidth: settings.frontTireWidth,
-      rearTireSidewall: settings.frontTireSidewall,
-    });
-  }, [
-    matchTires,
-    settings.frontTireWidth,
-    settings.frontTireSidewall,
-    updateSettings,
-  ]);
 
   return (
     <div className="flex h-full flex-col bg-muted/30">
