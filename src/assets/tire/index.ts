@@ -50,14 +50,14 @@ export function makeTires(
     settings: Settings,
     model: CarModel = "na",
 ) {
-    const { wheelDiameterIn, wheelWidthIn, tireWidthMm, tireSidewallPct } = axleSettings(
+    const { wheelDiameterIn, wheelWidthIn, tireWidthMm, tireAspectRatio } = axleSettings(
         position,
         settings,
     );
 
     const rimRadius = wheelDiameterIn / 2;
     const treadRadius = Math.max(
-        rollingDiameter(wheelDiameterIn, tireWidthMm, tireSidewallPct) / 2,
+        rollingDiameter(wheelDiameterIn, tireWidthMm, tireAspectRatio) / 2,
         rimRadius + MIN_SIDEWALL_HEIGHT,
     );
 

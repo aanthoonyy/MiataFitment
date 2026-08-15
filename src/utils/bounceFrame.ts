@@ -34,7 +34,7 @@ export function bounceCornerRotation(
         rideHeightFt,
         wheelDiameterIn,
         tireWidthMm,
-        tireSidewallPct,
+        tireAspectRatio,
     } = axleSettings(corner, settings);
 
     const hubToFenderRestIn = hubToFenderAtRest(rideHeightFt, axle);
@@ -47,7 +47,7 @@ export function bounceCornerRotation(
     // across the tire's rolling diameter, in feet. Preserved as-is because it
     // is what the scene has always been drawn with.
     const toeRotation = inchesToFeet(
-        rollingDiameter(wheelDiameterIn, tireWidthMm, tireSidewallPct) *
+        rollingDiameter(wheelDiameterIn, tireWidthMm, tireAspectRatio) *
             Math.sin(isLeft ? toeRad : -toeRad),
     );
 

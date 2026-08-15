@@ -23,7 +23,7 @@ const MATCHED_WHEEL_KEYS: readonly SettingPair[] = [
 
 const MATCHED_TIRE_KEYS: readonly SettingPair[] = [
   ["frontTireWidthMm", "rearTireWidthMm"],
-  ["frontTireSidewallPct", "rearTireSidewallPct"],
+  ["frontTireAspectRatio", "rearTireAspectRatio"],
 ];
 
 function mirrorToRear(

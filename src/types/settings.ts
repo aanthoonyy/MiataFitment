@@ -14,13 +14,13 @@ export type Settings = {
   rideHeightRearFt: number;
   springRateLbIn: number;
   frontTireWidthMm: number;
-  frontTireSidewallPct: number;
+  frontTireAspectRatio: number;
   frontWheelWidthIn: number;
   frontWheelDiameterIn: number;
   frontWheelOffsetMm: number;
   frontWheelSpacerMm: number;
   rearTireWidthMm: number;
-  rearTireSidewallPct: number;
+  rearTireAspectRatio: number;
   rearWheelWidthIn: number;
   rearWheelDiameterIn: number;
   rearWheelOffsetMm: number;
@@ -42,7 +42,7 @@ export const DEFAULT_SETTINGS: Settings = {
   springRateLbIn: DEFAULT_SPRING_RATE_LB_IN,
 
   frontTireWidthMm: 185,
-  frontTireSidewallPct: 60,
+  frontTireAspectRatio: 60,
 
   frontWheelWidthIn: 6,
   frontWheelDiameterIn: 14,
@@ -50,7 +50,7 @@ export const DEFAULT_SETTINGS: Settings = {
   frontWheelSpacerMm: 0,
 
   rearTireWidthMm: 185,
-  rearTireSidewallPct: 60,
+  rearTireAspectRatio: 60,
 
   rearWheelWidthIn: 6,
   rearWheelDiameterIn: 14,

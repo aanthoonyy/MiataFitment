@@ -24,8 +24,8 @@ export function axleSettings(
             ? settings.frontWheelSpacerMm
             : settings.rearWheelSpacerMm,
         tireWidthMm: front ? settings.frontTireWidthMm : settings.rearTireWidthMm,
-        tireSidewallPct: front
-            ? settings.frontTireSidewallPct
-            : settings.rearTireSidewallPct,
+        tireAspectRatio: front
+            ? settings.frontTireAspectRatio
+            : settings.rearTireAspectRatio,
     };
 }

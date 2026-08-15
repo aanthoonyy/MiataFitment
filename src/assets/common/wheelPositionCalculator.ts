@@ -27,7 +27,7 @@ export function calculateWheelPosition(
         wheelOffsetMm,
         wheelSpacerMm,
         tireWidthMm,
-        tireSidewallPct,
+        tireAspectRatio,
     } = axleSettings(position, settings);
 
     // Caster rakes the front wheels fore and aft; there is no rear equivalent,
@@ -40,7 +40,7 @@ export function calculateWheelPosition(
 
     const camberRad = (clampCamber(camberDeg) * Math.PI) / 180;
     const toeRadiusComp = inchesToFeet(
-        rollingDiameter(wheelDiameterIn, tireWidthMm, tireSidewallPct) *
+        rollingDiameter(wheelDiameterIn, tireWidthMm, tireAspectRatio) *
             Math.sin(isLeft ? toeRad : -toeRad),
     );
 

@@ -13,7 +13,7 @@ export interface AxleSettings {
     wheelOffsetMm: number;
     wheelSpacerMm: number;
     tireWidthMm: number;
-    tireSidewallPct: number;
+    tireAspectRatio: number;
 }
 
 // Where a corner ends up once camberDeg, toeRad, offset, spacer and ride height have
