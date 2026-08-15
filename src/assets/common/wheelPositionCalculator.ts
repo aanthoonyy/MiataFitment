@@ -8,10 +8,9 @@ import {
 import rollingDiameter from "./rollingDiameter";
 import { axleSettings } from "./axleSettings";
 import { clampCamber } from "@/utils/suspensionGeometry";
+import { inchesToFeet, mmToFeet } from "@/utils/unitConversions";
 import type { WheelPositionData } from "@/types/fitment";
 
-const mmToFeet = (mm: number) => mm / 25.4 / 12;
-const INCHES_PER_FOOT = 12;
 
 export function calculateWheelPosition(
     position: WheelPosition,
@@ -40,10 +39,10 @@ export function calculateWheelPosition(
             : 0;
 
     const camberRad = (clampCamber(camberDeg) * Math.PI) / 180;
-    const toeRadiusComp =
-        (rollingDiameter(wheelDiameterIn, tireWidthMm, tireSidewallPct) *
-            Math.sin(isLeft ? toeRad : -toeRad)) /
-        INCHES_PER_FOOT;
+    const toeRadiusComp = inchesToFeet(
+        rollingDiameter(wheelDiameterIn, tireWidthMm, tireSidewallPct) *
+            Math.sin(isLeft ? toeRad : -toeRad),
+    );
 
     const offset = mmToFeet(isLeft ? -wheelOffsetMm : wheelOffsetMm);
     const spacer = mmToFeet(isLeft ? wheelSpacerMm : -wheelSpacerMm);

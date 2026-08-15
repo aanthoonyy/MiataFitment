@@ -2,7 +2,7 @@ import { Field } from "@/components/ui/field";
 import { SettingsCard } from "@/components/ui/settings-card";
 import { Slider } from "@/components/ui/slider";
 import { useSetting } from "@/hooks/useSetting";
-import { inchesToMM } from "@/services/inchesToCM";
+import { inchesToMm } from "@/utils/unitConversions";
 import { useUserSettingsStore } from "@/stores/userSettingsStore";
 import type { Axle } from "@/constants/wheelPositions";
 import type { Settings } from "@/types/settings";
@@ -41,6 +41,11 @@ const ALIGNMENT_KEYS: Record<
     toeRad: "rearToeRad",
   },
 };
+
+// Matches what the readout used to show before the conversion moved out of a
+// helper that rounded on your behalf.
+const MM_DECIMALS = 2;
+const INCH_DECIMALS = 2;
 
 const snapToStep = (value: number, step: number) =>
   Math.round(value / step) * step;
@@ -83,7 +88,9 @@ const SuspensionSettings = ({ title, axle }: SuspensionSettingsProps) => {
   const isMetric = useUserSettingsStore((state) => state.metric);
 
   const formatLength = (inches: number) =>
-    isMetric ? `${inchesToMM(inches)} mm` : `${inches.toFixed(2)}″`;
+    isMetric
+      ? `${Number(inchesToMm(inches).toFixed(MM_DECIMALS))} mm`
+      : `${inches.toFixed(INCH_DECIMALS)}″`;
 
   const rideHeightText =
     rideHeightFt === STOCK_RIDE_HEIGHT

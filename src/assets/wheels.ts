@@ -10,6 +10,7 @@ import type { WheelDesign } from "@/constants/wheelDesigns";
 import { wheelModelPath } from "@/constants/wheelDesigns";
 import { calculateWheelPosition } from "./common/wheelPositionCalculator";
 import { axleSettings } from "./common/axleSettings";
+import { inchesToFeet, mmToFeet } from "@/utils/unitConversions";
 import type { WheelPart, WheelModel } from "@/types/wheels";
 
 // --- knobs for fitting a .glb design onto the default wheel ---------------
@@ -44,6 +45,13 @@ const FALLBACK_PLATE_FRACTION = 0.3;
 // the fitter. Clamping keeps a bad measurement merely inaccurate.
 const MIN_PLATE_FRACTION = 0.1;
 const MAX_PLATE_FRACTION = 0.45;
+
+// The stand-in wheel drawn when no .glb design is selected: a thin disc at the
+// mounting face with a barrel either side of it. Sizing and placement are read
+// off these meshes even when a design hides them, so they exist at every size.
+const PLATE_RADIUS_IN = 7;
+const PLATE_THICKNESS_IN = 0.01;
+const CYLINDER_SEGMENTS = 32;
 
 // -------------------------------------------------------------------------
 
@@ -186,8 +194,8 @@ function fitWheelModel(
     plateFraction: number,
 ) {
     // Same units as the default wheel: scene units are feet, specs are inches.
-    const halfWidth = ((wheelWidthIn / 2) * WIDTH_FIT) / 12;
-    const radius = ((wheelDiameterIn / 2) * DIAMETER_FIT) / 12;
+    const halfWidth = inchesToFeet((wheelWidthIn / 2) * WIDTH_FIT);
+    const radius = inchesToFeet((wheelDiameterIn / 2) * DIAMETER_FIT);
     const plateLimit = halfWidth * MAX_PLATE_FRACTION_OF_HALF_WIDTH;
     const plate = THREE.MathUtils.clamp(plateY, -plateLimit, plateLimit);
 
@@ -230,15 +238,22 @@ export function makeWheels(
     model: CarModel = "na",
     design: WheelDesign = "default"
 ) {
-    const wheelGeometry = new THREE.CylinderGeometry(7/12, 7/12, 0.01/12, 32);
+    const plateRadiusFt = inchesToFeet(PLATE_RADIUS_IN);
+    const wheelGeometry = new THREE.CylinderGeometry(
+        plateRadiusFt,
+        plateRadiusFt,
+        inchesToFeet(PLATE_THICKNESS_IN),
+        CYLINDER_SEGMENTS,
+    );
     const wheelMaterial = new THREE.MeshBasicMaterial({color: 0xC0C0C0, transparent: true, opacity: 0.5});
     const wheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
 
+    const barrelRadiusFt = inchesToFeet(wheelDiameterIn / 2);
     const sideCylinderGeometry = new THREE.CylinderGeometry(
-        (wheelDiameterIn/2)/12,
-        (wheelDiameterIn/2)/12,
-        (wheelWidthIn/2)/12,
-        32
+        barrelRadiusFt,
+        barrelRadiusFt,
+        inchesToFeet(wheelWidthIn / 2),
+        CYLINDER_SEGMENTS,
     );
     const sideCylinderMaterial = new THREE.MeshPhysicalMaterial({color: 0xFFFFFF});
     sideCylinderMaterial.roughness = 0.2;
@@ -247,12 +262,16 @@ export function makeWheels(
     sideCylinderMaterial.clearcoat = 1;
     sideCylinderMaterial.clearcoatRoughness = 0.1;
 
+    // Two half-width barrels, each sitting a quarter of the width either side of
+    // the plate, so together they span the full wheel.
+    const barrelOffsetFt = inchesToFeet(wheelWidthIn / 4);
+
     const sideCylinder1 = new THREE.Mesh(sideCylinderGeometry, sideCylinderMaterial);
-    sideCylinder1.position.y = (wheelWidthIn/4)/12;
+    sideCylinder1.position.y = barrelOffsetFt;
     wheel.add(sideCylinder1);
 
     const sideCylinder2 = new THREE.Mesh(sideCylinderGeometry, sideCylinderMaterial);
-    sideCylinder2.position.y = -(wheelWidthIn/4)/12;
+    sideCylinder2.position.y = -barrelOffsetFt;
     wheel.add(sideCylinder2);
 
     // Calculate wheel position and rotation
@@ -277,7 +296,7 @@ export function makeWheels(
         const isLeft = isLeftCorner(position);
         const { wheelOffsetMm } = axleSettings(position, settings);
         // The plate mesh sits at the wheel's centreline, so y = 0 is the plate.
-        const plateY = PLATE_FOLLOWS_OFFSET ? wheelOffsetMm / 25.4 / 12 : 0;
+        const plateY = PLATE_FOLLOWS_OFFSET ? mmToFeet(wheelOffsetMm) : 0;
 
         // The model arrives after this returns; the caller has already placed
         // the wheel by then, so it just pops in a frame later.

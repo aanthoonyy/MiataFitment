@@ -7,8 +7,7 @@ import {
     type WheelPosition,
 } from "@/constants/wheelPositions";
 import type { Settings } from "@/types/settings";
-
-const INCHES_PER_FOOT = 12;
+import { inchesToFeet } from "./unitConversions";
 
 export interface CornerRotation {
     xRad: number;
@@ -29,8 +28,14 @@ export function bounceCornerRotation(
     const axle = axleOf(corner);
     const isLeft = isLeftCorner(corner);
 
-    const { camberDeg, toeRad, rideHeightFt, wheelDiameterIn, tireWidthMm, tireSidewallPct } =
-        axleSettings(corner, settings);
+    const {
+        camberDeg,
+        toeRad,
+        rideHeightFt,
+        wheelDiameterIn,
+        tireWidthMm,
+        tireSidewallPct,
+    } = axleSettings(corner, settings);
 
     const hubToFenderRestIn = hubToFenderAtRest(rideHeightFt, axle);
     const camberDeltaDeg =
@@ -39,12 +44,12 @@ export function bounceCornerRotation(
 
     const camberRad = ((camberDeg + camberDeltaDeg) * Math.PI) / 180;
     // Not an angle despite feeding a rotation: it is the toe swing measured
-    // across the tire.s rolling diameter, in feet. Preserved as-is because it
+    // across the tire's rolling diameter, in feet. Preserved as-is because it
     // is what the scene has always been drawn with.
-    const toeRotation =
-        (rollingDiameter(wheelDiameterIn, tireWidthMm, tireSidewallPct) *
-            Math.sin(isLeft ? toeRad : -toeRad)) /
-        INCHES_PER_FOOT;
+    const toeRotation = inchesToFeet(
+        rollingDiameter(wheelDiameterIn, tireWidthMm, tireSidewallPct) *
+            Math.sin(isLeft ? toeRad : -toeRad),
+    );
 
     return {
         xRad: isLeft ? Math.PI / 2 + camberRad : Math.PI / 2 - camberRad,

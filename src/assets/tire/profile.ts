@@ -1,11 +1,12 @@
 import * as THREE from "three";
 import { sidewallHalfWidthAt } from "./carcass";
 import type { TreadChain } from "@/types/tire";
+// Everything upstream is worked in inches; the scene is in feet. Divided across
+// the whole point rather than converted per axis.
+import { INCHES_PER_FOOT } from "@/utils/unitConversions";
 
 // --- turning the solved section into lathe points -------------------------
 
-// Everything upstream is worked in inches; the scene is in feet.
-const INCHES_PER_FOOT = 12;
 
 const SIDEWALL_SEGMENTS = 14;
 const SHOULDER_SEGMENTS = 8;

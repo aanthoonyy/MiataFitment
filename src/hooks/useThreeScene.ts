@@ -23,12 +23,12 @@ import {
   stepBounce,
 } from "@/utils/bounceSimulation";
 import { bounceCornerRotation } from "@/utils/bounceFrame";
+import { inchesToFeet } from "@/utils/unitConversions";
 
 const SCENE_BACKGROUND_COLOR = "#d3d3d3";
 const CAMERA_DISTANCE_FT = 25;
 const CAR_BODY_Y_FT = -1.4;
 const SCENE_CONTAINER_ID = "three-container";
-const INCHES_PER_FOOT = 12;
 
 export const useThreeScene = () => {
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -91,7 +91,7 @@ export const useThreeScene = () => {
     const { settings: current } = useFitmentStore.getState();
 
     if (carRef.current) {
-      carRef.current.position.y = -(bodyDropIn / INCHES_PER_FOOT);
+      carRef.current.position.y = -inchesToFeet(bodyDropIn);
     }
 
     CORNERS.forEach((corner, index) => {

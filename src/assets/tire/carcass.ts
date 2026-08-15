@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import type { Carcass } from "@/types/tire";
+import { mmToInches } from "@/utils/unitConversions";
 
 // --- how the carcass reacts to the rim it's mounted on --------------------
 //
@@ -12,8 +13,6 @@ import type { Carcass } from "@/types/tire";
 // Everything here is worked in inches, and in the cross section only: nothing
 // in this file knows the wheel's diameter or where the corner sits on the car.
 
-const MM_PER_INCH = 25.4;
-
 // Measuring rim runs about 1.5" under the section width. Checks out against the
 // published figures: 185 -> 5.8" (5.5 actual), 205 -> 6.6" (6.5), 225 -> 7.4"
 // (7.5).
@@ -22,7 +21,7 @@ const MIN_MEASURING_RIM = 3;
 
 // Industry rule of thumb: section width moves ~10mm per inch of rim width away
 // from the measuring rim.
-const SECTION_WIDTH_PER_RIM_INCH = 10 / MM_PER_INCH;
+const SECTION_WIDTH_PER_RIM_INCH = mmToInches(10);
 const MIN_SECTION_WIDTH = 1;
 
 // Tread is always narrower than the section width -- the widest part of a tire
@@ -73,7 +72,7 @@ export const tautEaseSlope = (u: number, taut: number) =>
 // --- the carcass -----------------------------------------------------------
 
 export function mountCarcass(tireWidthMm: number, wheelWidthIn: number): Carcass {
-    const nominalSectionWidth = tireWidthMm / MM_PER_INCH;
+    const nominalSectionWidth = mmToInches(tireWidthMm);
     const measuringRim = Math.max(
         MIN_MEASURING_RIM,
         nominalSectionWidth - MEASURING_RIM_DROP,

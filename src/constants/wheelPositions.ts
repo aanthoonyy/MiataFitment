@@ -1,4 +1,5 @@
 import type { WheelAnchor, WheelPositions } from "@/types/wheels";
+import { inchesToFeet } from "@/utils/unitConversions";
 
 export const WheelPosition = {
   FRONT_LEFT: "FL",
@@ -69,7 +70,7 @@ export function isCarModel(value: unknown): value is CarModel {
 
 // Converts the casterDeg setting (degrees) into a fore/aft offset in feet.
 // Identical across every generation measured so far.
-const CASTER_OFFSET_FEET = 5.74 / 12;
+const CASTER_OFFSET_FEET = inchesToFeet(5.74);
 
 // NA Miata wheel positions
 const NA_WHEEL_POSITIONS: WheelPositions = {

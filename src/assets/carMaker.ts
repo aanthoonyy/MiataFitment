@@ -1,5 +1,8 @@
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import * as THREE from 'three';
+import { inchesToFeet } from '@/utils/unitConversions';
+
+const INCH_SCALE = inchesToFeet(1);
 
 const CAR_MODELS = {
   na: '/na_render.glb',
@@ -19,7 +22,8 @@ export function makeCar(y: number, model: string = 'na') {
         loader.load(
             modelPath,
             (gltf) => {
-                gltf.scene.scale.set(1/12, 1/12, 1/12);
+                // The model is authored in inches; the scene works in feet.
+                gltf.scene.scale.set(INCH_SCALE, INCH_SCALE, INCH_SCALE);
                 gltf.scene.rotation.y = Math.PI / 2;
                 gltf.scene.position.y = y;
                 gltf.scene.position.x = +5;
