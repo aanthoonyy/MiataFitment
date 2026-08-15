@@ -1,8 +1,7 @@
-import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
+import { SettingsCard } from "@/components/ui/settings-card";
 import { Slider } from "@/components/ui/slider";
 import {
   Select,
@@ -11,19 +10,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CarModel } from "@/stores";
+import { useAuth } from "@/hooks/useAuth";
+import { useSetting } from "@/hooks/useSetting";
+import { useFitmentStore, type CarModel } from "@/stores";
 import { WHEEL_DESIGNS, type WheelDesign } from "@/constants/wheelDesigns";
-
-interface CarSelectionSettingsProps {
-  model: "na" | "nb" | "nc" | "nd" | string;
-  setModel: (value: CarModel) => void;
-  springRateLbIn: number;
-  setSpringRateLbIn: (value: number) => void;
-  wheelDesign: WheelDesign;
-  setWheelDesign: (value: WheelDesign) => void;
-  user: unknown | null;
-  loading: boolean;
-}
 
 const SPRING_PRESETS = [
   { label: "Floaty", value: 100 },
@@ -32,55 +22,57 @@ const SPRING_PRESETS = [
   { label: "Stancy", value: 20000 },
 ] as const;
 
-function closestPresetIndex(v: number) {
-  let bestIdx = 0;
-  let bestDist = Infinity;
-  for (let i = 0; i < SPRING_PRESETS.length; i++) {
-    const d = Math.abs(v - SPRING_PRESETS[i].value);
-    if (d < bestDist) {
-      bestDist = d;
-      bestIdx = i;
+// Shown when a persisted rate is missing or corrupt, so the slider still has a
+// preset to sit on.
+const FALLBACK_SPRING_RATE_LB_IN = 2500;
+
+// Colour and kit pickers are built but have nothing behind them yet.
+const CUSTOMISATION_DISABLED = true;
+
+function closestPresetIndex(springRateLbIn: number) {
+  let bestIndex = 0;
+  let bestDistance = Infinity;
+  for (let index = 0; index < SPRING_PRESETS.length; index++) {
+    const distance = Math.abs(springRateLbIn - SPRING_PRESETS[index].value);
+    if (distance < bestDistance) {
+      bestDistance = distance;
+      bestIndex = index;
     }
   }
-  return bestIdx;
+  return bestIndex;
 }
 
-const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
-  model,
-  setModel,
-  springRateLbIn,
-  setSpringRateLbIn,
-  wheelDesign,
-  setWheelDesign,
-  user,
-  loading,
-}) => {
-  const sectionTitle = "text-sm font-medium";
-  const sectionCard = "rounded-xl bg-zinc-50 p-4 shadow-sm shadow-black/10";
+const LoginPrompt = ({ action }: { action: string }) => (
+  <p className="text-xs text-muted-foreground">
+    Please{" "}
+    <RouterLink
+      to="/login"
+      className="underline underline-offset-4 hover:text-foreground"
+    >
+      log in
+    </RouterLink>{" "}
+    to {action}.
+  </p>
+);
 
-  const disabled = loading;
+const CarSelectionSettings = () => {
+  const model = useFitmentStore((state) => state.model);
+  const setModel = useFitmentStore((state) => state.setModel);
+  const wheelDesign = useFitmentStore((state) => state.wheelDesign);
+  const setWheelDesign = useFitmentStore((state) => state.setWheelDesign);
+  const [springRateLbIn, setSpringRateLbIn] = useSetting("springRateLbIn");
+
+  const { user, loading } = useAuth();
 
   const safeSpringRateLbIn = Number.isFinite(springRateLbIn)
     ? springRateLbIn
-    : 2500;
-
+    : FALLBACK_SPRING_RATE_LB_IN;
   const presetIndex = closestPresetIndex(safeSpringRateLbIn);
-  const preset = SPRING_PRESETS[presetIndex];
-  const suspensionLabel = disabled ? "Locked" : preset.label;
-
-  // Disable customization dropdowns for now (regardless of auth/loading)
-  const customizationDisabled = true;
+  const showLoginPrompt = !user && !loading;
 
   return (
     <div className="space-y-4">
-      {/* ---------------- Car Selection Card ---------------- */}
-      <div className={sectionCard}>
-        <div className="flex items-center justify-between">
-          <div className={sectionTitle}>Car Selection</div>
-        </div>
-
-        <Separator className="my-3" />
-
+      <SettingsCard title="Car Selection">
         <div className="space-y-4">
           <div className="space-y-1.5">
             <div className="flex items-baseline justify-between gap-2">
@@ -88,14 +80,14 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
                 Miata Generation
               </Label>
               <span className="text-[11px] text-muted-foreground">
-                {disabled ? "Locked" : "Editable"}
+                {loading ? "Locked" : "Editable"}
               </span>
             </div>
 
             <Select
               value={model}
-              onValueChange={(v) => setModel(v as CarModel)}
-              disabled={disabled}
+              onValueChange={(value) => setModel(value as CarModel)}
+              disabled={loading}
             >
               <SelectTrigger className="h-9">
                 <SelectValue placeholder="Select a generation" />
@@ -113,18 +105,9 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
               </SelectContent>
             </Select>
 
-            {!user && !loading && (
-              <p className="text-xs text-muted-foreground">
-                Please{" "}
-                <RouterLink
-                  to="/login"
-                  className="underline underline-offset-4 hover:text-foreground"
-                >
-                  log in
-                </RouterLink>{" "}
-                to change car selection.
-              </p>
-            )}
+            {showLoginPrompt ? (
+              <LoginPrompt action="change car selection" />
+            ) : null}
           </div>
 
           <p className="text-sm text-muted-foreground leading-relaxed">
@@ -133,16 +116,9 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
             geometry.
           </p>
         </div>
-      </div>
+      </SettingsCard>
 
-      {/* ---------------- Spring Rate Card ---------------- */}
-      <div className={sectionCard}>
-        <div className="flex items-center justify-between">
-          <div className={sectionTitle}>Suspension</div>
-        </div>
-
-        <Separator className="my-3" />
-
+      <SettingsCard title="Suspension">
         <div className="space-y-4">
           <div className="space-y-1.5">
             <div className="flex items-baseline justify-between gap-2">
@@ -151,7 +127,7 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
               </Label>
 
               <span className="text-[11px] text-muted-foreground">
-                {suspensionLabel}
+                {loading ? "Locked" : SPRING_PRESETS[presetIndex].label}
               </span>
             </div>
 
@@ -161,39 +137,29 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
               min={0}
               max={SPRING_PRESETS.length - 1}
               step={1}
-              onValueChange={([i]) =>
-                setSpringRateLbIn(SPRING_PRESETS[i].value)
+              onValueChange={([index]) =>
+                setSpringRateLbIn(SPRING_PRESETS[index].value)
               }
-              disabled={disabled}
+              disabled={loading}
             />
 
-            {/* Optional: show the 4 labels under the slider */}
             <div className="grid grid-cols-4 text-[10px] text-muted-foreground mt-2">
-              {SPRING_PRESETS.map((p, i) => (
+              {SPRING_PRESETS.map((preset, index) => (
                 <div
-                  key={p.label}
+                  key={preset.label}
                   className={[
                     "text-center",
-                    i === presetIndex ? "text-foreground font-medium" : "",
+                    index === presetIndex ? "text-foreground font-medium" : "",
                   ].join(" ")}
                 >
-                  {p.label}
+                  {preset.label}
                 </div>
               ))}
             </div>
 
-            {!user && !loading && (
-              <p className="text-xs text-muted-foreground">
-                Please{" "}
-                <RouterLink
-                  to="/login"
-                  className="underline underline-offset-4 hover:text-foreground"
-                >
-                  log in
-                </RouterLink>{" "}
-                to change suspension settings.
-              </p>
-            )}
+            {showLoginPrompt ? (
+              <LoginPrompt action="change suspension settings" />
+            ) : null}
 
             <p className="text-xs text-muted-foreground">
               Higher rates feel stiffer and settle faster; lower rates bounce
@@ -203,21 +169,13 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
             </p>
           </div>
         </div>
-      </div>
+      </SettingsCard>
 
-      {/* ---------------- Car Customization Card ---------------- */}
-      <div className={sectionCard}>
-        <div className="flex items-center justify-between">
-          <div className={sectionTitle}>Car Customization</div>
-        </div>
-
-        <Separator className="my-3" />
-
+      <SettingsCard title="Car Customization">
         <div className="space-y-4">
-          {/* Color */}
           <div className="space-y-1.5">
             <Label className="text-xs text-muted-foreground">Color</Label>
-            <Select disabled={customizationDisabled} value="">
+            <Select disabled={CUSTOMISATION_DISABLED} value="">
               <SelectTrigger className="h-9">
                 <SelectValue placeholder="Coming soon" />
               </SelectTrigger>
@@ -230,10 +188,9 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
             </Select>
           </div>
 
-          {/* Kits */}
           <div className="space-y-1.5">
             <Label className="text-xs text-muted-foreground">Kits</Label>
-            <Select disabled={customizationDisabled} value="">
+            <Select disabled={CUSTOMISATION_DISABLED} value="">
               <SelectTrigger className="h-9">
                 <SelectValue placeholder="Coming soon" />
               </SelectTrigger>
@@ -246,14 +203,13 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
             </Select>
           </div>
 
-          {/* Wheel Design */}
           <div className="space-y-1.5">
             <Label className="text-xs text-muted-foreground">
               Wheel Design
             </Label>
             <Select
               value={wheelDesign}
-              onValueChange={(v) => setWheelDesign(v as WheelDesign)}
+              onValueChange={(value) => setWheelDesign(value as WheelDesign)}
             >
               <SelectTrigger className="h-9">
                 <SelectValue placeholder="Select a wheel design" />
@@ -261,9 +217,9 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
               {/* Far more designs than fit on screen, so cap the list and let
                   it scroll rather than running the full window height. */}
               <SelectContent className="max-h-72 bg-white text-black border shadow-md">
-                {WHEEL_DESIGNS.map((d) => (
-                  <SelectItem key={d.value} value={d.value}>
-                    {d.label}
+                {WHEEL_DESIGNS.map((design) => (
+                  <SelectItem key={design.value} value={design.value}>
+                    {design.label}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -275,7 +231,7 @@ const CarSelectionSettings: React.FC<CarSelectionSettingsProps> = ({
             fitment are unaffected. Color and kits are coming soon.
           </p>
         </div>
-      </div>
+      </SettingsCard>
     </div>
   );
 };

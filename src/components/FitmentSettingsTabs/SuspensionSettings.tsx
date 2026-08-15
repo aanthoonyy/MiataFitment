@@ -1,10 +1,11 @@
-import React from "react";
+import { Field } from "@/components/ui/field";
+import { SettingsCard } from "@/components/ui/settings-card";
 import { Slider } from "@/components/ui/slider";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
+import { useSetting } from "@/hooks/useSetting";
 import { inchesToMM } from "@/services/inchesToCM";
-import type { Axle } from "@/constants/wheelPositions";
 import { useUserSettingsStore } from "@/stores/userSettingsStore";
+import type { Axle } from "@/constants/wheelPositions";
+import type { Settings } from "@/types/settings";
 import {
   CAMBER_RANGE,
   CASTER_RANGE,
@@ -19,165 +20,118 @@ interface SuspensionSettingsProps {
   /** Display only — never read to decide behaviour. That is `axle`'s job. */
   title: string;
   axle: Axle;
-
-  rideHeight: number;
-  setRideHeight: (value: number) => void;
-
-  camber: number;
-  setCamber: (value: number) => void;
-
-  caster?: number; // Optional for rear settings
-  setCaster?: (value: number) => void; // Optional for rear settings
-
-  toe?: number;
-  setToe?: (value: number) => void;
 }
 
-const clampToStep = (value: number, step: number) =>
+type Range = { min: number; max: number; step: number };
+
+// Which setting holds each alignment value for a given axle. Caster is absent
+// because it is a front-only adjustment with no rear twin.
+const ALIGNMENT_KEYS: Record<
+  Axle,
+  { rideHeight: keyof Settings; camber: keyof Settings; toe: keyof Settings }
+> = {
+  front: {
+    rideHeight: "rideHeightFront",
+    camber: "frontCamber",
+    toe: "frontToe",
+  },
+  rear: {
+    rideHeight: "rideHeightRear",
+    camber: "rearCamber",
+    toe: "rearToe",
+  },
+};
+
+const snapToStep = (value: number, step: number) =>
   Math.round(value / step) * step;
 
-const Field = ({
+const AlignmentSlider = ({
   id,
   label,
-  unit,
   valueText,
-  children,
+  value,
+  range,
+  onChange,
 }: {
   id: string;
   label: string;
-  unit?: string;
-  valueText?: string;
-  children: React.ReactNode;
+  valueText: string;
+  value: number;
+  range: Range;
+  onChange: (value: number) => void;
 }) => (
-  <div className="space-y-2">
-    <div className="flex items-baseline justify-between gap-2">
-      <Label htmlFor={id} className="text-xs text-muted-foreground">
-        {label}
-      </Label>
-
-      <div className="flex items-baseline gap-2">
-        {unit ? (
-          <span className="text-[11px] text-muted-foreground">{unit}</span>
-        ) : null}
-        {valueText ? (
-          <span className="text-xs text-foreground tabular-nums">
-            {valueText}
-          </span>
-        ) : null}
-      </div>
-    </div>
-
-    {children}
-  </div>
+  <Field id={id} label={label} valueText={valueText} className="space-y-2">
+    <Slider
+      id={id}
+      value={[value]}
+      min={range.min}
+      max={range.max}
+      step={range.step}
+      onValueChange={([next]) => onChange(next)}
+    />
+  </Field>
 );
 
-const SuspensionSettings: React.FC<SuspensionSettingsProps> = ({
-  title,
-  axle,
-  rideHeight,
-  setRideHeight,
-  camber,
-  setCamber,
-  caster,
-  setCaster,
-  toe,
-  setToe,
-}) => {
-  const sectionTitle = "text-sm font-medium";
-  const sectionCard =
-    "rounded-xl bg-zinc-50 p-4 shadow-sm shadow-black/10";
+const SuspensionSettings = ({ title, axle }: SuspensionSettingsProps) => {
+  const keys = ALIGNMENT_KEYS[axle];
+  const [rideHeight, setRideHeight] = useSetting(keys.rideHeight);
+  const [camber, setCamber] = useSetting(keys.camber);
+  const [toe, setToe] = useSetting(keys.toe);
+  const [caster, setCaster] = useSetting("frontCaster");
 
   // Single source of truth — kept in sync with the Account tab's toggle.
-  const isMetric = useUserSettingsStore((s) => s.metric);
+  const isMetric = useUserSettingsStore((state) => state.metric);
 
-  const stockHubFenderIn = stockHubToFender(axle);
-  const hubFenderIn = hubToFenderAtRest(rideHeight, axle);
-
-  const formatValue = (inches: number) =>
-    isMetric ? `${inchesToMM(inches)} mm` : `${inches.toFixed(2)}\u2033`;
+  const formatLength = (inches: number) =>
+    isMetric ? `${inchesToMM(inches)} mm` : `${inches.toFixed(2)}″`;
 
   const rideHeightText =
     rideHeight === STOCK_RIDE_HEIGHT
-      ? `Stock (${formatValue(stockHubFenderIn)})`
-      : formatValue(hubFenderIn);
+      ? `Stock (${formatLength(stockHubToFender(axle))})`
+      : formatLength(hubToFenderAtRest(rideHeight, axle));
 
   return (
-    <div className={sectionCard}>
-      <div className="flex items-center justify-between">
-        <div className={sectionTitle}>{title}</div>
-      </div>
-
-      <Separator className="my-3" />
-
+    <SettingsCard title={title}>
       <div className="space-y-4">
-        <Field
-          id={`${title}-rideHeight`}
+        <AlignmentSlider
+          id={`${axle}-rideHeight`}
           label="Ride Height"
           valueText={rideHeightText}
-        >
-          <Slider
-            id={`${title}-rideHeight`}
-            value={[rideHeight]}
-            min={RIDE_HEIGHT_RANGE.min}
-            max={RIDE_HEIGHT_RANGE.max}
-            step={RIDE_HEIGHT_RANGE.step}
-            onValueChange={([v]) => setRideHeight(v)}
-          />
-        </Field>
+          value={rideHeight}
+          range={RIDE_HEIGHT_RANGE}
+          onChange={setRideHeight}
+        />
 
-        {/* Camber */}
-        <Field
-          id={`${title}-camber`}
+        <AlignmentSlider
+          id={`${axle}-camber`}
           label="Camber"
           valueText={`${camber.toFixed(1)}°`}
-        >
-          <Slider
-            id={`${title}-camber`}
-            value={[camber]}
-            min={CAMBER_RANGE.min}
-            max={CAMBER_RANGE.max}
-            step={CAMBER_RANGE.step}
-            onValueChange={([v]) => setCamber(clampToStep(v, CAMBER_RANGE.step))}
-          />
-        </Field>
+          value={camber}
+          range={CAMBER_RANGE}
+          onChange={(next) => setCamber(snapToStep(next, CAMBER_RANGE.step))}
+        />
 
-        {/* Caster (optional) */}
-        {caster !== undefined && setCaster ? (
-          <Field
-            id={`${title}-caster`}
+        {axle === "front" ? (
+          <AlignmentSlider
+            id={`${axle}-caster`}
             label="Caster"
             valueText={`${caster.toFixed(1)}°`}
-          >
-            <Slider
-              id={`${title}-caster`}
-              value={[caster]}
-              min={CASTER_RANGE.min}
-              max={CASTER_RANGE.max}
-              step={CASTER_RANGE.step}
-              onValueChange={([v]) => setCaster(clampToStep(v, CASTER_RANGE.step))}
-            />
-          </Field>
+            value={caster}
+            range={CASTER_RANGE}
+            onChange={(next) => setCaster(snapToStep(next, CASTER_RANGE.step))}
+          />
         ) : null}
 
-        {/* Toe (optional) */}
-        {toe !== undefined && setToe ? (
-          <Field
-            id={`${title}-toe`}
-            label="Toe"
-            valueText={`${toe.toFixed(2)}°`}
-          >
-            <Slider
-              id={`${title}-toe`}
-              value={[toe]}
-              min={TOE_RANGE.min}
-              max={TOE_RANGE.max}
-              step={TOE_RANGE.step}
-              onValueChange={([v]) => setToe(clampToStep(v, TOE_RANGE.step))}
-            />
-          </Field>
-        ) : null}
+        <AlignmentSlider
+          id={`${axle}-toe`}
+          label="Toe"
+          valueText={`${toe.toFixed(2)}°`}
+          value={toe}
+          range={TOE_RANGE}
+          onChange={(next) => setToe(snapToStep(next, TOE_RANGE.step))}
+        />
       </div>
-    </div>
+    </SettingsCard>
   );
 };
 

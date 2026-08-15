@@ -1,149 +1,80 @@
-import React from "react";
+import { SettingsCard } from "@/components/ui/settings-card";
+import { useFitmentStore } from "@/stores";
+import { BuyPartsButton } from "@/components/BuyWheelButton";
+import AxleNumberFields, { type AxleFieldSpec } from "./AxleNumberFields";
+import MatchFrontToggle from "./MatchFrontToggle";
 
-import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
+const TIRE_FIELDS: readonly AxleFieldSpec[] = [
+  {
+    id: "tire-width",
+    label: "Width",
+    unit: "mm",
+    keys: { front: "frontTireWidth", rear: "rearTireWidth" },
+  },
+  {
+    id: "tire-sidewall",
+    label: "Sidewall",
+    unit: "%",
+    keys: { front: "frontTireSidewall", rear: "rearTireSidewall" },
+  },
+];
 
-interface TireSettingsProps {
-  matchTires: boolean;
-  setMatchTires: (value: boolean) => void;
+const TireSettings = () => {
+  const matchTires = useFitmentStore((state) => state.matchTires);
+  const setMatchTires = useFitmentStore((state) => state.setMatchTires);
 
-  frontTireWidth: number;
-  setFrontTireWidth: (value: number) => void;
-  frontTireSidewall: number;
-  setFrontTireSidewall: (value: number) => void;
-
-  rearTireWidth: number;
-  setRearTireWidth: (value: number) => void;
-  rearTireSidewall: number;
-  setRearTireSidewall: (value: number) => void;
-}
-
-const Field = ({
-  id,
-  label,
-  unit,
-  children,
-}: {
-  id: string;
-  label: string;
-  unit?: string;
-  children: React.ReactNode;
-}) => (
-  <div className="space-y-1.5">
-    <div className="flex items-baseline justify-between gap-2">
-      <Label htmlFor={id} className="text-xs text-muted-foreground">
-        {label}
-      </Label>
-      {unit ? (
-        <span className="text-[11px] text-muted-foreground">{unit}</span>
-      ) : null}
-    </div>
-    {children}
-  </div>
-);
-
-const TireSettings: React.FC<TireSettingsProps> = ({
-  matchTires,
-  setMatchTires,
-  frontTireWidth,
-  setFrontTireWidth,
-  frontTireSidewall,
-  setFrontTireSidewall,
-  rearTireWidth,
-  setRearTireWidth,
-  rearTireSidewall,
-  setRearTireSidewall,
-}) => {
-  const sectionTitle = "text-sm font-medium";
-  const grid = "grid grid-cols-1 gap-3 sm:grid-cols-2";
-  const input = "h-9";
-
-  const sectionCard =
-    "rounded-xl bg-zinc-50 p-4 shadow-sm shadow-black/10";
+  // The shop link quotes both axles, so it needs the wheel diameters too.
+  const frontWidth = useFitmentStore((state) => state.settings.frontTireWidth);
+  const frontRatio = useFitmentStore(
+    (state) => state.settings.frontTireSidewall,
+  );
+  const frontDiameter = useFitmentStore(
+    (state) => state.settings.frontWheelDiameter,
+  );
+  const rearWidth = useFitmentStore((state) => state.settings.rearTireWidth);
+  const rearRatio = useFitmentStore((state) => state.settings.rearTireSidewall);
+  const rearDiameter = useFitmentStore(
+    (state) => state.settings.rearWheelDiameter,
+  );
 
   return (
-    <div className="space-y-5">
-      {/* Front */}
-      <div className={sectionCard}>
-        <div className="flex items-center justify-between">
-          <div className={sectionTitle}>Front Tires</div>
-        </div>
+    <>
+      <div className="space-y-5">
+        <SettingsCard title="Front Tires">
+          <AxleNumberFields axle="front" fields={TIRE_FIELDS} />
+        </SettingsCard>
 
-        <Separator className="my-3" />
-
-        <div className={grid}>
-          <Field id="front-tire-width" label="Width" unit="mm">
-            <Input
-              id="front-tire-width"
-              className={input}
-              type="number"
-              inputMode="decimal"
-              value={frontTireWidth}
-              onChange={(e) => setFrontTireWidth(parseFloat(e.target.value))}
-            />
-          </Field>
-
-          <Field id="front-tire-sidewall" label="Sidewall" unit="%">
-            <Input
-              id="front-tire-sidewall"
-              className={input}
-              type="number"
-              inputMode="decimal"
-              value={frontTireSidewall}
-              onChange={(e) => setFrontTireSidewall(parseFloat(e.target.value))}
-            />
-          </Field>
-        </div>
-      </div>
-
-      {/* Rear */}
-      <div className={`${sectionCard} ${matchTires ? "opacity-60" : ""}`}>
-        <div className="flex items-center justify-between">
-          <div className={sectionTitle}>Rear Tires</div>
-
-          <div className="flex items-center gap-2">
-            <Checkbox
+        <SettingsCard
+          title="Rear Tires"
+          dimmed={matchTires}
+          action={
+            <MatchFrontToggle
               id="match-tires"
               checked={matchTires}
-              onCheckedChange={(v) => setMatchTires(v === true)}
+              onChange={setMatchTires}
             />
-            <Label htmlFor="match-tires" className="text-xs text-muted-foreground">
-              Match front
-            </Label>
-          </div>
-        </div>
-
-        <Separator className="my-3" />
-
-        <div className={grid}>
-          <Field id="rear-tire-width" label="Width" unit="mm">
-            <Input
-              id="rear-tire-width"
-              className={input}
-              type="number"
-              inputMode="decimal"
-              value={rearTireWidth}
-              onChange={(e) => setRearTireWidth(parseFloat(e.target.value))}
-              disabled={matchTires}
-            />
-          </Field>
-
-          <Field id="rear-tire-sidewall" label="Sidewall" unit="%">
-            <Input
-              id="rear-tire-sidewall"
-              className={input}
-              type="number"
-              inputMode="decimal"
-              value={rearTireSidewall}
-              onChange={(e) => setRearTireSidewall(parseFloat(e.target.value))}
-              disabled={matchTires}
-            />
-          </Field>
-        </div>
+          }
+        >
+          <AxleNumberFields
+            axle="rear"
+            fields={TIRE_FIELDS}
+            disabled={matchTires}
+          />
+        </SettingsCard>
       </div>
-    </div>
+
+      <BuyPartsButton
+        type="tire"
+        tire={{
+          frontWidth,
+          frontRatio,
+          frontDiameter,
+          rearWidth,
+          rearRatio,
+          rearDiameter,
+        }}
+      />
+    </>
   );
 };
 
