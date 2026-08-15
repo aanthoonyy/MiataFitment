@@ -72,14 +72,14 @@ export const tautEaseSlope = (u: number, taut: number) =>
 
 // --- the carcass -----------------------------------------------------------
 
-export function mountCarcass(tireWidth: number, wheelWidth: number): Carcass {
-    const nominalSectionWidth = tireWidth / MM_PER_INCH;
+export function mountCarcass(tireWidthMm: number, wheelWidthIn: number): Carcass {
+    const nominalSectionWidth = tireWidthMm / MM_PER_INCH;
     const measuringRim = Math.max(
         MIN_MEASURING_RIM,
         nominalSectionWidth - MEASURING_RIM_DROP,
     );
     // Positive when mounted wider than the tire was measured on: stretch.
-    const rimDelta = wheelWidth - measuringRim;
+    const rimDelta = wheelWidthIn - measuringRim;
 
     const sectionHalfWidth =
         Math.max(
@@ -96,7 +96,7 @@ export function mountCarcass(tireWidth: number, wheelWidth: number): Carcass {
     );
     return {
         nominalSectionWidth,
-        beadHalfWidth: wheelWidth / 2,
+        beadHalfWidth: wheelWidthIn / 2,
         sectionHalfWidth,
         treadHalfWidth: Math.min(
             ((nominalSectionWidth * TREAD_WIDTH_RATIO) / 2) * (1 - treadLift),

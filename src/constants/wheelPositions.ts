@@ -67,7 +67,7 @@ export function isCarModel(value: unknown): value is CarModel {
 // Right = left looking at the front of the car
 // Left = right looking at the front of the car
 
-// Converts the caster setting (degrees) into a fore/aft offset in feet.
+// Converts the casterDeg setting (degrees) into a fore/aft offset in feet.
 // Identical across every generation measured so far.
 const CASTER_OFFSET_FEET = 5.74 / 12;
 

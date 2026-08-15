@@ -1,7 +1,7 @@
 import milliMeterToInch from "./MilliMeterToInch";
 
-export default function rollingDiameter(wheelDiameter: number, tireWidth: number, tireSideWall: number) {
-    const sidewallHeightInInches = milliMeterToInch(tireWidth * (tireSideWall / 100));
-    const totalDiameter = wheelDiameter + (2 * sidewallHeightInInches);
+export default function rollingDiameter(wheelDiameterIn: number, tireWidthMm: number, tireSidewallPct: number) {
+    const sidewallHeightInInches = milliMeterToInch(tireWidthMm * (tireSidewallPct / 100));
+    const totalDiameter = wheelDiameterIn + (2 * sidewallHeightInInches);
     return totalDiameter;
 }

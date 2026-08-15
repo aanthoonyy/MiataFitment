@@ -2,15 +2,15 @@
   "corners": {
     "clamped/na/BL": {
       "axle": {
-        "camber": -20,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 17,
-        "wheelWidth": 12,
-        "wheelOffset": 0,
-        "wheelSpacer": 25,
-        "tireWidth": 165,
-        "tireSidewall": 35
+        "camberDeg": -20,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 17,
+        "wheelWidthIn": 12,
+        "wheelOffsetMm": 0,
+        "wheelSpacerMm": 25,
+        "tireWidthMm": 165,
+        "tireSidewallPct": 35
       },
       "placement": {
         "rotationXRad": 1.22173,
@@ -47,15 +47,15 @@
     },
     "clamped/na/BR": {
       "axle": {
-        "camber": -20,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 17,
-        "wheelWidth": 12,
-        "wheelOffset": 0,
-        "wheelSpacer": 25,
-        "tireWidth": 165,
-        "tireSidewall": 35
+        "camberDeg": -20,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 17,
+        "wheelWidthIn": 12,
+        "wheelOffsetMm": 0,
+        "wheelSpacerMm": 25,
+        "tireWidthMm": 165,
+        "tireSidewallPct": 35
       },
       "placement": {
         "rotationXRad": 1.919862,
@@ -92,15 +92,15 @@
     },
     "clamped/na/FL": {
       "axle": {
-        "camber": -20,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 17,
-        "wheelWidth": 12,
-        "wheelOffset": 0,
-        "wheelSpacer": 25,
-        "tireWidth": 165,
-        "tireSidewall": 35
+        "camberDeg": -20,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 17,
+        "wheelWidthIn": 12,
+        "wheelOffsetMm": 0,
+        "wheelSpacerMm": 25,
+        "tireWidthMm": 165,
+        "tireSidewallPct": 35
       },
       "placement": {
         "rotationXRad": 1.22173,
@@ -137,15 +137,15 @@
     },
     "clamped/na/FR": {
       "axle": {
-        "camber": -20,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 17,
-        "wheelWidth": 12,
-        "wheelOffset": 0,
-        "wheelSpacer": 25,
-        "tireWidth": 165,
-        "tireSidewall": 35
+        "camberDeg": -20,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 17,
+        "wheelWidthIn": 12,
+        "wheelOffsetMm": 0,
+        "wheelSpacerMm": 25,
+        "tireWidthMm": 165,
+        "tireSidewallPct": 35
       },
       "placement": {
         "rotationXRad": 1.919862,
@@ -182,15 +182,15 @@
     },
     "clamped/nb/BL": {
       "axle": {
-        "camber": -20,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 17,
-        "wheelWidth": 12,
-        "wheelOffset": 0,
-        "wheelSpacer": 25,
-        "tireWidth": 165,
-        "tireSidewall": 35
+        "camberDeg": -20,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 17,
+        "wheelWidthIn": 12,
+        "wheelOffsetMm": 0,
+        "wheelSpacerMm": 25,
+        "tireWidthMm": 165,
+        "tireSidewallPct": 35
       },
       "placement": {
         "rotationXRad": 1.22173,
@@ -227,15 +227,15 @@
     },
     "clamped/nb/BR": {
       "axle": {
-        "camber": -20,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 17,
-        "wheelWidth": 12,
-        "wheelOffset": 0,
-        "wheelSpacer": 25,
-        "tireWidth": 165,
-        "tireSidewall": 35
+        "camberDeg": -20,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 17,
+        "wheelWidthIn": 12,
+        "wheelOffsetMm": 0,
+        "wheelSpacerMm": 25,
+        "tireWidthMm": 165,
+        "tireSidewallPct": 35
       },
       "placement": {
         "rotationXRad": 1.919862,
@@ -272,15 +272,15 @@
     },
     "clamped/nb/FL": {
       "axle": {
-        "camber": -20,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 17,
-        "wheelWidth": 12,
-        "wheelOffset": 0,
-        "wheelSpacer": 25,
-        "tireWidth": 165,
-        "tireSidewall": 35
+        "camberDeg": -20,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 17,
+        "wheelWidthIn": 12,
+        "wheelOffsetMm": 0,
+        "wheelSpacerMm": 25,
+        "tireWidthMm": 165,
+        "tireSidewallPct": 35
       },
       "placement": {
         "rotationXRad": 1.22173,
@@ -317,15 +317,15 @@
     },
     "clamped/nb/FR": {
       "axle": {
-        "camber": -20,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 17,
-        "wheelWidth": 12,
-        "wheelOffset": 0,
-        "wheelSpacer": 25,
-        "tireWidth": 165,
-        "tireSidewall": 35
+        "camberDeg": -20,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 17,
+        "wheelWidthIn": 12,
+        "wheelOffsetMm": 0,
+        "wheelSpacerMm": 25,
+        "tireWidthMm": 165,
+        "tireSidewallPct": 35
       },
       "placement": {
         "rotationXRad": 1.919862,
@@ -362,15 +362,15 @@
     },
     "clamped/nc/BL": {
       "axle": {
-        "camber": -20,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 17,
-        "wheelWidth": 12,
-        "wheelOffset": 0,
-        "wheelSpacer": 25,
-        "tireWidth": 165,
-        "tireSidewall": 35
+        "camberDeg": -20,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 17,
+        "wheelWidthIn": 12,
+        "wheelOffsetMm": 0,
+        "wheelSpacerMm": 25,
+        "tireWidthMm": 165,
+        "tireSidewallPct": 35
       },
       "placement": {
         "rotationXRad": 1.22173,
@@ -407,15 +407,15 @@
     },
     "clamped/nc/BR": {
       "axle": {
-        "camber": -20,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 17,
-        "wheelWidth": 12,
-        "wheelOffset": 0,
-        "wheelSpacer": 25,
-        "tireWidth": 165,
-        "tireSidewall": 35
+        "camberDeg": -20,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 17,
+        "wheelWidthIn": 12,
+        "wheelOffsetMm": 0,
+        "wheelSpacerMm": 25,
+        "tireWidthMm": 165,
+        "tireSidewallPct": 35
       },
       "placement": {
         "rotationXRad": 1.919862,
@@ -452,15 +452,15 @@
     },
     "clamped/nc/FL": {
       "axle": {
-        "camber": -20,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 17,
-        "wheelWidth": 12,
-        "wheelOffset": 0,
-        "wheelSpacer": 25,
-        "tireWidth": 165,
-        "tireSidewall": 35
+        "camberDeg": -20,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 17,
+        "wheelWidthIn": 12,
+        "wheelOffsetMm": 0,
+        "wheelSpacerMm": 25,
+        "tireWidthMm": 165,
+        "tireSidewallPct": 35
       },
       "placement": {
         "rotationXRad": 1.22173,
@@ -497,15 +497,15 @@
     },
     "clamped/nc/FR": {
       "axle": {
-        "camber": -20,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 17,
-        "wheelWidth": 12,
-        "wheelOffset": 0,
-        "wheelSpacer": 25,
-        "tireWidth": 165,
-        "tireSidewall": 35
+        "camberDeg": -20,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 17,
+        "wheelWidthIn": 12,
+        "wheelOffsetMm": 0,
+        "wheelSpacerMm": 25,
+        "tireWidthMm": 165,
+        "tireSidewallPct": 35
       },
       "placement": {
         "rotationXRad": 1.919862,
@@ -542,15 +542,15 @@
     },
     "clamped/nd/BL": {
       "axle": {
-        "camber": -20,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 17,
-        "wheelWidth": 12,
-        "wheelOffset": 0,
-        "wheelSpacer": 25,
-        "tireWidth": 165,
-        "tireSidewall": 35
+        "camberDeg": -20,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 17,
+        "wheelWidthIn": 12,
+        "wheelOffsetMm": 0,
+        "wheelSpacerMm": 25,
+        "tireWidthMm": 165,
+        "tireSidewallPct": 35
       },
       "placement": {
         "rotationXRad": 1.22173,
@@ -587,15 +587,15 @@
     },
     "clamped/nd/BR": {
       "axle": {
-        "camber": -20,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 17,
-        "wheelWidth": 12,
-        "wheelOffset": 0,
-        "wheelSpacer": 25,
-        "tireWidth": 165,
-        "tireSidewall": 35
+        "camberDeg": -20,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 17,
+        "wheelWidthIn": 12,
+        "wheelOffsetMm": 0,
+        "wheelSpacerMm": 25,
+        "tireWidthMm": 165,
+        "tireSidewallPct": 35
       },
       "placement": {
         "rotationXRad": 1.919862,
@@ -632,15 +632,15 @@
     },
     "clamped/nd/FL": {
       "axle": {
-        "camber": -20,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 17,
-        "wheelWidth": 12,
-        "wheelOffset": 0,
-        "wheelSpacer": 25,
-        "tireWidth": 165,
-        "tireSidewall": 35
+        "camberDeg": -20,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 17,
+        "wheelWidthIn": 12,
+        "wheelOffsetMm": 0,
+        "wheelSpacerMm": 25,
+        "tireWidthMm": 165,
+        "tireSidewallPct": 35
       },
       "placement": {
         "rotationXRad": 1.22173,
@@ -677,15 +677,15 @@
     },
     "clamped/nd/FR": {
       "axle": {
-        "camber": -20,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 17,
-        "wheelWidth": 12,
-        "wheelOffset": 0,
-        "wheelSpacer": 25,
-        "tireWidth": 165,
-        "tireSidewall": 35
+        "camberDeg": -20,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 17,
+        "wheelWidthIn": 12,
+        "wheelOffsetMm": 0,
+        "wheelSpacerMm": 25,
+        "tireWidthMm": 165,
+        "tireSidewallPct": 35
       },
       "placement": {
         "rotationXRad": 1.919862,
@@ -722,15 +722,15 @@
     },
     "slammed/na/BL": {
       "axle": {
-        "camber": -10,
-        "toe": -0.04,
-        "rideHeight": -3,
-        "wheelDiameter": 15,
-        "wheelWidth": 7.5,
-        "wheelOffset": 25,
-        "wheelSpacer": 20,
-        "tireWidth": 205,
-        "tireSidewall": 50
+        "camberDeg": -10,
+        "toeRad": -0.04,
+        "rideHeightFt": -3,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7.5,
+        "wheelOffsetMm": 25,
+        "wheelSpacerMm": 20,
+        "tireWidthMm": 205,
+        "tireSidewallPct": 50
       },
       "placement": {
         "rotationXRad": 1.396263,
@@ -767,15 +767,15 @@
     },
     "slammed/na/BR": {
       "axle": {
-        "camber": -10,
-        "toe": -0.04,
-        "rideHeight": -3,
-        "wheelDiameter": 15,
-        "wheelWidth": 7.5,
-        "wheelOffset": 25,
-        "wheelSpacer": 20,
-        "tireWidth": 205,
-        "tireSidewall": 50
+        "camberDeg": -10,
+        "toeRad": -0.04,
+        "rideHeightFt": -3,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7.5,
+        "wheelOffsetMm": 25,
+        "wheelSpacerMm": 20,
+        "tireWidthMm": 205,
+        "tireSidewallPct": 50
       },
       "placement": {
         "rotationXRad": 1.745329,
@@ -812,15 +812,15 @@
     },
     "slammed/na/FL": {
       "axle": {
-        "camber": -12,
-        "toe": 0.04,
-        "rideHeight": -3,
-        "wheelDiameter": 15,
-        "wheelWidth": 7.5,
-        "wheelOffset": 25,
-        "wheelSpacer": 15,
-        "tireWidth": 205,
-        "tireSidewall": 50
+        "camberDeg": -12,
+        "toeRad": 0.04,
+        "rideHeightFt": -3,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7.5,
+        "wheelOffsetMm": 25,
+        "wheelSpacerMm": 15,
+        "tireWidthMm": 205,
+        "tireSidewallPct": 50
       },
       "placement": {
         "rotationXRad": 1.361357,
@@ -857,15 +857,15 @@
     },
     "slammed/na/FR": {
       "axle": {
-        "camber": -12,
-        "toe": 0.04,
-        "rideHeight": -3,
-        "wheelDiameter": 15,
-        "wheelWidth": 7.5,
-        "wheelOffset": 25,
-        "wheelSpacer": 15,
-        "tireWidth": 205,
-        "tireSidewall": 50
+        "camberDeg": -12,
+        "toeRad": 0.04,
+        "rideHeightFt": -3,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7.5,
+        "wheelOffsetMm": 25,
+        "wheelSpacerMm": 15,
+        "tireWidthMm": 205,
+        "tireSidewallPct": 50
       },
       "placement": {
         "rotationXRad": 1.780236,
@@ -902,15 +902,15 @@
     },
     "slammed/nb/BL": {
       "axle": {
-        "camber": -10,
-        "toe": -0.04,
-        "rideHeight": -3,
-        "wheelDiameter": 15,
-        "wheelWidth": 7.5,
-        "wheelOffset": 25,
-        "wheelSpacer": 20,
-        "tireWidth": 205,
-        "tireSidewall": 50
+        "camberDeg": -10,
+        "toeRad": -0.04,
+        "rideHeightFt": -3,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7.5,
+        "wheelOffsetMm": 25,
+        "wheelSpacerMm": 20,
+        "tireWidthMm": 205,
+        "tireSidewallPct": 50
       },
       "placement": {
         "rotationXRad": 1.396263,
@@ -947,15 +947,15 @@
     },
     "slammed/nb/BR": {
       "axle": {
-        "camber": -10,
-        "toe": -0.04,
-        "rideHeight": -3,
-        "wheelDiameter": 15,
-        "wheelWidth": 7.5,
-        "wheelOffset": 25,
-        "wheelSpacer": 20,
-        "tireWidth": 205,
-        "tireSidewall": 50
+        "camberDeg": -10,
+        "toeRad": -0.04,
+        "rideHeightFt": -3,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7.5,
+        "wheelOffsetMm": 25,
+        "wheelSpacerMm": 20,
+        "tireWidthMm": 205,
+        "tireSidewallPct": 50
       },
       "placement": {
         "rotationXRad": 1.745329,
@@ -992,15 +992,15 @@
     },
     "slammed/nb/FL": {
       "axle": {
-        "camber": -12,
-        "toe": 0.04,
-        "rideHeight": -3,
-        "wheelDiameter": 15,
-        "wheelWidth": 7.5,
-        "wheelOffset": 25,
-        "wheelSpacer": 15,
-        "tireWidth": 205,
-        "tireSidewall": 50
+        "camberDeg": -12,
+        "toeRad": 0.04,
+        "rideHeightFt": -3,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7.5,
+        "wheelOffsetMm": 25,
+        "wheelSpacerMm": 15,
+        "tireWidthMm": 205,
+        "tireSidewallPct": 50
       },
       "placement": {
         "rotationXRad": 1.361357,
@@ -1037,15 +1037,15 @@
     },
     "slammed/nb/FR": {
       "axle": {
-        "camber": -12,
-        "toe": 0.04,
-        "rideHeight": -3,
-        "wheelDiameter": 15,
-        "wheelWidth": 7.5,
-        "wheelOffset": 25,
-        "wheelSpacer": 15,
-        "tireWidth": 205,
-        "tireSidewall": 50
+        "camberDeg": -12,
+        "toeRad": 0.04,
+        "rideHeightFt": -3,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7.5,
+        "wheelOffsetMm": 25,
+        "wheelSpacerMm": 15,
+        "tireWidthMm": 205,
+        "tireSidewallPct": 50
       },
       "placement": {
         "rotationXRad": 1.780236,
@@ -1082,15 +1082,15 @@
     },
     "slammed/nc/BL": {
       "axle": {
-        "camber": -10,
-        "toe": -0.04,
-        "rideHeight": -3,
-        "wheelDiameter": 15,
-        "wheelWidth": 7.5,
-        "wheelOffset": 25,
-        "wheelSpacer": 20,
-        "tireWidth": 205,
-        "tireSidewall": 50
+        "camberDeg": -10,
+        "toeRad": -0.04,
+        "rideHeightFt": -3,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7.5,
+        "wheelOffsetMm": 25,
+        "wheelSpacerMm": 20,
+        "tireWidthMm": 205,
+        "tireSidewallPct": 50
       },
       "placement": {
         "rotationXRad": 1.396263,
@@ -1127,15 +1127,15 @@
     },
     "slammed/nc/BR": {
       "axle": {
-        "camber": -10,
-        "toe": -0.04,
-        "rideHeight": -3,
-        "wheelDiameter": 15,
-        "wheelWidth": 7.5,
-        "wheelOffset": 25,
-        "wheelSpacer": 20,
-        "tireWidth": 205,
-        "tireSidewall": 50
+        "camberDeg": -10,
+        "toeRad": -0.04,
+        "rideHeightFt": -3,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7.5,
+        "wheelOffsetMm": 25,
+        "wheelSpacerMm": 20,
+        "tireWidthMm": 205,
+        "tireSidewallPct": 50
       },
       "placement": {
         "rotationXRad": 1.745329,
@@ -1172,15 +1172,15 @@
     },
     "slammed/nc/FL": {
       "axle": {
-        "camber": -12,
-        "toe": 0.04,
-        "rideHeight": -3,
-        "wheelDiameter": 15,
-        "wheelWidth": 7.5,
-        "wheelOffset": 25,
-        "wheelSpacer": 15,
-        "tireWidth": 205,
-        "tireSidewall": 50
+        "camberDeg": -12,
+        "toeRad": 0.04,
+        "rideHeightFt": -3,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7.5,
+        "wheelOffsetMm": 25,
+        "wheelSpacerMm": 15,
+        "tireWidthMm": 205,
+        "tireSidewallPct": 50
       },
       "placement": {
         "rotationXRad": 1.361357,
@@ -1217,15 +1217,15 @@
     },
     "slammed/nc/FR": {
       "axle": {
-        "camber": -12,
-        "toe": 0.04,
-        "rideHeight": -3,
-        "wheelDiameter": 15,
-        "wheelWidth": 7.5,
-        "wheelOffset": 25,
-        "wheelSpacer": 15,
-        "tireWidth": 205,
-        "tireSidewall": 50
+        "camberDeg": -12,
+        "toeRad": 0.04,
+        "rideHeightFt": -3,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7.5,
+        "wheelOffsetMm": 25,
+        "wheelSpacerMm": 15,
+        "tireWidthMm": 205,
+        "tireSidewallPct": 50
       },
       "placement": {
         "rotationXRad": 1.780236,
@@ -1262,15 +1262,15 @@
     },
     "slammed/nd/BL": {
       "axle": {
-        "camber": -10,
-        "toe": -0.04,
-        "rideHeight": -3,
-        "wheelDiameter": 15,
-        "wheelWidth": 7.5,
-        "wheelOffset": 25,
-        "wheelSpacer": 20,
-        "tireWidth": 205,
-        "tireSidewall": 50
+        "camberDeg": -10,
+        "toeRad": -0.04,
+        "rideHeightFt": -3,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7.5,
+        "wheelOffsetMm": 25,
+        "wheelSpacerMm": 20,
+        "tireWidthMm": 205,
+        "tireSidewallPct": 50
       },
       "placement": {
         "rotationXRad": 1.396263,
@@ -1307,15 +1307,15 @@
     },
     "slammed/nd/BR": {
       "axle": {
-        "camber": -10,
-        "toe": -0.04,
-        "rideHeight": -3,
-        "wheelDiameter": 15,
-        "wheelWidth": 7.5,
-        "wheelOffset": 25,
-        "wheelSpacer": 20,
-        "tireWidth": 205,
-        "tireSidewall": 50
+        "camberDeg": -10,
+        "toeRad": -0.04,
+        "rideHeightFt": -3,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7.5,
+        "wheelOffsetMm": 25,
+        "wheelSpacerMm": 20,
+        "tireWidthMm": 205,
+        "tireSidewallPct": 50
       },
       "placement": {
         "rotationXRad": 1.745329,
@@ -1352,15 +1352,15 @@
     },
     "slammed/nd/FL": {
       "axle": {
-        "camber": -12,
-        "toe": 0.04,
-        "rideHeight": -3,
-        "wheelDiameter": 15,
-        "wheelWidth": 7.5,
-        "wheelOffset": 25,
-        "wheelSpacer": 15,
-        "tireWidth": 205,
-        "tireSidewall": 50
+        "camberDeg": -12,
+        "toeRad": 0.04,
+        "rideHeightFt": -3,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7.5,
+        "wheelOffsetMm": 25,
+        "wheelSpacerMm": 15,
+        "tireWidthMm": 205,
+        "tireSidewallPct": 50
       },
       "placement": {
         "rotationXRad": 1.361357,
@@ -1397,15 +1397,15 @@
     },
     "slammed/nd/FR": {
       "axle": {
-        "camber": -12,
-        "toe": 0.04,
-        "rideHeight": -3,
-        "wheelDiameter": 15,
-        "wheelWidth": 7.5,
-        "wheelOffset": 25,
-        "wheelSpacer": 15,
-        "tireWidth": 205,
-        "tireSidewall": 50
+        "camberDeg": -12,
+        "toeRad": 0.04,
+        "rideHeightFt": -3,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7.5,
+        "wheelOffsetMm": 25,
+        "wheelSpacerMm": 15,
+        "tireWidthMm": 205,
+        "tireSidewallPct": 50
       },
       "placement": {
         "rotationXRad": 1.780236,
@@ -1442,15 +1442,15 @@
     },
     "squeezed/na/BL": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 7,
-        "wheelOffset": 35,
-        "wheelSpacer": 0,
-        "tireWidth": 235,
-        "tireSidewall": 45
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7,
+        "wheelOffsetMm": 35,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 235,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.56207,
@@ -1487,15 +1487,15 @@
     },
     "squeezed/na/BR": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 7,
-        "wheelOffset": 35,
-        "wheelSpacer": 0,
-        "tireWidth": 235,
-        "tireSidewall": 45
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7,
+        "wheelOffsetMm": 35,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 235,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.579523,
@@ -1532,15 +1532,15 @@
     },
     "squeezed/na/FL": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 7,
-        "wheelOffset": 35,
-        "wheelSpacer": 0,
-        "tireWidth": 235,
-        "tireSidewall": 45
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7,
+        "wheelOffsetMm": 35,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 235,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.56207,
@@ -1577,15 +1577,15 @@
     },
     "squeezed/na/FR": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 7,
-        "wheelOffset": 35,
-        "wheelSpacer": 0,
-        "tireWidth": 235,
-        "tireSidewall": 45
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7,
+        "wheelOffsetMm": 35,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 235,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.579523,
@@ -1622,15 +1622,15 @@
     },
     "squeezed/nb/BL": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 7,
-        "wheelOffset": 35,
-        "wheelSpacer": 0,
-        "tireWidth": 235,
-        "tireSidewall": 45
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7,
+        "wheelOffsetMm": 35,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 235,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.56207,
@@ -1667,15 +1667,15 @@
     },
     "squeezed/nb/BR": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 7,
-        "wheelOffset": 35,
-        "wheelSpacer": 0,
-        "tireWidth": 235,
-        "tireSidewall": 45
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7,
+        "wheelOffsetMm": 35,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 235,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.579523,
@@ -1712,15 +1712,15 @@
     },
     "squeezed/nb/FL": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 7,
-        "wheelOffset": 35,
-        "wheelSpacer": 0,
-        "tireWidth": 235,
-        "tireSidewall": 45
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7,
+        "wheelOffsetMm": 35,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 235,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.56207,
@@ -1757,15 +1757,15 @@
     },
     "squeezed/nb/FR": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 7,
-        "wheelOffset": 35,
-        "wheelSpacer": 0,
-        "tireWidth": 235,
-        "tireSidewall": 45
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7,
+        "wheelOffsetMm": 35,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 235,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.579523,
@@ -1802,15 +1802,15 @@
     },
     "squeezed/nc/BL": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 7,
-        "wheelOffset": 35,
-        "wheelSpacer": 0,
-        "tireWidth": 235,
-        "tireSidewall": 45
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7,
+        "wheelOffsetMm": 35,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 235,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.56207,
@@ -1847,15 +1847,15 @@
     },
     "squeezed/nc/BR": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 7,
-        "wheelOffset": 35,
-        "wheelSpacer": 0,
-        "tireWidth": 235,
-        "tireSidewall": 45
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7,
+        "wheelOffsetMm": 35,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 235,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.579523,
@@ -1892,15 +1892,15 @@
     },
     "squeezed/nc/FL": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 7,
-        "wheelOffset": 35,
-        "wheelSpacer": 0,
-        "tireWidth": 235,
-        "tireSidewall": 45
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7,
+        "wheelOffsetMm": 35,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 235,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.56207,
@@ -1937,15 +1937,15 @@
     },
     "squeezed/nc/FR": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 7,
-        "wheelOffset": 35,
-        "wheelSpacer": 0,
-        "tireWidth": 235,
-        "tireSidewall": 45
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7,
+        "wheelOffsetMm": 35,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 235,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.579523,
@@ -1982,15 +1982,15 @@
     },
     "squeezed/nd/BL": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 7,
-        "wheelOffset": 35,
-        "wheelSpacer": 0,
-        "tireWidth": 235,
-        "tireSidewall": 45
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7,
+        "wheelOffsetMm": 35,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 235,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.56207,
@@ -2027,15 +2027,15 @@
     },
     "squeezed/nd/BR": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 7,
-        "wheelOffset": 35,
-        "wheelSpacer": 0,
-        "tireWidth": 235,
-        "tireSidewall": 45
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7,
+        "wheelOffsetMm": 35,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 235,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.579523,
@@ -2072,15 +2072,15 @@
     },
     "squeezed/nd/FL": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 7,
-        "wheelOffset": 35,
-        "wheelSpacer": 0,
-        "tireWidth": 235,
-        "tireSidewall": 45
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7,
+        "wheelOffsetMm": 35,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 235,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.56207,
@@ -2117,15 +2117,15 @@
     },
     "squeezed/nd/FR": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 7,
-        "wheelOffset": 35,
-        "wheelSpacer": 0,
-        "tireWidth": 235,
-        "tireSidewall": 45
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 7,
+        "wheelOffsetMm": 35,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 235,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.579523,
@@ -2162,15 +2162,15 @@
     },
     "staggered/na/BL": {
       "axle": {
-        "camber": -1.5,
-        "toe": -0.01,
-        "rideHeight": -2.7,
-        "wheelDiameter": 16,
-        "wheelWidth": 9,
-        "wheelOffset": 20,
-        "wheelSpacer": 10,
-        "tireWidth": 225,
-        "tireSidewall": 40
+        "camberDeg": -1.5,
+        "toeRad": -0.01,
+        "rideHeightFt": -2.7,
+        "wheelDiameterIn": 16,
+        "wheelWidthIn": 9,
+        "wheelOffsetMm": 20,
+        "wheelSpacerMm": 10,
+        "tireWidthMm": 225,
+        "tireSidewallPct": 40
       },
       "placement": {
         "rotationXRad": 1.544616,
@@ -2207,15 +2207,15 @@
     },
     "staggered/na/BR": {
       "axle": {
-        "camber": -1.5,
-        "toe": -0.01,
-        "rideHeight": -2.7,
-        "wheelDiameter": 16,
-        "wheelWidth": 9,
-        "wheelOffset": 20,
-        "wheelSpacer": 10,
-        "tireWidth": 225,
-        "tireSidewall": 40
+        "camberDeg": -1.5,
+        "toeRad": -0.01,
+        "rideHeightFt": -2.7,
+        "wheelDiameterIn": 16,
+        "wheelWidthIn": 9,
+        "wheelOffsetMm": 20,
+        "wheelSpacerMm": 10,
+        "tireWidthMm": 225,
+        "tireSidewallPct": 40
       },
       "placement": {
         "rotationXRad": 1.596976,
@@ -2252,15 +2252,15 @@
     },
     "staggered/na/FL": {
       "axle": {
-        "camber": -2.5,
-        "toe": 0.02,
-        "rideHeight": -2.8,
-        "wheelDiameter": 16,
-        "wheelWidth": 8,
-        "wheelOffset": 30,
-        "wheelSpacer": 5,
-        "tireWidth": 205,
-        "tireSidewall": 45
+        "camberDeg": -2.5,
+        "toeRad": 0.02,
+        "rideHeightFt": -2.8,
+        "wheelDiameterIn": 16,
+        "wheelWidthIn": 8,
+        "wheelOffsetMm": 30,
+        "wheelSpacerMm": 5,
+        "tireWidthMm": 205,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.527163,
@@ -2297,15 +2297,15 @@
     },
     "staggered/na/FR": {
       "axle": {
-        "camber": -2.5,
-        "toe": 0.02,
-        "rideHeight": -2.8,
-        "wheelDiameter": 16,
-        "wheelWidth": 8,
-        "wheelOffset": 30,
-        "wheelSpacer": 5,
-        "tireWidth": 205,
-        "tireSidewall": 45
+        "camberDeg": -2.5,
+        "toeRad": 0.02,
+        "rideHeightFt": -2.8,
+        "wheelDiameterIn": 16,
+        "wheelWidthIn": 8,
+        "wheelOffsetMm": 30,
+        "wheelSpacerMm": 5,
+        "tireWidthMm": 205,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.61443,
@@ -2342,15 +2342,15 @@
     },
     "staggered/nb/BL": {
       "axle": {
-        "camber": -1.5,
-        "toe": -0.01,
-        "rideHeight": -2.7,
-        "wheelDiameter": 16,
-        "wheelWidth": 9,
-        "wheelOffset": 20,
-        "wheelSpacer": 10,
-        "tireWidth": 225,
-        "tireSidewall": 40
+        "camberDeg": -1.5,
+        "toeRad": -0.01,
+        "rideHeightFt": -2.7,
+        "wheelDiameterIn": 16,
+        "wheelWidthIn": 9,
+        "wheelOffsetMm": 20,
+        "wheelSpacerMm": 10,
+        "tireWidthMm": 225,
+        "tireSidewallPct": 40
       },
       "placement": {
         "rotationXRad": 1.544616,
@@ -2387,15 +2387,15 @@
     },
     "staggered/nb/BR": {
       "axle": {
-        "camber": -1.5,
-        "toe": -0.01,
-        "rideHeight": -2.7,
-        "wheelDiameter": 16,
-        "wheelWidth": 9,
-        "wheelOffset": 20,
-        "wheelSpacer": 10,
-        "tireWidth": 225,
-        "tireSidewall": 40
+        "camberDeg": -1.5,
+        "toeRad": -0.01,
+        "rideHeightFt": -2.7,
+        "wheelDiameterIn": 16,
+        "wheelWidthIn": 9,
+        "wheelOffsetMm": 20,
+        "wheelSpacerMm": 10,
+        "tireWidthMm": 225,
+        "tireSidewallPct": 40
       },
       "placement": {
         "rotationXRad": 1.596976,
@@ -2432,15 +2432,15 @@
     },
     "staggered/nb/FL": {
       "axle": {
-        "camber": -2.5,
-        "toe": 0.02,
-        "rideHeight": -2.8,
-        "wheelDiameter": 16,
-        "wheelWidth": 8,
-        "wheelOffset": 30,
-        "wheelSpacer": 5,
-        "tireWidth": 205,
-        "tireSidewall": 45
+        "camberDeg": -2.5,
+        "toeRad": 0.02,
+        "rideHeightFt": -2.8,
+        "wheelDiameterIn": 16,
+        "wheelWidthIn": 8,
+        "wheelOffsetMm": 30,
+        "wheelSpacerMm": 5,
+        "tireWidthMm": 205,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.527163,
@@ -2477,15 +2477,15 @@
     },
     "staggered/nb/FR": {
       "axle": {
-        "camber": -2.5,
-        "toe": 0.02,
-        "rideHeight": -2.8,
-        "wheelDiameter": 16,
-        "wheelWidth": 8,
-        "wheelOffset": 30,
-        "wheelSpacer": 5,
-        "tireWidth": 205,
-        "tireSidewall": 45
+        "camberDeg": -2.5,
+        "toeRad": 0.02,
+        "rideHeightFt": -2.8,
+        "wheelDiameterIn": 16,
+        "wheelWidthIn": 8,
+        "wheelOffsetMm": 30,
+        "wheelSpacerMm": 5,
+        "tireWidthMm": 205,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.61443,
@@ -2522,15 +2522,15 @@
     },
     "staggered/nc/BL": {
       "axle": {
-        "camber": -1.5,
-        "toe": -0.01,
-        "rideHeight": -2.7,
-        "wheelDiameter": 16,
-        "wheelWidth": 9,
-        "wheelOffset": 20,
-        "wheelSpacer": 10,
-        "tireWidth": 225,
-        "tireSidewall": 40
+        "camberDeg": -1.5,
+        "toeRad": -0.01,
+        "rideHeightFt": -2.7,
+        "wheelDiameterIn": 16,
+        "wheelWidthIn": 9,
+        "wheelOffsetMm": 20,
+        "wheelSpacerMm": 10,
+        "tireWidthMm": 225,
+        "tireSidewallPct": 40
       },
       "placement": {
         "rotationXRad": 1.544616,
@@ -2567,15 +2567,15 @@
     },
     "staggered/nc/BR": {
       "axle": {
-        "camber": -1.5,
-        "toe": -0.01,
-        "rideHeight": -2.7,
-        "wheelDiameter": 16,
-        "wheelWidth": 9,
-        "wheelOffset": 20,
-        "wheelSpacer": 10,
-        "tireWidth": 225,
-        "tireSidewall": 40
+        "camberDeg": -1.5,
+        "toeRad": -0.01,
+        "rideHeightFt": -2.7,
+        "wheelDiameterIn": 16,
+        "wheelWidthIn": 9,
+        "wheelOffsetMm": 20,
+        "wheelSpacerMm": 10,
+        "tireWidthMm": 225,
+        "tireSidewallPct": 40
       },
       "placement": {
         "rotationXRad": 1.596976,
@@ -2612,15 +2612,15 @@
     },
     "staggered/nc/FL": {
       "axle": {
-        "camber": -2.5,
-        "toe": 0.02,
-        "rideHeight": -2.8,
-        "wheelDiameter": 16,
-        "wheelWidth": 8,
-        "wheelOffset": 30,
-        "wheelSpacer": 5,
-        "tireWidth": 205,
-        "tireSidewall": 45
+        "camberDeg": -2.5,
+        "toeRad": 0.02,
+        "rideHeightFt": -2.8,
+        "wheelDiameterIn": 16,
+        "wheelWidthIn": 8,
+        "wheelOffsetMm": 30,
+        "wheelSpacerMm": 5,
+        "tireWidthMm": 205,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.527163,
@@ -2657,15 +2657,15 @@
     },
     "staggered/nc/FR": {
       "axle": {
-        "camber": -2.5,
-        "toe": 0.02,
-        "rideHeight": -2.8,
-        "wheelDiameter": 16,
-        "wheelWidth": 8,
-        "wheelOffset": 30,
-        "wheelSpacer": 5,
-        "tireWidth": 205,
-        "tireSidewall": 45
+        "camberDeg": -2.5,
+        "toeRad": 0.02,
+        "rideHeightFt": -2.8,
+        "wheelDiameterIn": 16,
+        "wheelWidthIn": 8,
+        "wheelOffsetMm": 30,
+        "wheelSpacerMm": 5,
+        "tireWidthMm": 205,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.61443,
@@ -2702,15 +2702,15 @@
     },
     "staggered/nd/BL": {
       "axle": {
-        "camber": -1.5,
-        "toe": -0.01,
-        "rideHeight": -2.7,
-        "wheelDiameter": 16,
-        "wheelWidth": 9,
-        "wheelOffset": 20,
-        "wheelSpacer": 10,
-        "tireWidth": 225,
-        "tireSidewall": 40
+        "camberDeg": -1.5,
+        "toeRad": -0.01,
+        "rideHeightFt": -2.7,
+        "wheelDiameterIn": 16,
+        "wheelWidthIn": 9,
+        "wheelOffsetMm": 20,
+        "wheelSpacerMm": 10,
+        "tireWidthMm": 225,
+        "tireSidewallPct": 40
       },
       "placement": {
         "rotationXRad": 1.544616,
@@ -2747,15 +2747,15 @@
     },
     "staggered/nd/BR": {
       "axle": {
-        "camber": -1.5,
-        "toe": -0.01,
-        "rideHeight": -2.7,
-        "wheelDiameter": 16,
-        "wheelWidth": 9,
-        "wheelOffset": 20,
-        "wheelSpacer": 10,
-        "tireWidth": 225,
-        "tireSidewall": 40
+        "camberDeg": -1.5,
+        "toeRad": -0.01,
+        "rideHeightFt": -2.7,
+        "wheelDiameterIn": 16,
+        "wheelWidthIn": 9,
+        "wheelOffsetMm": 20,
+        "wheelSpacerMm": 10,
+        "tireWidthMm": 225,
+        "tireSidewallPct": 40
       },
       "placement": {
         "rotationXRad": 1.596976,
@@ -2792,15 +2792,15 @@
     },
     "staggered/nd/FL": {
       "axle": {
-        "camber": -2.5,
-        "toe": 0.02,
-        "rideHeight": -2.8,
-        "wheelDiameter": 16,
-        "wheelWidth": 8,
-        "wheelOffset": 30,
-        "wheelSpacer": 5,
-        "tireWidth": 205,
-        "tireSidewall": 45
+        "camberDeg": -2.5,
+        "toeRad": 0.02,
+        "rideHeightFt": -2.8,
+        "wheelDiameterIn": 16,
+        "wheelWidthIn": 8,
+        "wheelOffsetMm": 30,
+        "wheelSpacerMm": 5,
+        "tireWidthMm": 205,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.527163,
@@ -2837,15 +2837,15 @@
     },
     "staggered/nd/FR": {
       "axle": {
-        "camber": -2.5,
-        "toe": 0.02,
-        "rideHeight": -2.8,
-        "wheelDiameter": 16,
-        "wheelWidth": 8,
-        "wheelOffset": 30,
-        "wheelSpacer": 5,
-        "tireWidth": 205,
-        "tireSidewall": 45
+        "camberDeg": -2.5,
+        "toeRad": 0.02,
+        "rideHeightFt": -2.8,
+        "wheelDiameterIn": 16,
+        "wheelWidthIn": 8,
+        "wheelOffsetMm": 30,
+        "wheelSpacerMm": 5,
+        "tireWidthMm": 205,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.61443,
@@ -2882,15 +2882,15 @@
     },
     "stock/na/BL": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 14,
-        "wheelWidth": 6,
-        "wheelOffset": 45,
-        "wheelSpacer": 0,
-        "tireWidth": 185,
-        "tireSidewall": 60
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 14,
+        "wheelWidthIn": 6,
+        "wheelOffsetMm": 45,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 185,
+        "tireSidewallPct": 60
       },
       "placement": {
         "rotationXRad": 1.56207,
@@ -2927,15 +2927,15 @@
     },
     "stock/na/BR": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 14,
-        "wheelWidth": 6,
-        "wheelOffset": 45,
-        "wheelSpacer": 0,
-        "tireWidth": 185,
-        "tireSidewall": 60
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 14,
+        "wheelWidthIn": 6,
+        "wheelOffsetMm": 45,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 185,
+        "tireSidewallPct": 60
       },
       "placement": {
         "rotationXRad": 1.579523,
@@ -2972,15 +2972,15 @@
     },
     "stock/na/FL": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 14,
-        "wheelWidth": 6,
-        "wheelOffset": 45,
-        "wheelSpacer": 0,
-        "tireWidth": 185,
-        "tireSidewall": 60
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 14,
+        "wheelWidthIn": 6,
+        "wheelOffsetMm": 45,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 185,
+        "tireSidewallPct": 60
       },
       "placement": {
         "rotationXRad": 1.56207,
@@ -3017,15 +3017,15 @@
     },
     "stock/na/FR": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 14,
-        "wheelWidth": 6,
-        "wheelOffset": 45,
-        "wheelSpacer": 0,
-        "tireWidth": 185,
-        "tireSidewall": 60
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 14,
+        "wheelWidthIn": 6,
+        "wheelOffsetMm": 45,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 185,
+        "tireSidewallPct": 60
       },
       "placement": {
         "rotationXRad": 1.579523,
@@ -3062,15 +3062,15 @@
     },
     "stock/nb/BL": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 14,
-        "wheelWidth": 6,
-        "wheelOffset": 45,
-        "wheelSpacer": 0,
-        "tireWidth": 185,
-        "tireSidewall": 60
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 14,
+        "wheelWidthIn": 6,
+        "wheelOffsetMm": 45,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 185,
+        "tireSidewallPct": 60
       },
       "placement": {
         "rotationXRad": 1.56207,
@@ -3107,15 +3107,15 @@
     },
     "stock/nb/BR": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 14,
-        "wheelWidth": 6,
-        "wheelOffset": 45,
-        "wheelSpacer": 0,
-        "tireWidth": 185,
-        "tireSidewall": 60
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 14,
+        "wheelWidthIn": 6,
+        "wheelOffsetMm": 45,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 185,
+        "tireSidewallPct": 60
       },
       "placement": {
         "rotationXRad": 1.579523,
@@ -3152,15 +3152,15 @@
     },
     "stock/nb/FL": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 14,
-        "wheelWidth": 6,
-        "wheelOffset": 45,
-        "wheelSpacer": 0,
-        "tireWidth": 185,
-        "tireSidewall": 60
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 14,
+        "wheelWidthIn": 6,
+        "wheelOffsetMm": 45,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 185,
+        "tireSidewallPct": 60
       },
       "placement": {
         "rotationXRad": 1.56207,
@@ -3197,15 +3197,15 @@
     },
     "stock/nb/FR": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 14,
-        "wheelWidth": 6,
-        "wheelOffset": 45,
-        "wheelSpacer": 0,
-        "tireWidth": 185,
-        "tireSidewall": 60
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 14,
+        "wheelWidthIn": 6,
+        "wheelOffsetMm": 45,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 185,
+        "tireSidewallPct": 60
       },
       "placement": {
         "rotationXRad": 1.579523,
@@ -3242,15 +3242,15 @@
     },
     "stock/nc/BL": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 14,
-        "wheelWidth": 6,
-        "wheelOffset": 45,
-        "wheelSpacer": 0,
-        "tireWidth": 185,
-        "tireSidewall": 60
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 14,
+        "wheelWidthIn": 6,
+        "wheelOffsetMm": 45,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 185,
+        "tireSidewallPct": 60
       },
       "placement": {
         "rotationXRad": 1.56207,
@@ -3287,15 +3287,15 @@
     },
     "stock/nc/BR": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 14,
-        "wheelWidth": 6,
-        "wheelOffset": 45,
-        "wheelSpacer": 0,
-        "tireWidth": 185,
-        "tireSidewall": 60
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 14,
+        "wheelWidthIn": 6,
+        "wheelOffsetMm": 45,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 185,
+        "tireSidewallPct": 60
       },
       "placement": {
         "rotationXRad": 1.579523,
@@ -3332,15 +3332,15 @@
     },
     "stock/nc/FL": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 14,
-        "wheelWidth": 6,
-        "wheelOffset": 45,
-        "wheelSpacer": 0,
-        "tireWidth": 185,
-        "tireSidewall": 60
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 14,
+        "wheelWidthIn": 6,
+        "wheelOffsetMm": 45,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 185,
+        "tireSidewallPct": 60
       },
       "placement": {
         "rotationXRad": 1.56207,
@@ -3377,15 +3377,15 @@
     },
     "stock/nc/FR": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 14,
-        "wheelWidth": 6,
-        "wheelOffset": 45,
-        "wheelSpacer": 0,
-        "tireWidth": 185,
-        "tireSidewall": 60
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 14,
+        "wheelWidthIn": 6,
+        "wheelOffsetMm": 45,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 185,
+        "tireSidewallPct": 60
       },
       "placement": {
         "rotationXRad": 1.579523,
@@ -3422,15 +3422,15 @@
     },
     "stock/nd/BL": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 14,
-        "wheelWidth": 6,
-        "wheelOffset": 45,
-        "wheelSpacer": 0,
-        "tireWidth": 185,
-        "tireSidewall": 60
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 14,
+        "wheelWidthIn": 6,
+        "wheelOffsetMm": 45,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 185,
+        "tireSidewallPct": 60
       },
       "placement": {
         "rotationXRad": 1.56207,
@@ -3467,15 +3467,15 @@
     },
     "stock/nd/BR": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 14,
-        "wheelWidth": 6,
-        "wheelOffset": 45,
-        "wheelSpacer": 0,
-        "tireWidth": 185,
-        "tireSidewall": 60
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 14,
+        "wheelWidthIn": 6,
+        "wheelOffsetMm": 45,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 185,
+        "tireSidewallPct": 60
       },
       "placement": {
         "rotationXRad": 1.579523,
@@ -3512,15 +3512,15 @@
     },
     "stock/nd/FL": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 14,
-        "wheelWidth": 6,
-        "wheelOffset": 45,
-        "wheelSpacer": 0,
-        "tireWidth": 185,
-        "tireSidewall": 60
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 14,
+        "wheelWidthIn": 6,
+        "wheelOffsetMm": 45,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 185,
+        "tireSidewallPct": 60
       },
       "placement": {
         "rotationXRad": 1.56207,
@@ -3557,15 +3557,15 @@
     },
     "stock/nd/FR": {
       "axle": {
-        "camber": -0.5,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 14,
-        "wheelWidth": 6,
-        "wheelOffset": 45,
-        "wheelSpacer": 0,
-        "tireWidth": 185,
-        "tireSidewall": 60
+        "camberDeg": -0.5,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 14,
+        "wheelWidthIn": 6,
+        "wheelOffsetMm": 45,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 185,
+        "tireSidewallPct": 60
       },
       "placement": {
         "rotationXRad": 1.579523,
@@ -3602,15 +3602,15 @@
     },
     "stretched/na/BL": {
       "axle": {
-        "camber": -3,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 9,
-        "wheelOffset": 15,
-        "wheelSpacer": 0,
-        "tireWidth": 195,
-        "tireSidewall": 45
+        "camberDeg": -3,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 9,
+        "wheelOffsetMm": 15,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 195,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.518436,
@@ -3647,15 +3647,15 @@
     },
     "stretched/na/BR": {
       "axle": {
-        "camber": -3,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 9,
-        "wheelOffset": 15,
-        "wheelSpacer": 0,
-        "tireWidth": 195,
-        "tireSidewall": 45
+        "camberDeg": -3,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 9,
+        "wheelOffsetMm": 15,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 195,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.623156,
@@ -3692,15 +3692,15 @@
     },
     "stretched/na/FL": {
       "axle": {
-        "camber": -3,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 9,
-        "wheelOffset": 15,
-        "wheelSpacer": 0,
-        "tireWidth": 195,
-        "tireSidewall": 45
+        "camberDeg": -3,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 9,
+        "wheelOffsetMm": 15,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 195,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.518436,
@@ -3737,15 +3737,15 @@
     },
     "stretched/na/FR": {
       "axle": {
-        "camber": -3,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 9,
-        "wheelOffset": 15,
-        "wheelSpacer": 0,
-        "tireWidth": 195,
-        "tireSidewall": 45
+        "camberDeg": -3,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 9,
+        "wheelOffsetMm": 15,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 195,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.623156,
@@ -3782,15 +3782,15 @@
     },
     "stretched/nb/BL": {
       "axle": {
-        "camber": -3,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 9,
-        "wheelOffset": 15,
-        "wheelSpacer": 0,
-        "tireWidth": 195,
-        "tireSidewall": 45
+        "camberDeg": -3,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 9,
+        "wheelOffsetMm": 15,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 195,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.518436,
@@ -3827,15 +3827,15 @@
     },
     "stretched/nb/BR": {
       "axle": {
-        "camber": -3,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 9,
-        "wheelOffset": 15,
-        "wheelSpacer": 0,
-        "tireWidth": 195,
-        "tireSidewall": 45
+        "camberDeg": -3,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 9,
+        "wheelOffsetMm": 15,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 195,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.623156,
@@ -3872,15 +3872,15 @@
     },
     "stretched/nb/FL": {
       "axle": {
-        "camber": -3,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 9,
-        "wheelOffset": 15,
-        "wheelSpacer": 0,
-        "tireWidth": 195,
-        "tireSidewall": 45
+        "camberDeg": -3,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 9,
+        "wheelOffsetMm": 15,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 195,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.518436,
@@ -3917,15 +3917,15 @@
     },
     "stretched/nb/FR": {
       "axle": {
-        "camber": -3,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 9,
-        "wheelOffset": 15,
-        "wheelSpacer": 0,
-        "tireWidth": 195,
-        "tireSidewall": 45
+        "camberDeg": -3,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 9,
+        "wheelOffsetMm": 15,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 195,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.623156,
@@ -3962,15 +3962,15 @@
     },
     "stretched/nc/BL": {
       "axle": {
-        "camber": -3,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 9,
-        "wheelOffset": 15,
-        "wheelSpacer": 0,
-        "tireWidth": 195,
-        "tireSidewall": 45
+        "camberDeg": -3,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 9,
+        "wheelOffsetMm": 15,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 195,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.518436,
@@ -4007,15 +4007,15 @@
     },
     "stretched/nc/BR": {
       "axle": {
-        "camber": -3,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 9,
-        "wheelOffset": 15,
-        "wheelSpacer": 0,
-        "tireWidth": 195,
-        "tireSidewall": 45
+        "camberDeg": -3,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 9,
+        "wheelOffsetMm": 15,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 195,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.623156,
@@ -4052,15 +4052,15 @@
     },
     "stretched/nc/FL": {
       "axle": {
-        "camber": -3,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 9,
-        "wheelOffset": 15,
-        "wheelSpacer": 0,
-        "tireWidth": 195,
-        "tireSidewall": 45
+        "camberDeg": -3,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 9,
+        "wheelOffsetMm": 15,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 195,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.518436,
@@ -4097,15 +4097,15 @@
     },
     "stretched/nc/FR": {
       "axle": {
-        "camber": -3,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 9,
-        "wheelOffset": 15,
-        "wheelSpacer": 0,
-        "tireWidth": 195,
-        "tireSidewall": 45
+        "camberDeg": -3,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 9,
+        "wheelOffsetMm": 15,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 195,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.623156,
@@ -4142,15 +4142,15 @@
     },
     "stretched/nd/BL": {
       "axle": {
-        "camber": -3,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 9,
-        "wheelOffset": 15,
-        "wheelSpacer": 0,
-        "tireWidth": 195,
-        "tireSidewall": 45
+        "camberDeg": -3,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 9,
+        "wheelOffsetMm": 15,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 195,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.518436,
@@ -4187,15 +4187,15 @@
     },
     "stretched/nd/BR": {
       "axle": {
-        "camber": -3,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 9,
-        "wheelOffset": 15,
-        "wheelSpacer": 0,
-        "tireWidth": 195,
-        "tireSidewall": 45
+        "camberDeg": -3,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 9,
+        "wheelOffsetMm": 15,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 195,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.623156,
@@ -4232,15 +4232,15 @@
     },
     "stretched/nd/FL": {
       "axle": {
-        "camber": -3,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 9,
-        "wheelOffset": 15,
-        "wheelSpacer": 0,
-        "tireWidth": 195,
-        "tireSidewall": 45
+        "camberDeg": -3,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 9,
+        "wheelOffsetMm": 15,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 195,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.518436,
@@ -4277,15 +4277,15 @@
     },
     "stretched/nd/FR": {
       "axle": {
-        "camber": -3,
-        "toe": 0,
-        "rideHeight": -2.65,
-        "wheelDiameter": 15,
-        "wheelWidth": 9,
-        "wheelOffset": 15,
-        "wheelSpacer": 0,
-        "tireWidth": 195,
-        "tireSidewall": 45
+        "camberDeg": -3,
+        "toeRad": 0,
+        "rideHeightFt": -2.65,
+        "wheelDiameterIn": 15,
+        "wheelWidthIn": 9,
+        "wheelOffsetMm": 15,
+        "wheelSpacerMm": 0,
+        "tireWidthMm": 195,
+        "tireSidewallPct": 45
       },
       "placement": {
         "rotationXRad": 1.623156,

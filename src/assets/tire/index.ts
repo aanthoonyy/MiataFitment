@@ -50,18 +50,18 @@ export function makeTires(
     settings: Settings,
     model: CarModel = "na",
 ) {
-    const { wheelDiameter, wheelWidth, tireWidth, tireSidewall } = axleSettings(
+    const { wheelDiameterIn, wheelWidthIn, tireWidthMm, tireSidewallPct } = axleSettings(
         position,
         settings,
     );
 
-    const rimRadius = wheelDiameter / 2;
+    const rimRadius = wheelDiameterIn / 2;
     const treadRadius = Math.max(
-        rollingDiameter(wheelDiameter, tireWidth, tireSidewall) / 2,
+        rollingDiameter(wheelDiameterIn, tireWidthMm, tireSidewallPct) / 2,
         rimRadius + MIN_SIDEWALL_HEIGHT,
     );
 
-    const carcass = mountCarcass(tireWidth, wheelWidth);
+    const carcass = mountCarcass(tireWidthMm, wheelWidthIn);
     const chain = solveTreadChain(carcass, rimRadius, treadRadius);
 
     const tire = new THREE.Mesh(

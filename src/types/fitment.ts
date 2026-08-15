@@ -5,18 +5,18 @@
 //
 // Caster is deliberately absent: it is a front-only setting with no rear twin.
 export interface AxleSettings {
-    camber: number;
-    toe: number;
-    rideHeight: number;
-    wheelDiameter: number;
-    wheelWidth: number;
-    wheelOffset: number;
-    wheelSpacer: number;
-    tireWidth: number;
-    tireSidewall: number;
+    camberDeg: number;
+    toeRad: number;
+    rideHeightFt: number;
+    wheelDiameterIn: number;
+    wheelWidthIn: number;
+    wheelOffsetMm: number;
+    wheelSpacerMm: number;
+    tireWidthMm: number;
+    tireSidewallPct: number;
 }
 
-// Where a corner ends up once camber, toe, offset, spacer and ride height have
+// Where a corner ends up once camberDeg, toeRad, offset, spacer and ride height have
 // all been applied.
 export interface WheelPositionData {
     rotation: {

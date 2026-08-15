@@ -21,14 +21,14 @@ export function calculateWheelPosition(
     const isLeft = isLeftCorner(position);
 
     const {
-        camber,
-        toe,
-        rideHeight,
-        wheelDiameter,
-        wheelOffset,
-        wheelSpacer,
-        tireWidth,
-        tireSidewall,
+        camberDeg,
+        toeRad,
+        rideHeightFt,
+        wheelDiameterIn,
+        wheelOffsetMm,
+        wheelSpacerMm,
+        tireWidthMm,
+        tireSidewallPct,
     } = axleSettings(position, settings);
 
     // Caster rakes the front wheels fore and aft; there is no rear equivalent,
@@ -39,14 +39,14 @@ export function calculateWheelPosition(
             ? mmToFeet(settings.frontCasterDeg / anchor.casterOffset)
             : 0;
 
-    const camberRad = (clampCamber(camber) * Math.PI) / 180;
+    const camberRad = (clampCamber(camberDeg) * Math.PI) / 180;
     const toeRadiusComp =
-        (rollingDiameter(wheelDiameter, tireWidth, tireSidewall) *
-            Math.sin(isLeft ? toe : -toe)) /
+        (rollingDiameter(wheelDiameterIn, tireWidthMm, tireSidewallPct) *
+            Math.sin(isLeft ? toeRad : -toeRad)) /
         INCHES_PER_FOOT;
 
-    const offset = mmToFeet(isLeft ? -wheelOffset : wheelOffset);
-    const spacer = mmToFeet(isLeft ? wheelSpacer : -wheelSpacer);
+    const offset = mmToFeet(isLeft ? -wheelOffsetMm : wheelOffsetMm);
+    const spacer = mmToFeet(isLeft ? wheelSpacerMm : -wheelSpacerMm);
 
     return {
         rotation: {
@@ -55,7 +55,7 @@ export function calculateWheelPosition(
         },
         position: {
             x: anchor.x - casterShift,
-            y: rideHeight,
+            y: rideHeightFt,
             z: anchor.z + offset + spacer,
         },
     };

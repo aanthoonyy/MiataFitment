@@ -10,21 +10,21 @@ export function axleSettings(
 ): AxleSettings {
     const front = isFront(position);
     return {
-        camber: front ? settings.frontCamberDeg : settings.rearCamberDeg,
-        toe: front ? settings.frontToeRad : settings.rearToeRad,
-        rideHeight: front ? settings.rideHeightFrontFt : settings.rideHeightRearFt,
-        wheelDiameter: front
+        camberDeg: front ? settings.frontCamberDeg : settings.rearCamberDeg,
+        toeRad: front ? settings.frontToeRad : settings.rearToeRad,
+        rideHeightFt: front ? settings.rideHeightFrontFt : settings.rideHeightRearFt,
+        wheelDiameterIn: front
             ? settings.frontWheelDiameterIn
             : settings.rearWheelDiameterIn,
-        wheelWidth: front ? settings.frontWheelWidthIn : settings.rearWheelWidthIn,
-        wheelOffset: front
+        wheelWidthIn: front ? settings.frontWheelWidthIn : settings.rearWheelWidthIn,
+        wheelOffsetMm: front
             ? settings.frontWheelOffsetMm
             : settings.rearWheelOffsetMm,
-        wheelSpacer: front
+        wheelSpacerMm: front
             ? settings.frontWheelSpacerMm
             : settings.rearWheelSpacerMm,
-        tireWidth: front ? settings.frontTireWidthMm : settings.rearTireWidthMm,
-        tireSidewall: front
+        tireWidthMm: front ? settings.frontTireWidthMm : settings.rearTireWidthMm,
+        tireSidewallPct: front
             ? settings.frontTireSidewallPct
             : settings.rearTireSidewallPct,
     };

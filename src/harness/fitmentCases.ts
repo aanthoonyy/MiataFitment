@@ -84,7 +84,7 @@ export const FITMENT_CASES: FitmentCase[] = [
         }),
     },
     {
-        // Bottom of the ride-height range with real camber and toe dialled in.
+        // Bottom of the ride-height range with real camberDeg and toeRad dialled in.
         name: "slammed",
         settings: withSettings({
             frontCamberDeg: -12,
@@ -109,7 +109,7 @@ export const FITMENT_CASES: FitmentCase[] = [
         }),
     },
     {
-        // Nothing anyone would fit, chosen to pin the clamps: max camber, a
+        // Nothing anyone would fit, chosen to pin the clamps: max camberDeg, a
         // narrow tire on a very wide rim, and a spacer past anything sensible.
         name: "clamped",
         settings: withSettings({

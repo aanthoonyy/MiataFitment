@@ -111,8 +111,8 @@ export function captureCorner(
 
     const tire = makeTires(corner, settings, model);
     const wheel = makeWheels(
-        axle.wheelWidth,
-        axle.wheelDiameter,
+        axle.wheelWidthIn,
+        axle.wheelDiameterIn,
         corner,
         settings,
         model,
@@ -130,9 +130,9 @@ export function captureCorner(
         }),
         rollingDiameterIn: forReading(
             rollingDiameter(
-                axle.wheelDiameter,
-                axle.tireWidth,
-                axle.tireSidewall,
+                axle.wheelDiameterIn,
+                axle.tireWidthMm,
+                axle.tireSidewallPct,
             ),
         ),
         tire: digestWorldGeometry(tire),
@@ -172,8 +172,8 @@ function rideHeightSweep(): number[] {
 
 export function captureSuspension(axle: Axle): SuspensionCapture {
     const traced: number[] = [];
-    for (const rideHeight of rideHeightSweep()) {
-        const hubToFenderIn = hubToFenderAtRest(rideHeight, axle);
+    for (const rideHeightFt of rideHeightSweep()) {
+        const hubToFenderIn = hubToFenderAtRest(rideHeightFt, axle);
         traced.push(hubToFenderIn, camberFromHubToFender(axle, hubToFenderIn));
     }
 

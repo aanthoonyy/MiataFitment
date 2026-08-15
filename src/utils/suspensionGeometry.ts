@@ -22,9 +22,9 @@ export const CAMBER_RANGE = { min: -20, max: 1, step: 0.1 } as const;
 export const CASTER_RANGE = { min: 5, max: 8, step: 0.1 } as const;
 export const TOE_RANGE = { min: -0.05, max: 0.05, step: 0.01 } as const;
 
-/** Clamp a camber value to the range the renderer will actually honour. */
-export function clampCamber(camber: number): number {
-  return Math.min(Math.max(camber, CAMBER_RANGE.min), CAMBER_RANGE.max);
+/** Clamp a camberDeg value to the range the renderer will actually honour. */
+export function clampCamber(camberDeg: number): number {
+  return Math.min(Math.max(camberDeg, CAMBER_RANGE.min), CAMBER_RANGE.max);
 }
 
 /**
@@ -55,15 +55,15 @@ const DROP_TO_HUB_TRAVEL_RATIO: Record<Axle, number> = {
 };
 
 /** Inches of body drop for a given ride-height setting. */
-export function rideHeightDropInches(rideHeight: number): number {
-  return (rideHeight - STOCK_RIDE_HEIGHT) * RIDE_HEIGHT_DROP_SCALE;
+export function rideHeightDropInches(rideHeightFt: number): number {
+  return (rideHeightFt - STOCK_RIDE_HEIGHT) * RIDE_HEIGHT_DROP_SCALE;
 }
 
 /** Hub-to-fender distance (inches) with the car sitting at rest. */
-export function hubToFenderAtRest(rideHeight: number, axle: Axle): number {
+export function hubToFenderAtRest(rideHeightFt: number, axle: Axle): number {
   return (
     stockHubToFender(axle) -
-    rideHeightDropInches(rideHeight) * DROP_TO_HUB_TRAVEL_RATIO[axle]
+    rideHeightDropInches(rideHeightFt) * DROP_TO_HUB_TRAVEL_RATIO[axle]
   );
 }
 

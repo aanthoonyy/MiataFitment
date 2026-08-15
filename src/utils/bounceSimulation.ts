@@ -1,5 +1,5 @@
 // Damped spring simulation for the "Simulate Bounce" action.
-// Suspension geometry (hub-to-fender, camber curves) lives in
+// Suspension geometry (hub-to-fender, camberDeg curves) lives in
 // ./suspensionGeometry.
 import type { BounceState, BounceParams } from "@/types/bounce";
 

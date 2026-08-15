@@ -28,17 +28,17 @@ type Range = { min: number; max: number; step: number };
 // because it is a front-only adjustment with no rear twin.
 const ALIGNMENT_KEYS: Record<
   Axle,
-  { rideHeight: keyof Settings; camber: keyof Settings; toe: keyof Settings }
+  { rideHeightFt: keyof Settings; camberDeg: keyof Settings; toeRad: keyof Settings }
 > = {
   front: {
-    rideHeight: "rideHeightFrontFt",
-    camber: "frontCamberDeg",
-    toe: "frontToeRad",
+    rideHeightFt: "rideHeightFrontFt",
+    camberDeg: "frontCamberDeg",
+    toeRad: "frontToeRad",
   },
   rear: {
-    rideHeight: "rideHeightRearFt",
-    camber: "rearCamberDeg",
-    toe: "rearToeRad",
+    rideHeightFt: "rideHeightRearFt",
+    camberDeg: "rearCamberDeg",
+    toeRad: "rearToeRad",
   },
 };
 
@@ -74,10 +74,10 @@ const AlignmentSlider = ({
 
 const SuspensionSettings = ({ title, axle }: SuspensionSettingsProps) => {
   const keys = ALIGNMENT_KEYS[axle];
-  const [rideHeight, setRideHeight] = useSetting(keys.rideHeight);
-  const [camber, setCamber] = useSetting(keys.camber);
-  const [toe, setToe] = useSetting(keys.toe);
-  const [caster, setCaster] = useSetting("frontCasterDeg");
+  const [rideHeightFt, setRideHeight] = useSetting(keys.rideHeightFt);
+  const [camberDeg, setCamber] = useSetting(keys.camberDeg);
+  const [toeRad, setToe] = useSetting(keys.toeRad);
+  const [casterDeg, setCaster] = useSetting("frontCasterDeg");
 
   // Single source of truth — kept in sync with the Account tab's toggle.
   const isMetric = useUserSettingsStore((state) => state.metric);
@@ -86,47 +86,47 @@ const SuspensionSettings = ({ title, axle }: SuspensionSettingsProps) => {
     isMetric ? `${inchesToMM(inches)} mm` : `${inches.toFixed(2)}″`;
 
   const rideHeightText =
-    rideHeight === STOCK_RIDE_HEIGHT
+    rideHeightFt === STOCK_RIDE_HEIGHT
       ? `Stock (${formatLength(stockHubToFender(axle))})`
-      : formatLength(hubToFenderAtRest(rideHeight, axle));
+      : formatLength(hubToFenderAtRest(rideHeightFt, axle));
 
   return (
     <SettingsCard title={title}>
       <div className="space-y-4">
         <AlignmentSlider
-          id={`${axle}-rideHeight`}
+          id={`${axle}-rideHeightFt`}
           label="Ride Height"
           valueText={rideHeightText}
-          value={rideHeight}
+          value={rideHeightFt}
           range={RIDE_HEIGHT_RANGE}
           onChange={setRideHeight}
         />
 
         <AlignmentSlider
-          id={`${axle}-camber`}
+          id={`${axle}-camberDeg`}
           label="Camber"
-          valueText={`${camber.toFixed(1)}°`}
-          value={camber}
+          valueText={`${camberDeg.toFixed(1)}°`}
+          value={camberDeg}
           range={CAMBER_RANGE}
           onChange={(next) => setCamber(snapToStep(next, CAMBER_RANGE.step))}
         />
 
         {axle === "front" ? (
           <AlignmentSlider
-            id={`${axle}-caster`}
+            id={`${axle}-casterDeg`}
             label="Caster"
-            valueText={`${caster.toFixed(1)}°`}
-            value={caster}
+            valueText={`${casterDeg.toFixed(1)}°`}
+            value={casterDeg}
             range={CASTER_RANGE}
             onChange={(next) => setCaster(snapToStep(next, CASTER_RANGE.step))}
           />
         ) : null}
 
         <AlignmentSlider
-          id={`${axle}-toe`}
+          id={`${axle}-toeRad`}
           label="Toe"
-          valueText={`${toe.toFixed(2)}°`}
-          value={toe}
+          valueText={`${toeRad.toFixed(2)}°`}
+          value={toeRad}
           range={TOE_RANGE}
           onChange={(next) => setToe(snapToStep(next, TOE_RANGE.step))}
         />

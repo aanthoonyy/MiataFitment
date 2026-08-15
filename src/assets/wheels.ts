@@ -180,14 +180,14 @@ function loadWheelModel(design: WheelDesign, path: string): Promise<WheelModel> 
 // room for the plate to track offset later.
 function fitWheelModel(
     parts: WheelPart[],
-    wheelWidth: number,
-    wheelDiameter: number,
+    wheelWidthIn: number,
+    wheelDiameterIn: number,
     plateY: number,
     plateFraction: number,
 ) {
     // Same units as the default wheel: scene units are feet, specs are inches.
-    const halfWidth = ((wheelWidth / 2) * WIDTH_FIT) / 12;
-    const radius = ((wheelDiameter / 2) * DIAMETER_FIT) / 12;
+    const halfWidth = ((wheelWidthIn / 2) * WIDTH_FIT) / 12;
+    const radius = ((wheelDiameterIn / 2) * DIAMETER_FIT) / 12;
     const plateLimit = halfWidth * MAX_PLATE_FRACTION_OF_HALF_WIDTH;
     const plate = THREE.MathUtils.clamp(plateY, -plateLimit, plateLimit);
 
@@ -223,8 +223,8 @@ function fitWheelModel(
 }
 
 export function makeWheels(
-    wheelWidth: number,
-    wheelDiameter: number,
+    wheelWidthIn: number,
+    wheelDiameterIn: number,
     position: WheelPosition,
     settings: Settings,
     model: CarModel = "na",
@@ -235,9 +235,9 @@ export function makeWheels(
     const wheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
 
     const sideCylinderGeometry = new THREE.CylinderGeometry(
-        (wheelDiameter/2)/12,
-        (wheelDiameter/2)/12,
-        (wheelWidth/2)/12,
+        (wheelDiameterIn/2)/12,
+        (wheelDiameterIn/2)/12,
+        (wheelWidthIn/2)/12,
         32
     );
     const sideCylinderMaterial = new THREE.MeshPhysicalMaterial({color: 0xFFFFFF});
@@ -248,11 +248,11 @@ export function makeWheels(
     sideCylinderMaterial.clearcoatRoughness = 0.1;
 
     const sideCylinder1 = new THREE.Mesh(sideCylinderGeometry, sideCylinderMaterial);
-    sideCylinder1.position.y = (wheelWidth/4)/12;
+    sideCylinder1.position.y = (wheelWidthIn/4)/12;
     wheel.add(sideCylinder1);
 
     const sideCylinder2 = new THREE.Mesh(sideCylinderGeometry, sideCylinderMaterial);
-    sideCylinder2.position.y = -(wheelWidth/4)/12;
+    sideCylinder2.position.y = -(wheelWidthIn/4)/12;
     wheel.add(sideCylinder2);
 
     // Calculate wheel position and rotation
@@ -275,9 +275,9 @@ export function makeWheels(
         sideCylinder2.visible = false;
 
         const isLeft = isLeftCorner(position);
-        const { wheelOffset } = axleSettings(position, settings);
+        const { wheelOffsetMm } = axleSettings(position, settings);
         // The plate mesh sits at the wheel's centreline, so y = 0 is the plate.
-        const plateY = PLATE_FOLLOWS_OFFSET ? wheelOffset / 25.4 / 12 : 0;
+        const plateY = PLATE_FOLLOWS_OFFSET ? wheelOffsetMm / 25.4 / 12 : 0;
 
         // The model arrives after this returns; the caller has already placed
         // the wheel by then, so it just pops in a frame later.
@@ -285,8 +285,8 @@ export function makeWheels(
             .then((wheelModel) => {
                 const fitted = fitWheelModel(
                     wheelModel.parts,
-                    wheelWidth,
-                    wheelDiameter,
+                    wheelWidthIn,
+                    wheelDiameterIn,
                     plateY,
                     wheelModel.plateFraction,
                 );

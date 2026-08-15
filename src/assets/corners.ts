@@ -32,10 +32,10 @@ export function buildCorners(
 ): Corners {
     return {
         wheels: CORNERS.map((corner) => {
-            const { wheelWidth, wheelDiameter } = axleSettings(corner, settings);
+            const { wheelWidthIn, wheelDiameterIn } = axleSettings(corner, settings);
             return makeWheels(
-                wheelWidth,
-                wheelDiameter,
+                wheelWidthIn,
+                wheelDiameterIn,
                 corner,
                 settings,
                 model,
