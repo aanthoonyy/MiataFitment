@@ -1,0 +1,11 @@
+# settings fields carry their units
+76626a967fe9574d97ffce27d3c4d724f3913e1f
+
+# axle settings fields carry their units
+76e43dc2f9cee6043fa85421e8e5c846cf8df227
+
+# all user facing text lives in one strings module
+3b7624f5c5b7feb244bb975f26ad6f4e3d2bb42a
+
+# route every conversion through the helpers
+01205b46ced53f46b0f4432e5909959a2798f016
