@@ -1,10 +1,15 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Settings } from "@/types/settings";
-import type { CarModel, WheelPosition } from "@/constants/wheelPositions";
+import {
+    isLeft as isLeftCorner,
+    type CarModel,
+    type WheelPosition,
+} from "@/constants/wheelPositions";
 import type { WheelDesign } from "@/constants/wheelDesigns";
 import { wheelModelPath } from "@/constants/wheelDesigns";
 import { calculateWheelPosition } from "./common/wheelPositionCalculator";
+import { axleSettings } from "./common/axleSettings";
 import type { WheelPart, WheelModel } from "@/types/wheels";
 
 // --- knobs for fitting a .glb design onto the default wheel ---------------
@@ -269,10 +274,8 @@ export function makeWheels(
         sideCylinder1.visible = false;
         sideCylinder2.visible = false;
 
-        const isLeft = position.endsWith("L");
-        const wheelOffset = position.startsWith("F")
-            ? settings.frontWheelOffset
-            : settings.rearWheelOffset;
+        const isLeft = isLeftCorner(position);
+        const { wheelOffset } = axleSettings(position, settings);
         // The plate mesh sits at the wheel's centreline, so y = 0 is the plate.
         const plateY = PLATE_FOLLOWS_OFFSET ? wheelOffset / 25.4 / 12 : 0;
 

@@ -5,22 +5,13 @@ import { makeTires } from "./tire";
 import { axleSettings } from "./common/axleSettings";
 import { calculateWheelPosition } from "./common/wheelPositionCalculator";
 import { disposeObject } from "./common/disposeObject";
-import { WheelPosition, type CarModel } from "@/constants/wheelPositions";
+import { CORNERS, type CarModel } from "@/constants/wheelPositions";
 import type { WheelDesign } from "@/constants/wheelDesigns";
 import type { Settings } from "@/types/settings";
 
 // A corner is a wheel and the tire around it, built, placed and torn down
 // together. Everything here works on all four at once, because nothing in the
 // scene ever wants just one.
-
-// Wheels and tires are held in parallel arrays indexed by this order, so it has
-// to stay fixed.
-export const CORNER_ORDER = [
-    WheelPosition.FRONT_LEFT,
-    WheelPosition.REAR_LEFT,
-    WheelPosition.REAR_RIGHT,
-    WheelPosition.FRONT_RIGHT,
-] as const;
 
 export interface Corners {
     wheels: THREE.Object3D[];
@@ -40,7 +31,7 @@ export function buildCorners(
     design: WheelDesign,
 ): Corners {
     return {
-        wheels: CORNER_ORDER.map((corner) => {
+        wheels: CORNERS.map((corner) => {
             const { wheelWidth, wheelDiameter } = axleSettings(corner, settings);
             return makeWheels(
                 wheelWidth,
@@ -51,7 +42,7 @@ export function buildCorners(
                 design,
             );
         }),
-        tires: CORNER_ORDER.map((corner) =>
+        tires: CORNERS.map((corner) =>
             makeTires(corner, settings, model),
         ),
     };
@@ -75,7 +66,7 @@ export function placeCorners(
     settings: Settings,
     model: CarModel,
 ): void {
-    CORNER_ORDER.forEach((corner, index) => {
+    CORNERS.forEach((corner, index) => {
         const { rotation, position } = calculateWheelPosition(
             corner,
             settings,

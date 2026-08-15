@@ -1,4 +1,4 @@
-import type { WheelPositions } from "@/types/wheels";
+import type { WheelAnchor, WheelPositions } from "@/types/wheels";
 
 export const WheelPosition = {
   FRONT_LEFT: "FL",
@@ -8,6 +8,46 @@ export const WheelPosition = {
 } as const;
 
 export type WheelPosition = (typeof WheelPosition)[keyof typeof WheelPosition];
+
+export const AXLES = ["front", "rear"] as const;
+export type Axle = (typeof AXLES)[number];
+
+export const SIDES = ["left", "right"] as const;
+export type Side = (typeof SIDES)[number];
+
+// Every corner, in the order the scene builds them. Wheels and tires are held
+// in parallel arrays indexed by it, so it has to stay fixed.
+export const CORNERS = [
+  WheelPosition.FRONT_LEFT,
+  WheelPosition.REAR_LEFT,
+  WheelPosition.REAR_RIGHT,
+  WheelPosition.FRONT_RIGHT,
+] as const;
+
+// Which axle and side each corner is on. A lookup rather than a read of the
+// letters in the code, so adding a corner is a compile error here instead of a
+// silent miss in whichever files happened to parse the string.
+const CORNER_LAYOUT: Record<WheelPosition, { axle: Axle; side: Side }> = {
+  FL: { axle: "front", side: "left" },
+  FR: { axle: "front", side: "right" },
+  BL: { axle: "rear", side: "left" },
+  BR: { axle: "rear", side: "right" },
+};
+
+export const axleOf = (corner: WheelPosition): Axle =>
+  CORNER_LAYOUT[corner].axle;
+
+export const sideOf = (corner: WheelPosition): Side =>
+  CORNER_LAYOUT[corner].side;
+
+export const isFront = (corner: WheelPosition): boolean =>
+  axleOf(corner) === "front";
+
+export const isRear = (corner: WheelPosition): boolean =>
+  axleOf(corner) === "rear";
+
+export const isLeft = (corner: WheelPosition): boolean =>
+  sideOf(corner) === "left";
 
 export const CAR_MODELS = ["na", "nb", "nc", "nd"] as const;
 
@@ -125,4 +165,14 @@ const MODEL_WHEEL_POSITIONS: Record<CarModel, WheelPositions> = {
 // Function to get wheel positions for a specific model
 export function getWheelPositions(model: CarModel): WheelPositions {
   return MODEL_WHEEL_POSITIONS[model];
-} 
+}
+
+// The one place a corner is turned into a spot on the car.
+export function cornerAnchor(
+  model: CarModel,
+  corner: WheelPosition,
+): WheelAnchor {
+  const positions = getWheelPositions(model);
+  const axle = isFront(corner) ? positions.FRONT : positions.REAR;
+  return isLeft(corner) ? axle.LEFT : axle.RIGHT;
+}

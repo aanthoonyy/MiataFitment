@@ -7,7 +7,6 @@ import { makeCamera } from "@/assets/cameraMaker";
 import { render } from "@/assets/renderer";
 import { setUpLighting } from "@/assets/lighting";
 import {
-  CORNER_ORDER,
   addCorners,
   buildCorners,
   noCorners,
@@ -15,6 +14,7 @@ import {
   removeCorners,
   type Corners,
 } from "@/assets/corners";
+import { CORNERS } from "@/constants/wheelPositions";
 import { useFitmentStore, useUIStore } from "@/stores";
 import type { BounceState } from "@/types/bounce";
 import {
@@ -94,7 +94,7 @@ export const useThreeScene = () => {
       carRef.current.position.y = -(bodyDropIn / INCHES_PER_FOOT);
     }
 
-    CORNER_ORDER.forEach((corner, index) => {
+    CORNERS.forEach((corner, index) => {
       const { xRad, zRad } = bounceCornerRotation(corner, current, bodyDropIn);
       const { wheels, tires } = cornersRef.current;
       for (const object of [wheels[index], tires[index]]) {

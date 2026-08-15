@@ -4,6 +4,8 @@
 // duplicated across bounceSimulation.ts, SuspensionSettings.tsx and
 // FitmentSettings.tsx, with a comment in one file pointing at another.
 
+import type { Axle } from "@/constants/wheelPositions";
+
 /** Ride-height slider value corresponding to a stock car. */
 export const STOCK_RIDE_HEIGHT = -2.65;
 
@@ -37,14 +39,20 @@ export function clampCamber(camber: number): number {
 export const RIDE_HEIGHT_DROP_SCALE = 25.4;
 
 /** Hub-to-fender distance (inches) on an unmodified car. */
-export function stockHubToFender(isRear: boolean): number {
-  return isRear ? 13.0 : 13.5;
+const STOCK_HUB_TO_FENDER_IN: Record<Axle, number> = {
+  front: 13.5,
+  rear: 13.0,
+};
+
+export function stockHubToFender(axle: Axle): number {
+  return STOCK_HUB_TO_FENDER_IN[axle];
 }
 
 /** How much hub-to-fender closes up per inch of body drop. */
-function dropToHubTravelRatio(isRear: boolean): number {
-  return isRear ? 1.5 / 5.0 : 2.5 / 4.0;
-}
+const DROP_TO_HUB_TRAVEL_RATIO: Record<Axle, number> = {
+  front: 2.5 / 4.0,
+  rear: 1.5 / 5.0,
+};
 
 /** Inches of body drop for a given ride-height setting. */
 export function rideHeightDropInches(rideHeight: number): number {
@@ -52,19 +60,27 @@ export function rideHeightDropInches(rideHeight: number): number {
 }
 
 /** Hub-to-fender distance (inches) with the car sitting at rest. */
-export function hubToFenderAtRest(rideHeight: number, isRear: boolean): number {
+export function hubToFenderAtRest(rideHeight: number, axle: Axle): number {
   return (
-    stockHubToFender(isRear) -
-    rideHeightDropInches(rideHeight) * dropToHubTravelRatio(isRear)
+    stockHubToFender(axle) -
+    rideHeightDropInches(rideHeight) * DROP_TO_HUB_TRAVEL_RATIO[axle]
   );
 }
 
 // --- Camber as a function of hub-to-fender, fitted from real geometry ---
 
-export function frontCamberFromHubToFender(h: number): number {
-  return -0.09632 * h * h + 3.37758 * h - 29.64574;
-}
+// Quadratic, linear and constant terms of the fit for each axle.
+const CAMBER_CURVE: Record<Axle, readonly [number, number, number]> = {
+  front: [-0.09632, 3.37758, -29.64574],
+  rear: [-0.07764, 2.73651, -24.17385],
+};
 
-export function rearCamberFromHubToFender(h: number): number {
-  return -0.07764 * h * h + 2.73651 * h - 24.17385;
+export function camberFromHubToFender(
+  axle: Axle,
+  hubToFenderIn: number,
+): number {
+  const [square, linear, constant] = CAMBER_CURVE[axle];
+  return (
+    square * hubToFenderIn * hubToFenderIn + linear * hubToFenderIn + constant
+  );
 }

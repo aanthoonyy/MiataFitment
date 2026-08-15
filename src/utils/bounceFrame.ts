@@ -1,11 +1,11 @@
 import { axleSettings } from "@/assets/common/axleSettings";
 import rollingDiameter from "@/assets/common/rollingDiameter";
+import { camberFromHubToFender, hubToFenderAtRest } from "./suspensionGeometry";
 import {
-    frontCamberFromHubToFender,
-    hubToFenderAtRest,
-    rearCamberFromHubToFender,
-} from "./suspensionGeometry";
-import type { WheelPosition } from "@/constants/wheelPositions";
+    axleOf,
+    isLeft as isLeftCorner,
+    type WheelPosition,
+} from "@/constants/wheelPositions";
 import type { Settings } from "@/types/settings";
 
 const INCHES_PER_FOOT = 12;
@@ -26,20 +26,16 @@ export function bounceCornerRotation(
     settings: Settings,
     bodyDropIn: number,
 ): CornerRotation {
-    const isRear = corner.startsWith("B");
-    const isLeft = corner.endsWith("L");
+    const axle = axleOf(corner);
+    const isLeft = isLeftCorner(corner);
 
     const { camber, toe, rideHeight, wheelDiameter, tireWidth, tireSidewall } =
         axleSettings(corner, settings);
 
-    const camberFromHubToFender = isRear
-        ? rearCamberFromHubToFender
-        : frontCamberFromHubToFender;
-
-    const hubToFenderRestIn = hubToFenderAtRest(rideHeight, isRear);
+    const hubToFenderRestIn = hubToFenderAtRest(rideHeight, axle);
     const camberDeltaDeg =
-        camberFromHubToFender(hubToFenderRestIn - bodyDropIn) -
-        camberFromHubToFender(hubToFenderRestIn);
+        camberFromHubToFender(axle, hubToFenderRestIn - bodyDropIn) -
+        camberFromHubToFender(axle, hubToFenderRestIn);
 
     const camberRad = ((camber + camberDeltaDeg) * Math.PI) / 180;
     const toeRad =

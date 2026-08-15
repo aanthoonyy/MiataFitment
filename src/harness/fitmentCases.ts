@@ -1,15 +1,10 @@
 import { DEFAULT_SETTINGS, type Settings } from "@/types/settings";
-import { WheelPosition, type WheelPosition as Corner } from "@/constants/wheelPositions";
 import { RIDE_HEIGHT_RANGE, CAMBER_RANGE } from "@/utils/suspensionGeometry";
 
 export interface FitmentCase {
     name: string;
     settings: Settings;
 }
-
-// Derived rather than re-typed, so this stays correct if a corner is ever
-// added or renamed.
-export const CORNERS: Corner[] = Object.values(WheelPosition);
 
 const withSettings = (patch: Partial<Settings>): Settings => ({
     ...DEFAULT_SETTINGS,

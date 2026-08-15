@@ -119,6 +119,7 @@ const FitmentSettings = () => {
             <TabsContent value="alignment" className="mt-0 space-y-4">
               <SuspensionSettings
                 title="Front Suspension"
+                axle="front"
                 rideHeight={settings.rideHeightFront}
                 setRideHeight={set("rideHeightFront")}
                 camber={settings.frontCamber}
@@ -131,6 +132,7 @@ const FitmentSettings = () => {
 
               <SuspensionSettings
                 title="Rear Suspension"
+                axle="rear"
                 rideHeight={settings.rideHeightRear}
                 setRideHeight={set("rideHeightRear")}
                 camber={settings.rearCamber}

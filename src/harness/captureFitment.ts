@@ -3,7 +3,15 @@ import { makeWheels } from "@/assets/wheels";
 import { axleSettings } from "@/assets/common/axleSettings";
 import { calculateWheelPosition } from "@/assets/common/wheelPositionCalculator";
 import rollingDiameter from "@/assets/common/rollingDiameter";
-import { CAR_MODELS, type CarModel, type WheelPosition } from "@/constants/wheelPositions";
+import {
+    AXLES,
+    CAR_MODELS,
+    CORNERS,
+    isLeft,
+    type Axle,
+    type CarModel,
+    type WheelPosition,
+} from "@/constants/wheelPositions";
 import { DEFAULT_WHEEL_DESIGN } from "@/constants/wheelDesigns";
 import {
     BUMP_AT_DEFAULT_RATE,
@@ -15,11 +23,10 @@ import { bounceCornerRotation } from "@/utils/bounceFrame";
 import {
     RIDE_HEIGHT_RANGE,
     STOCK_RIDE_HEIGHT,
-    frontCamberFromHubToFender,
+    camberFromHubToFender,
     hubToFenderAtRest,
-    rearCamberFromHubToFender,
 } from "@/utils/suspensionGeometry";
-import { CORNERS, FITMENT_CASES, type FitmentCase } from "./fitmentCases";
+import { FITMENT_CASES, type FitmentCase } from "./fitmentCases";
 import {
     digestFields,
     digestNumbers,
@@ -163,25 +170,21 @@ function rideHeightSweep(): number[] {
     return heights;
 }
 
-export function captureSuspension(isRear: boolean): SuspensionCapture {
-    const camberFromHubToFender = isRear
-        ? rearCamberFromHubToFender
-        : frontCamberFromHubToFender;
-
+export function captureSuspension(axle: Axle): SuspensionCapture {
     const traced: number[] = [];
     for (const rideHeight of rideHeightSweep()) {
-        const hubToFenderIn = hubToFenderAtRest(rideHeight, isRear);
-        traced.push(hubToFenderIn, camberFromHubToFender(hubToFenderIn));
+        const hubToFenderIn = hubToFenderAtRest(rideHeight, axle);
+        traced.push(hubToFenderIn, camberFromHubToFender(axle, hubToFenderIn));
     }
 
-    const atStockIn = hubToFenderAtRest(STOCK_RIDE_HEIGHT, isRear);
-    const atLowestIn = hubToFenderAtRest(RIDE_HEIGHT_RANGE.min, isRear);
+    const atStockIn = hubToFenderAtRest(STOCK_RIDE_HEIGHT, axle);
+    const atLowestIn = hubToFenderAtRest(RIDE_HEIGHT_RANGE.min, axle);
 
     return {
         hubToFenderAtStockIn: forReading(atStockIn),
-        camberAtStockDeg: forReading(camberFromHubToFender(atStockIn)),
+        camberAtStockDeg: forReading(camberFromHubToFender(axle, atStockIn)),
         hubToFenderAtLowestIn: forReading(atLowestIn),
-        camberAtLowestDeg: forReading(camberFromHubToFender(atLowestIn)),
+        camberAtLowestDeg: forReading(camberFromHubToFender(axle, atLowestIn)),
         digest: digestNumbers(traced),
     };
 }
@@ -215,7 +218,7 @@ export function captureBounceRotation(
     );
     // Backed out of the rotation so the golden reads as an alignment figure
     // rather than a raw axle angle.
-    const camberRad = corner.endsWith("L")
+    const camberRad = isLeft(corner)
         ? atLandmark.xRad - Math.PI / 2
         : Math.PI / 2 - atLandmark.xRad;
 
@@ -250,13 +253,8 @@ export function captureGoldens(): Goldens {
         }
     }
 
-    return {
-        corners,
-        bounce,
-        suspension: {
-            front: captureSuspension(false),
-            rear: captureSuspension(true),
-        },
-        bounceRotations,
-    };
+    const suspension: Record<string, SuspensionCapture> = {};
+    for (const axle of AXLES) suspension[axle] = captureSuspension(axle);
+
+    return { corners, bounce, suspension, bounceRotations };
 }

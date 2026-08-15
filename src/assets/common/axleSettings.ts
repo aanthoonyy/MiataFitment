@@ -1,5 +1,5 @@
 import type { Settings } from "@/types/settings";
-import type { WheelPosition } from "@/constants/wheelPositions";
+import { isFront, type WheelPosition } from "@/constants/wheelPositions";
 import type { AxleSettings } from "@/types/fitment";
 
 // The one place front/rear gets picked apart. Every consumer takes the whole
@@ -8,23 +8,23 @@ export function axleSettings(
     position: WheelPosition,
     settings: Settings,
 ): AxleSettings {
-    const isFront = position.startsWith("F");
+    const front = isFront(position);
     return {
-        camber: isFront ? settings.frontCamber : settings.rearCamber,
-        toe: isFront ? settings.frontToe : settings.rearToe,
-        rideHeight: isFront ? settings.rideHeightFront : settings.rideHeightRear,
-        wheelDiameter: isFront
+        camber: front ? settings.frontCamber : settings.rearCamber,
+        toe: front ? settings.frontToe : settings.rearToe,
+        rideHeight: front ? settings.rideHeightFront : settings.rideHeightRear,
+        wheelDiameter: front
             ? settings.frontWheelDiameter
             : settings.rearWheelDiameter,
-        wheelWidth: isFront ? settings.frontWheelWidth : settings.rearWheelWidth,
-        wheelOffset: isFront
+        wheelWidth: front ? settings.frontWheelWidth : settings.rearWheelWidth,
+        wheelOffset: front
             ? settings.frontWheelOffset
             : settings.rearWheelOffset,
-        wheelSpacer: isFront
+        wheelSpacer: front
             ? settings.frontWheelSpacer
             : settings.rearWheelSpacer,
-        tireWidth: isFront ? settings.frontTireWidth : settings.rearTireWidth,
-        tireSidewall: isFront
+        tireWidth: front ? settings.frontTireWidth : settings.rearTireWidth,
+        tireSidewall: front
             ? settings.frontTireSidewall
             : settings.rearTireSidewall,
     };

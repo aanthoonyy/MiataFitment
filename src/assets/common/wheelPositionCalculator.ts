@@ -1,8 +1,9 @@
 import { Settings } from "@/types/settings";
 import {
-  getWheelPositions,
-  type CarModel,
-  type WheelPosition,
+    cornerAnchor,
+    isLeft as isLeftCorner,
+    type CarModel,
+    type WheelPosition,
 } from "@/constants/wheelPositions";
 import rollingDiameter from "./rollingDiameter";
 import { axleSettings } from "./axleSettings";
@@ -10,14 +11,14 @@ import { clampCamber } from "@/utils/suspensionGeometry";
 import type { WheelPositionData } from "@/types/fitment";
 
 const mmToFeet = (mm: number) => mm / 25.4 / 12;
+const INCHES_PER_FOOT = 12;
 
 export function calculateWheelPosition(
-    position: WheelPosition, 
+    position: WheelPosition,
     settings: Settings,
-    model: CarModel = "na" // Default to NA for backward compatibility
+    model: CarModel = "na", // Default to NA for backward compatibility
 ): WheelPositionData {
-    const isFront = position.startsWith("F");
-    const isLeft = position.endsWith("L");
+    const isLeft = isLeftCorner(position);
 
     const {
         camber,
@@ -30,37 +31,32 @@ export function calculateWheelPosition(
         tireSidewall,
     } = axleSettings(position, settings);
 
-    const wheelPositions = getWheelPositions(model);
-    let baseX: number;
-    let baseZ: number;
-
-    if (isFront) {
-        const frontWheelPos = isLeft ? wheelPositions.FRONT.LEFT : wheelPositions.FRONT.RIGHT;
-        baseX = frontWheelPos.x - mmToFeet(settings.frontCaster / frontWheelPos.casterOffset);
-        baseZ = frontWheelPos.z;
-    } else {
-        const rearWheelPos = isLeft ? wheelPositions.REAR.LEFT : wheelPositions.REAR.RIGHT;
-        baseX = rearWheelPos.x;
-        baseZ = rearWheelPos.z;
-    }
+    // Caster rakes the front wheels fore and aft; there is no rear equivalent,
+    // so the rear anchor simply has no offset to read.
+    const anchor = cornerAnchor(model, position);
+    const casterShift =
+        "casterOffset" in anchor
+            ? mmToFeet(settings.frontCaster / anchor.casterOffset)
+            : 0;
 
     const camberRad = (clampCamber(camber) * Math.PI) / 180;
-    const toeRadiusComp = (rollingDiameter(wheelDiameter, tireWidth, tireSidewall) * 
-        Math.sin(isLeft ? toe : -toe)) / 12;
+    const toeRadiusComp =
+        (rollingDiameter(wheelDiameter, tireWidth, tireSidewall) *
+            Math.sin(isLeft ? toe : -toe)) /
+        INCHES_PER_FOOT;
 
     const offset = mmToFeet(isLeft ? -wheelOffset : wheelOffset);
     const spacer = mmToFeet(isLeft ? wheelSpacer : -wheelSpacer);
-    const zPos = baseZ + offset + spacer;
 
     return {
         rotation: {
             x: isLeft ? Math.PI / 2 + camberRad : Math.PI / 2 - camberRad,
-            z: toeRadiusComp
+            z: toeRadiusComp,
         },
         position: {
-            x: baseX,
+            x: anchor.x - casterShift,
             y: rideHeight,
-            z: zPos
-        }
+            z: anchor.z + offset + spacer,
+        },
     };
-} 
+}

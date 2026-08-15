@@ -3,6 +3,7 @@ import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { inchesToMM } from "@/services/inchesToCM";
+import type { Axle } from "@/constants/wheelPositions";
 import { useUserSettingsStore } from "@/stores/userSettingsStore";
 import {
   CAMBER_RANGE,
@@ -15,7 +16,9 @@ import {
 } from "@/utils/suspensionGeometry";
 
 interface SuspensionSettingsProps {
+  /** Display only — never read to decide behaviour. That is `axle`'s job. */
   title: string;
+  axle: Axle;
 
   rideHeight: number;
   setRideHeight: (value: number) => void;
@@ -70,6 +73,7 @@ const Field = ({
 
 const SuspensionSettings: React.FC<SuspensionSettingsProps> = ({
   title,
+  axle,
   rideHeight,
   setRideHeight,
   camber,
@@ -86,10 +90,8 @@ const SuspensionSettings: React.FC<SuspensionSettingsProps> = ({
   // Single source of truth — kept in sync with the Account tab's toggle.
   const isMetric = useUserSettingsStore((s) => s.metric);
 
-  const isRear = title.toLowerCase().includes("rear");
-
-  const stockHubFenderIn = stockHubToFender(isRear);
-  const hubFenderIn = hubToFenderAtRest(rideHeight, isRear);
+  const stockHubFenderIn = stockHubToFender(axle);
+  const hubFenderIn = hubToFenderAtRest(rideHeight, axle);
 
   const formatValue = (inches: number) =>
     isMetric ? `${inchesToMM(inches)} mm` : `${inches.toFixed(2)}\u2033`;
