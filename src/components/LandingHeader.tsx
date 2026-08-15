@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Loader2 } from "lucide-react";
+import { STRINGS } from "@/i18n/strings";
 
 export const LandingHeader: React.FC = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ export const LandingHeader: React.FC = () => {
   const displayName =
     (typeof metadataName === "string" ? metadataName : undefined) ||
     user?.email?.split("@")[0] ||
-    "Account";
+    STRINGS.common.account;
 
   const avatarLetter = displayName?.[0]?.toUpperCase() || "?";
 
@@ -40,7 +41,7 @@ export const LandingHeader: React.FC = () => {
         <Link to="/" className="inline-flex items-center gap-2">
           <img
             src="/faviconNoBG.png"
-            alt="Miata Fitment Logo"
+            alt={STRINGS.brand.logoAlt}
             className="h-10 w-auto"
           />
         </Link>
@@ -49,7 +50,7 @@ export const LandingHeader: React.FC = () => {
           {loading ? (
             <div className="flex items-center gap-2 text-white/90">
               <Loader2 className="h-4 w-4 animate-spin" />
-              <span className="text-sm">Loading</span>
+              <span className="text-sm">{STRINGS.common.loading}</span>
             </div>
           ) : user ? (
             <div className="flex items-center gap-2">
@@ -62,7 +63,7 @@ export const LandingHeader: React.FC = () => {
                   <button
                     type="button"
                     className="rounded-full outline-none transition focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0DA5E8]"
-                    aria-label="Account"
+                    aria-label={STRINGS.common.account}
                   >
                     <Avatar className="h-8 w-8">
                       <AvatarFallback className="bg-white font-semibold text-[#0b94d1]">
@@ -77,7 +78,7 @@ export const LandingHeader: React.FC = () => {
                   className="w-40 bg-white text-black dark:bg-zinc-900 dark:text-zinc-50 !border-0 ring-0 outline-none"
                 >
                   <DropdownMenuItem onClick={handleLogout}>
-                    Logout
+                    {STRINGS.account.logout}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -89,7 +90,7 @@ export const LandingHeader: React.FC = () => {
               onClick={goLogin}
               className="border-white/80 bg-transparent text-white hover:border-white hover:bg-white/15"
             >
-              Login
+              {STRINGS.account.login}
             </Button>
           )}
         </div>

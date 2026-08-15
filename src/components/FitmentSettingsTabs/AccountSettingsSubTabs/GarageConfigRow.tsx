@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { SavedConfig } from "@/types/garage";
 import { payloadToPreview } from "@/utils/garagePayload";
+import { STRINGS } from "@/i18n/strings";
 
 export function ConfigRow(props: {
   config: SavedConfig;
@@ -27,11 +28,11 @@ export function ConfigRow(props: {
 
       <div className="flex w-full gap-2 border-t border-zinc-200 p-2">
         <Button variant="secondary" onClick={onLoad} className="flex-1">
-          Load
+          {STRINGS.garage.load}
         </Button>
 
         <Button variant="destructive" onClick={onDelete} className="flex-1">
-          Delete
+          {STRINGS.garage.delete}
         </Button>
       </div>
     </div>

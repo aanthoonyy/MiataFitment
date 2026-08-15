@@ -5,6 +5,7 @@ import { useSetting } from "@/hooks/useSetting";
 import { inchesToMm } from "@/utils/unitConversions";
 import { useUserSettingsStore } from "@/stores/userSettingsStore";
 import type { Axle } from "@/constants/wheelPositions";
+import { STRINGS, t } from "@/i18n/strings";
 import type { Settings } from "@/types/settings";
 import {
   CAMBER_RANGE,
@@ -89,12 +90,16 @@ const SuspensionSettings = ({ title, axle }: SuspensionSettingsProps) => {
 
   const formatLength = (inches: number) =>
     isMetric
-      ? `${Number(inchesToMm(inches).toFixed(MM_DECIMALS))} mm`
-      : `${inches.toFixed(INCH_DECIMALS)}″`;
+      ? t(STRINGS.units.millimetreValue, {
+          value: Number(inchesToMm(inches).toFixed(MM_DECIMALS)),
+        })
+      : t(STRINGS.units.inchValue, { value: inches.toFixed(INCH_DECIMALS) });
 
   const rideHeightText =
     rideHeightFt === STOCK_RIDE_HEIGHT
-      ? `Stock (${formatLength(stockHubToFender(axle))})`
+      ? t(STRINGS.alignment.stockValue, {
+          value: formatLength(stockHubToFender(axle)),
+        })
       : formatLength(hubToFenderAtRest(rideHeightFt, axle));
 
   return (
@@ -102,7 +107,7 @@ const SuspensionSettings = ({ title, axle }: SuspensionSettingsProps) => {
       <div className="space-y-4">
         <AlignmentSlider
           id={`${axle}-rideHeightFt`}
-          label="Ride Height"
+          label={STRINGS.alignment.rideHeight}
           valueText={rideHeightText}
           value={rideHeightFt}
           range={RIDE_HEIGHT_RANGE}
@@ -111,8 +116,8 @@ const SuspensionSettings = ({ title, axle }: SuspensionSettingsProps) => {
 
         <AlignmentSlider
           id={`${axle}-camberDeg`}
-          label="Camber"
-          valueText={`${camberDeg.toFixed(1)}°`}
+          label={STRINGS.alignment.camber}
+          valueText={t(STRINGS.units.degreeValue, { value: camberDeg.toFixed(1) })}
           value={camberDeg}
           range={CAMBER_RANGE}
           onChange={(next) => setCamber(snapToStep(next, CAMBER_RANGE.step))}
@@ -121,8 +126,8 @@ const SuspensionSettings = ({ title, axle }: SuspensionSettingsProps) => {
         {axle === "front" ? (
           <AlignmentSlider
             id={`${axle}-casterDeg`}
-            label="Caster"
-            valueText={`${casterDeg.toFixed(1)}°`}
+            label={STRINGS.alignment.caster}
+            valueText={t(STRINGS.units.degreeValue, { value: casterDeg.toFixed(1) })}
             value={casterDeg}
             range={CASTER_RANGE}
             onChange={(next) => setCaster(snapToStep(next, CASTER_RANGE.step))}
@@ -131,8 +136,8 @@ const SuspensionSettings = ({ title, axle }: SuspensionSettingsProps) => {
 
         <AlignmentSlider
           id={`${axle}-toeRad`}
-          label="Toe"
-          valueText={`${toeRad.toFixed(2)}°`}
+          label={STRINGS.alignment.toe}
+          valueText={t(STRINGS.units.degreeValue, { value: toeRad.toFixed(2) })}
           value={toeRad}
           range={TOE_RANGE}
           onChange={(next) => setToe(snapToStep(next, TOE_RANGE.step))}

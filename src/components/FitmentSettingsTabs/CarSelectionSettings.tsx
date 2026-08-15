@@ -14,12 +14,35 @@ import { useAuth } from "@/hooks/useAuth";
 import { useSetting } from "@/hooks/useSetting";
 import { useFitmentStore, type CarModel } from "@/stores";
 import { WHEEL_DESIGNS, type WheelDesign } from "@/constants/wheelDesigns";
+import { STRINGS } from "@/i18n/strings";
 
 const SPRING_PRESETS = [
-  { label: "Floaty", value: 100 },
-  { label: "Stock-ish", value: 2500 },
-  { label: "Coilover", value: 7000 },
-  { label: "Stancy", value: 20000 },
+  { label: STRINGS.car.springPresets.floaty, value: 100 },
+  { label: STRINGS.car.springPresets.stockish, value: 2500 },
+  { label: STRINGS.car.springPresets.coilover, value: 7000 },
+  { label: STRINGS.car.springPresets.stancy, value: 20000 },
+] as const;
+
+// Which generations can be picked, and which are modelled well enough to offer.
+const GENERATIONS: readonly { value: CarModel; selectable: boolean }[] = [
+  { value: "na", selectable: true },
+  { value: "nb", selectable: true },
+  { value: "nc", selectable: false },
+  { value: "nd", selectable: true },
+];
+
+const CAR_COLORS = [
+  { value: "red", label: STRINGS.car.colors.red },
+  { value: "white", label: STRINGS.car.colors.white },
+  { value: "black", label: STRINGS.car.colors.black },
+  { value: "silver", label: STRINGS.car.colors.silver },
+] as const;
+
+const CAR_KITS = [
+  { value: "stock", label: STRINGS.car.kitOptions.stock },
+  { value: "lip", label: STRINGS.car.kitOptions.lip },
+  { value: "aero", label: STRINGS.car.kitOptions.aero },
+  { value: "widebody", label: STRINGS.car.kitOptions.widebody },
 ] as const;
 
 // Shown when a persisted rate is missing or corrupt, so the slider still has a
@@ -44,15 +67,40 @@ function closestPresetIndex(springRateLbIn: number) {
 
 const LoginPrompt = ({ action }: { action: string }) => (
   <p className="text-xs text-muted-foreground">
-    Please{" "}
+    {STRINGS.car.loginPrompt.split("{link}")[0]}
     <RouterLink
       to="/login"
       className="underline underline-offset-4 hover:text-foreground"
     >
-      log in
-    </RouterLink>{" "}
-    to {action}.
+      {STRINGS.car.loginPromptLink}
+    </RouterLink>
+    {STRINGS.car.loginPrompt.split("{link}")[1].replace("{action}", action)}
   </p>
+);
+
+// A picker with nothing wired up behind it yet, kept so the layout is real.
+const ComingSoonSelect = ({
+  label,
+  options,
+}: {
+  label: string;
+  options: readonly { value: string; label: string }[];
+}) => (
+  <div className="space-y-1.5">
+    <Label className="text-xs text-muted-foreground">{label}</Label>
+    <Select disabled={CUSTOMISATION_DISABLED} value="">
+      <SelectTrigger className="h-9">
+        <SelectValue placeholder={STRINGS.car.comingSoon} />
+      </SelectTrigger>
+      <SelectContent className="bg-white text-black border shadow-md">
+        {options.map((option) => (
+          <SelectItem key={option.value} value={option.value}>
+            {option.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  </div>
 );
 
 const CarSelectionSettings = () => {
@@ -72,15 +120,15 @@ const CarSelectionSettings = () => {
 
   return (
     <div className="space-y-4">
-      <SettingsCard title="Car Selection">
+      <SettingsCard title={STRINGS.car.selectionTitle}>
         <div className="space-y-4">
           <div className="space-y-1.5">
             <div className="flex items-baseline justify-between gap-2">
               <Label className="text-xs text-muted-foreground">
-                Miata Generation
+                {STRINGS.car.generation}
               </Label>
               <span className="text-[11px] text-muted-foreground">
-                {loading ? "Locked" : "Editable"}
+                {loading ? STRINGS.car.locked : STRINGS.car.editable}
               </span>
             </div>
 
@@ -90,44 +138,45 @@ const CarSelectionSettings = () => {
               disabled={loading}
             >
               <SelectTrigger className="h-9">
-                <SelectValue placeholder="Select a generation" />
+                <SelectValue placeholder={STRINGS.car.generationPlaceholder} />
               </SelectTrigger>
 
               <SelectContent className="bg-white text-black border shadow-md">
-                <SelectItem value="na">NA Miata (1989–1997)</SelectItem>
-                <SelectItem value="nb">NB Miata (1998–2005)</SelectItem>
-                <SelectItem value="nc" disabled>
-                  NC Miata (2006–2015)
-                </SelectItem>
-                <SelectItem value="nd">
-                  ND Miata (2016–Present) (IN TEST)
-                </SelectItem>
+                {GENERATIONS.map((generation) => (
+                  <SelectItem
+                    key={generation.value}
+                    value={generation.value}
+                    disabled={!generation.selectable}
+                  >
+                    {STRINGS.car.generations[generation.value]}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
 
             {showLoginPrompt ? (
-              <LoginPrompt action="change car selection" />
+              <LoginPrompt action={STRINGS.car.loginToChangeSelection} />
             ) : null}
           </div>
 
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Select your Miata generation to view and customize its fitment
-            settings. Each generation has unique wheel wells and suspension
-            geometry.
+            {STRINGS.car.generationBlurb}
           </p>
         </div>
       </SettingsCard>
 
-      <SettingsCard title="Suspension">
+      <SettingsCard title={STRINGS.car.suspensionTitle}>
         <div className="space-y-4">
           <div className="space-y-1.5">
             <div className="flex items-baseline justify-between gap-2">
               <Label className="text-xs text-muted-foreground">
-                Spring Rate
+                {STRINGS.car.springRate}
               </Label>
 
               <span className="text-[11px] text-muted-foreground">
-                {loading ? "Locked" : SPRING_PRESETS[presetIndex].label}
+                {loading
+                  ? STRINGS.car.locked
+                  : SPRING_PRESETS[presetIndex].label}
               </span>
             </div>
 
@@ -158,61 +207,34 @@ const CarSelectionSettings = () => {
             </div>
 
             {showLoginPrompt ? (
-              <LoginPrompt action="change suspension settings" />
+              <LoginPrompt action={STRINGS.car.loginToChangeSuspension} />
             ) : null}
 
             <p className="text-xs text-muted-foreground">
-              Higher rates feel stiffer and settle faster; lower rates bounce
-              more.
+              {STRINGS.car.springRateBlurb}
               <br />
-              <strong>NOTE</strong> this is very WIP and very simplified
+              <strong>{STRINGS.car.springRateWip}</strong>
+              {STRINGS.car.springRateWipRest}
             </p>
           </div>
         </div>
       </SettingsCard>
 
-      <SettingsCard title="Car Customization">
+      <SettingsCard title={STRINGS.car.customizationTitle}>
         <div className="space-y-4">
-          <div className="space-y-1.5">
-            <Label className="text-xs text-muted-foreground">Color</Label>
-            <Select disabled={CUSTOMISATION_DISABLED} value="">
-              <SelectTrigger className="h-9">
-                <SelectValue placeholder="Coming soon" />
-              </SelectTrigger>
-              <SelectContent className="bg-white text-black border shadow-md">
-                <SelectItem value="red">Classic Red</SelectItem>
-                <SelectItem value="white">White</SelectItem>
-                <SelectItem value="black">Black</SelectItem>
-                <SelectItem value="silver">Silver</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-1.5">
-            <Label className="text-xs text-muted-foreground">Kits</Label>
-            <Select disabled={CUSTOMISATION_DISABLED} value="">
-              <SelectTrigger className="h-9">
-                <SelectValue placeholder="Coming soon" />
-              </SelectTrigger>
-              <SelectContent className="bg-white text-black border shadow-md">
-                <SelectItem value="stock">Stock</SelectItem>
-                <SelectItem value="lip">Front Lip</SelectItem>
-                <SelectItem value="aero">Aero Kit</SelectItem>
-                <SelectItem value="widebody">Widebody</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          <ComingSoonSelect label={STRINGS.car.color} options={CAR_COLORS} />
+          <ComingSoonSelect label={STRINGS.car.kits} options={CAR_KITS} />
 
           <div className="space-y-1.5">
             <Label className="text-xs text-muted-foreground">
-              Wheel Design
+              {STRINGS.car.wheelDesign}
             </Label>
             <Select
               value={wheelDesign}
               onValueChange={(value) => setWheelDesign(value as WheelDesign)}
             >
               <SelectTrigger className="h-9">
-                <SelectValue placeholder="Select a wheel design" />
+                <SelectValue placeholder={STRINGS.car.wheelDesignPlaceholder} />
               </SelectTrigger>
               {/* Far more designs than fit on screen, so cap the list and let
                   it scroll rather than running the full window height. */}
@@ -227,8 +249,7 @@ const CarSelectionSettings = () => {
           </div>
 
           <p className="text-xs text-muted-foreground">
-            Wheel design only changes how the wheel is drawn — sizing and
-            fitment are unaffected. Color and kits are coming soon.
+            {STRINGS.car.customizationBlurb}
           </p>
         </div>
       </SettingsCard>

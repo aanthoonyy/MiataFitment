@@ -1,4 +1,5 @@
 import React from "react";
+import { STRINGS } from "@/i18n/strings";
 
 const MainImage: React.FC = () => (
   <div className="relative overflow-hidden rounded-2xl shadow-lg">
@@ -6,7 +7,7 @@ const MainImage: React.FC = () => (
 
     <img
       src="/websiteExample1.png"
-      alt="MIATA FITMENT"
+      alt={STRINGS.brand.exampleAlt}
       className="h-auto w-full"
     />
   </div>

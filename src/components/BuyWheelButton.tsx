@@ -1,6 +1,7 @@
 import { ExternalLink, ShoppingCart } from "lucide-react";
 import { Button } from "./ui/button";
 import { trackButtonClick } from "@/services/analyticsAPI";
+import { STRINGS } from "@/i18n/strings";
 
 type WheelSettings = {
   width: number;
@@ -67,14 +68,14 @@ function buildShopUrl(props: BuyButtonProps): string {
   return "https://www.driftworks.com/row/catalogsearch/result/?q=miata+coilovers";
 }
 
+const SHOP_LABELS: Record<BuyButtonProps["type"], string> = {
+  wheel: STRINGS.shop.wheels,
+  tire: STRINGS.shop.tires,
+  suspension: STRINGS.shop.suspension,
+};
+
 export function BuyPartsButton(props: BuyButtonProps) {
-  const label =
-    props.label ??
-    (props.type === "wheel"
-      ? "Shop Matching Wheels"
-      : props.type === "tire"
-        ? "Shop Matching Tires"
-        : "Shop Coilovers");
+  const label = props.label ?? SHOP_LABELS[props.type];
 
   return (
     <Button

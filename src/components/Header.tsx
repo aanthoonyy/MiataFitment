@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useUIStore } from "@/stores";
 import { useFitmentStore } from "@/stores/fitmentStore";
 import { buildShareUrl } from "@/utils/shareableUrl";
+import { STRINGS } from "@/i18n/strings";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ const Header = () => {
             hover:bg-zinc-200
           "
           onClick={() => navigate("/")}
-          aria-label="Go back"
+          aria-label={STRINGS.visualizer.goBack}
         >
           <ArrowLeft className="h-5 w-5" />
         </Button>
@@ -53,12 +54,12 @@ const Header = () => {
             transition-all duration-200
           "
           onClick={handleShare}
-          aria-label="Copy share link"
+          aria-label={STRINGS.visualizer.copyShareLink}
         >
           {copied ? (
             <>
               <Check className="h-4 w-4" />
-              <span className="ml-1 text-sm">Copied!</span>
+              <span className="ml-1 text-sm">{STRINGS.visualizer.copied}</span>
             </>
           ) : (
             <Share2 className="h-5 w-5" />
@@ -75,7 +76,7 @@ const Header = () => {
             hover:bg-zinc-200
           "
           onClick={toggleSettings}
-          aria-label="Open settings"
+          aria-label={STRINGS.visualizer.openSettings}
         >
           <Settings className="h-5 w-5" />
         </Button>

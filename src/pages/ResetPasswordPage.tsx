@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { STRINGS, t } from "@/i18n/strings";
 
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
@@ -65,7 +66,7 @@ export default function ResetPasswordPage() {
         if (error) {
           setMessageType("error");
           setMessage(
-            "Invalid or expired reset link. Please request a new one.",
+            STRINGS.resetPassword.expiredLink,
           );
           return;
         }
@@ -75,7 +76,7 @@ export default function ResetPasswordPage() {
         window.history.replaceState({}, "", url.toString());
       } catch {
         setMessageType("error");
-        setMessage("Invalid or expired reset link. Please request a new one.");
+        setMessage(STRINGS.resetPassword.expiredLink);
       }
     };
 
@@ -91,7 +92,7 @@ export default function ResetPasswordPage() {
       if (!cameFromRecovery) {
         setIsValidSession(false);
         setMessageType("error");
-        setMessage("This reset link is invalid. Please request a new one.");
+        setMessage(STRINGS.resetPassword.invalidSession);
         setCheckingSession(false);
         return;
       }
@@ -105,7 +106,7 @@ export default function ResetPasswordPage() {
       } else {
         setIsValidSession(false);
         setMessageType("error");
-        setMessage("Invalid or expired reset link. Please request a new one.");
+        setMessage(STRINGS.resetPassword.expiredLink);
       }
 
       setCheckingSession(false);
@@ -121,13 +122,13 @@ export default function ResetPasswordPage() {
 
     if (password !== confirmPassword) {
       setMessageType("error");
-      setMessage("Passwords do not match.");
+      setMessage(STRINGS.resetPassword.mismatch);
       return;
     }
 
     if (password.length < 6) {
       setMessageType("error");
-      setMessage("Password must be at least 6 characters.");
+      setMessage(STRINGS.resetPassword.tooShort);
       return;
     }
 
@@ -140,12 +141,12 @@ export default function ResetPasswordPage() {
 
     if (error) {
       setMessageType("error");
-      setMessage(`Error: ${error.message}`);
+      setMessage(t(STRINGS.auth.errorDetail, { message: error.message }));
       return;
     }
 
     setMessageType("success");
-    setMessage("Password updated successfully! Redirecting to login...");
+    setMessage(STRINGS.resetPassword.updated);
 
     // For safety, sign out the recovery session and return to login
     setTimeout(async () => {
@@ -167,7 +168,7 @@ export default function ResetPasswordPage() {
           <Link to="/" className="inline-flex items-center gap-2">
             <img
               src="/faviconNoBG.png"
-              alt="Miata Fitment Logo"
+              alt={STRINGS.brand.logoAlt}
               className="h-10 w-auto"
             />
           </Link>
@@ -179,16 +180,16 @@ export default function ResetPasswordPage() {
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-1">
               <h1 className="text-xl font-semibold tracking-tight">
-                Set New Password
+                {STRINGS.resetPassword.title}
               </h1>
               <p className="text-sm text-muted-foreground">
-                Enter your new password below.
+                {STRINGS.resetPassword.blurb}
               </p>
             </div>
 
             <img
               src="/faviconNoBG.png"
-              alt="Miata Fitment"
+              alt={STRINGS.brand.name}
               className="h-8 w-auto opacity-95"
             />
           </div>
@@ -197,15 +198,15 @@ export default function ResetPasswordPage() {
 
           {checkingSession ? (
             <div className="text-center py-8 text-muted-foreground">
-              Verifying reset link...
+              {STRINGS.resetPassword.verifying}
             </div>
           ) : !isValidSession ? (
             <div className="space-y-4">
               <Alert variant="destructive">
-                <AlertTitle>Invalid Link</AlertTitle>
+                <AlertTitle>{STRINGS.resetPassword.invalidLinkTitle}</AlertTitle>
                 <AlertDescription>
                   {message ||
-                    "This password reset link is invalid or has expired."}
+                    STRINGS.resetPassword.invalidLink}
                 </AlertDescription>
               </Alert>
 
@@ -233,7 +234,7 @@ export default function ResetPasswordPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   disabled={loading}
-                  placeholder="At least 6 characters"
+                  placeholder={STRINGS.resetPassword.newPasswordPlaceholder}
                 />
               </div>
 
@@ -251,10 +252,10 @@ export default function ResetPasswordPage() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   disabled={loading}
-                  placeholder="Re-enter your password"
+                  placeholder={STRINGS.resetPassword.confirmPlaceholder}
                 />
                 {confirmPassword.length > 0 && password !== confirmPassword && (
-                  <p className="text-xs text-red-500">Passwords do not match</p>
+                  <p className="text-xs text-red-500">{STRINGS.resetPassword.mismatchInline}</p>
                 )}
               </div>
 
@@ -263,7 +264,7 @@ export default function ResetPasswordPage() {
                 className={`w-full ${primaryBtn}`}
                 disabled={loading || !canSubmit}
               >
-                {loading ? "Updating..." : "Update Password"}
+                {loading ? STRINGS.resetPassword.updating : STRINGS.resetPassword.update}
               </Button>
 
               {message && (
@@ -271,7 +272,7 @@ export default function ResetPasswordPage() {
                   variant={messageType === "error" ? "destructive" : "default"}
                 >
                   <AlertTitle>
-                    {messageType === "error" ? "Error" : "Success"}
+                    {messageType === "error" ? STRINGS.common.error : STRINGS.common.success}
                   </AlertTitle>
                   <AlertDescription>{message}</AlertDescription>
                 </Alert>

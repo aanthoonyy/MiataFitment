@@ -1,5 +1,6 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { STRINGS } from "@/i18n/strings";
 
 interface MatchFrontToggleProps {
   id: string;
@@ -15,7 +16,7 @@ const MatchFrontToggle = ({ id, checked, onChange }: MatchFrontToggleProps) => (
       onCheckedChange={(value) => onChange(value === true)}
     />
     <Label htmlFor={id} className="text-xs text-muted-foreground">
-      Match front
+      {STRINGS.wheels.matchFront}
     </Label>
   </div>
 );

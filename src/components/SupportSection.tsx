@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { STRINGS } from "@/i18n/strings";
 
 const SupportSection: React.FC = () => {
   return (
@@ -10,7 +11,7 @@ const SupportSection: React.FC = () => {
             <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-black/5" />
             <img
               src="/stickerexample.png"
-              alt="Support Miata Fitment"
+              alt={STRINGS.landing.supportAlt}
               className="h-auto w-full"
             />
           </div>
@@ -18,13 +19,11 @@ const SupportSection: React.FC = () => {
 
         <div>
           <h2 className="mb-2 text-3xl font-semibold tracking-tight">
-            Support
+            {STRINGS.landing.supportTitle}
           </h2>
 
           <p className="mb-6 text-lg text-muted-foreground">
-            This is a solo project with no outside funding. If you&apos;d like
-            to support the project and see it grow, please consider buying a
-            sticker or buying me a coffee.
+            {STRINGS.landing.supportBlurb}
           </p>
 
           <div className="flex flex-col gap-4 sm:flex-row">
@@ -46,7 +45,7 @@ const SupportSection: React.FC = () => {
                 );
               }}
             >
-              STICKERS SOLD OUT
+              {STRINGS.landing.stickersSoldOut}
             </Button>
 
             <Button
@@ -66,7 +65,7 @@ const SupportSection: React.FC = () => {
                 );
               }}
             >
-              Buy Me a Coffee
+              {STRINGS.landing.buyCoffee}
             </Button>
           </div>
         </div>

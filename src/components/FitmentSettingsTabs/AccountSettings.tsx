@@ -3,8 +3,9 @@ import { Link as RouterLink } from "react-router-dom";
 import type { User } from "@supabase/supabase-js";
 
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import { SettingsCard } from "@/components/ui/settings-card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { STRINGS, t } from "@/i18n/strings";
 import { Garage } from "./AccountSettingsSubTabs/Garage";
 import UserSettings from "./AccountSettingsSubTabs/UserSettings";
 
@@ -17,59 +18,53 @@ type InnerTab = "garage" | "account";
 const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
   const [innerTab, setInnerTab] = useState<InnerTab>("garage");
 
-  const sectionCard =
-    "rounded-xl bg-zinc-50 p-4 shadow-sm shadow-black/10";
-  const sectionTitle = "text-sm font-medium";
-
   // Must stay above the early return below — hooks cannot be called
   // conditionally, or the hook order changes on sign-in/sign-out.
   const displayName = useMemo(() => {
-    if (!user) return "User";
+    if (!user) return STRINGS.account.fallbackName;
     const metadataName = user.user_metadata?.displayName;
     return (
       (typeof metadataName === "string" ? metadataName : undefined) ||
       user.email ||
-      "User"
+      STRINGS.account.fallbackName
     );
   }, [user]);
 
   if (!user) {
     return (
       <div className="space-y-4">
-        <div className={sectionCard}>
-          <div className={sectionTitle}>Account</div>
-          <Separator className="my-3" />
-
+        <SettingsCard title={STRINGS.account.title}>
           <div className="space-y-2">
-            <p className="text-sm">You’re not signed in.</p>
+            <p className="text-sm">{STRINGS.account.notSignedIn}</p>
             <p className="text-sm text-muted-foreground">
-              Sign in to access your garage and account settings.
+              {STRINGS.account.signInBlurb}
             </p>
 
             <div className="pt-2">
               <Button asChild>
-                <RouterLink to="/login">Sign in</RouterLink>
+                <RouterLink to="/login">{STRINGS.account.signIn}</RouterLink>
               </Button>
             </div>
           </div>
-        </div>
+        </SettingsCard>
       </div>
     );
   }
 
   return (
     <div className="space-y-4">
-      <div className={sectionCard}>
-        <div className="flex items-center justify-between">
-          <div className={sectionTitle}>Welcome, {displayName}</div>
-        </div>
-
-        <Separator className="my-3" />
-
-        <Tabs value={innerTab} onValueChange={(v) => setInnerTab(v as InnerTab)}>
+      <SettingsCard title={t(STRINGS.account.welcome, { name: displayName })}>
+        <Tabs
+          value={innerTab}
+          onValueChange={(value) => setInnerTab(value as InnerTab)}
+        >
           <TabsList className="w-full justify-start">
-            <TabsTrigger value="garage">Garage</TabsTrigger>
-            <TabsTrigger value="account">Account</TabsTrigger>
+            <TabsTrigger value="garage">
+              {STRINGS.account.tabs.garage}
+            </TabsTrigger>
+            <TabsTrigger value="account">
+              {STRINGS.account.tabs.account}
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="garage" className="mt-4">
@@ -82,7 +77,7 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
             </div>
           </TabsContent>
         </Tabs>
-      </div>
+      </SettingsCard>
     </div>
   );
 };

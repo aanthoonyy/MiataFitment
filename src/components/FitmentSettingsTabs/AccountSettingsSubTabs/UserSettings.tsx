@@ -3,6 +3,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserSettingsStore } from "@/stores/userSettingsStore";
+import { STRINGS } from "@/i18n/strings";
 
 export default function UserSettings() {
   const { user } = useAuth();
@@ -26,16 +27,16 @@ export default function UserSettings() {
 
   return (
     <div className="bg-white">
-      <div className="text-sm font-medium">Account Settings</div>
+      <div className="text-sm font-medium">{STRINGS.account.settingsTitle}</div>
 
       <Separator className="my-4" />
 
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <div className="text-sm font-medium">Metric units</div>
+            <div className="text-sm font-medium">{STRINGS.account.metricUnits}</div>
             <div className="text-xs text-muted-foreground">
-              Switch between imperial and metric
+              {STRINGS.account.metricBlurb}
             </div>
           </div>
 

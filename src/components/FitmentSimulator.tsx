@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
+import { STRINGS } from "@/i18n/strings";
 
 const FitmentSimulator: React.FC = () => {
   const navigate = useNavigate();
@@ -13,13 +14,11 @@ const FitmentSimulator: React.FC = () => {
   return (
     <div>
       <h1 className="mb-2 text-3xl font-semibold tracking-tight">
-        Fitment Simulator
+        {STRINGS.landing.simulatorTitle}
       </h1>
 
       <p className="mb-4 text-lg text-muted-foreground">
-        Dial in your Miata&apos;s fitment with our simulator. Select your
-        Miata&apos;s generation from the header and start customizing wheels,
-        suspension, and more.
+        {STRINGS.landing.simulatorBlurb}
       </p>
 
       <Button
@@ -33,7 +32,7 @@ const FitmentSimulator: React.FC = () => {
     active:bg-[#0a84bd]
   "
       >
-        Enter Simulator
+        {STRINGS.landing.enterSimulator}
       </Button>
     </div>
   );

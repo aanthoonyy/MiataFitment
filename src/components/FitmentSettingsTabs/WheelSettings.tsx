@@ -3,30 +3,31 @@ import { useFitmentStore } from "@/stores";
 import { BuyPartsButton } from "@/components/BuyWheelButton";
 import AxleNumberFields, { type AxleFieldSpec } from "./AxleNumberFields";
 import MatchFrontToggle from "./MatchFrontToggle";
+import { STRINGS } from "@/i18n/strings";
 
 const WHEEL_FIELDS: readonly AxleFieldSpec[] = [
   {
     id: "width",
-    label: "Width",
-    unit: "in",
+    label: STRINGS.wheels.width,
+    unit: STRINGS.units.inches,
     keys: { front: "frontWheelWidthIn", rear: "rearWheelWidthIn" },
   },
   {
     id: "diameter",
-    label: "Diameter",
-    unit: "in",
+    label: STRINGS.wheels.diameter,
+    unit: STRINGS.units.inches,
     keys: { front: "frontWheelDiameterIn", rear: "rearWheelDiameterIn" },
   },
   {
     id: "offset",
-    label: "Offset",
-    unit: "mm",
+    label: STRINGS.wheels.offset,
+    unit: STRINGS.units.millimetres,
     keys: { front: "frontWheelOffsetMm", rear: "rearWheelOffsetMm" },
   },
   {
     id: "spacer",
-    label: "Spacer",
-    unit: "mm",
+    label: STRINGS.wheels.spacer,
+    unit: STRINGS.units.millimetres,
     keys: { front: "frontWheelSpacerMm", rear: "rearWheelSpacerMm" },
   },
 ];
@@ -45,12 +46,12 @@ const WheelSettings = () => {
   return (
     <>
       <div className="space-y-5">
-        <SettingsCard title="Front">
+        <SettingsCard title={STRINGS.wheels.frontTitle}>
           <AxleNumberFields axle="front" fields={WHEEL_FIELDS} />
         </SettingsCard>
 
         <SettingsCard
-          title="Rear"
+          title={STRINGS.wheels.rearTitle}
           dimmed={matchWheels}
           action={
             <MatchFrontToggle

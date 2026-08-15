@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/hooks/useAuth";
 import { useUIStore } from "@/stores";
 import type { SettingsTab } from "@/types/stores";
+import { STRINGS } from "@/i18n/strings";
 import { useUserSettingsStore } from "@/stores/userSettingsStore";
 
 import AlignmentSettings from "@/components/FitmentSettingsTabs/AlignmentSettings";
@@ -13,11 +14,11 @@ import CarSelectionSettings from "@/components/FitmentSettingsTabs/CarSelectionS
 import AccountSettings from "@/components/FitmentSettingsTabs/AccountSettings";
 
 const TABS: readonly { value: SettingsTab; label: string }[] = [
-  { value: "alignment", label: "Alignment" },
-  { value: "wheels", label: "Wheels" },
-  { value: "tires", label: "Tires" },
-  { value: "car", label: "Car" },
-  { value: "account", label: "Account" },
+  { value: "alignment", label: STRINGS.settings.tabs.alignment },
+  { value: "wheels", label: STRINGS.settings.tabs.wheels },
+  { value: "tires", label: STRINGS.settings.tabs.tires },
+  { value: "car", label: STRINGS.settings.tabs.car },
+  { value: "account", label: STRINGS.settings.tabs.account },
 ];
 
 const FitmentSettings = () => {
@@ -43,7 +44,9 @@ const FitmentSettings = () => {
         <div className="shrink-0 bg-zinc-200 shadow-sm">
           <div className="p-4 pb-3">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold">Settings</h2>
+              <h2 className="text-lg font-semibold">
+                {STRINGS.settings.title}
+              </h2>
             </div>
           </div>
 

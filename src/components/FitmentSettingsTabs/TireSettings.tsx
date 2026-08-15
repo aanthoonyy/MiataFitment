@@ -3,18 +3,19 @@ import { useFitmentStore } from "@/stores";
 import { BuyPartsButton } from "@/components/BuyWheelButton";
 import AxleNumberFields, { type AxleFieldSpec } from "./AxleNumberFields";
 import MatchFrontToggle from "./MatchFrontToggle";
+import { STRINGS } from "@/i18n/strings";
 
 const TIRE_FIELDS: readonly AxleFieldSpec[] = [
   {
     id: "tire-width",
-    label: "Width",
-    unit: "mm",
+    label: STRINGS.tires.width,
+    unit: STRINGS.units.millimetres,
     keys: { front: "frontTireWidthMm", rear: "rearTireWidthMm" },
   },
   {
     id: "tire-sidewall",
-    label: "Sidewall",
-    unit: "%",
+    label: STRINGS.tires.sidewall,
+    unit: STRINGS.units.percent,
     keys: { front: "frontTireSidewallPct", rear: "rearTireSidewallPct" },
   },
 ];
@@ -40,12 +41,12 @@ const TireSettings = () => {
   return (
     <>
       <div className="space-y-5">
-        <SettingsCard title="Front Tires">
+        <SettingsCard title={STRINGS.tires.frontTitle}>
           <AxleNumberFields axle="front" fields={TIRE_FIELDS} />
         </SettingsCard>
 
         <SettingsCard
-          title="Rear Tires"
+          title={STRINGS.tires.rearTitle}
           dimmed={matchTires}
           action={
             <MatchFrontToggle

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { STRINGS } from "@/i18n/strings";
 
 type SaveConfigRowProps = {
   saveName: string;
@@ -56,14 +57,14 @@ export function SaveConfigRow({
     <div className="flex w-full flex-col gap-3">
       <div className="min-w-0">
         <Label htmlFor="save-name" className="text-xs">
-          Name this config
+          {STRINGS.garage.nameLabel}
         </Label>
 
         <Input
           id="save-name"
           value={saveName}
           onChange={(e) => setSaveName(e.target.value)}
-          placeholder='e.g. "Track 15x8 +25 205/50"'
+          placeholder={STRINGS.garage.namePlaceholder}
           className="mt-1 w-full"
         />
 
@@ -76,25 +77,25 @@ export function SaveConfigRow({
         onClick={handlePrimaryClick}
         disabled={primaryDisabled}
       >
-        {nameTaken ? "Overwrite…" : "Save"}
+        {nameTaken ? STRINGS.garage.overwriteAction : STRINGS.garage.save}
       </Button>
 
       <Dialog open={saveOpen} onOpenChange={setSaveOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Overwrite existing config?</DialogTitle>
+            <DialogTitle>{STRINGS.garage.overwriteTitle}</DialogTitle>
             <DialogDescription>
-              This will replace the saved config named{" "}
-              <span className="font-medium">{saveName.trim()}</span> with your
-              current settings.
+              {STRINGS.garage.overwriteBlurb.split("{name}")[0]}
+              <span className="font-medium">{saveName.trim()}</span>
+              {STRINGS.garage.overwriteBlurb.split("{name}")[1]}
             </DialogDescription>
           </DialogHeader>
 
           <DialogFooter>
             <Button variant="secondary" onClick={() => setSaveOpen(false)}>
-              Cancel
+              {STRINGS.common.cancel}
             </Button>
-            <Button onClick={onOverwrite}>Overwrite</Button>
+            <Button onClick={onOverwrite}>{STRINGS.garage.overwrite}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

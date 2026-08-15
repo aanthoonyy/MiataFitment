@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useFitmentStore, useUIStore } from "@/stores";
 import { BuyPartsButton } from "@/components/BuyWheelButton";
+import { STRINGS } from "@/i18n/strings";
 import SuspensionSettings from "./SuspensionSettings";
 
 // The ND's suspension is not modelled well enough to bounce yet.
@@ -13,8 +14,8 @@ const AlignmentSettings = () => {
 
   return (
     <>
-      <SuspensionSettings title="Front Suspension" axle="front" />
-      <SuspensionSettings title="Rear Suspension" axle="rear" />
+      <SuspensionSettings title={STRINGS.alignment.frontTitle} axle="front" />
+      <SuspensionSettings title={STRINGS.alignment.rearTitle} axle="rear" />
 
       <Button
         className="w-full"
@@ -22,11 +23,11 @@ const AlignmentSettings = () => {
         onClick={() => requestBounce()}
         disabled={bounceRequested || model === BOUNCE_UNSUPPORTED_MODEL}
       >
-        Simulate Bounce
+        {STRINGS.alignment.simulateBounce}
       </Button>
 
       <p className="-mt-3 text-xs text-muted-foreground text-left">
-        Additional suspension settings under the &ldquo;Car&rdquo; tab.
+        {STRINGS.alignment.moreUnderCarTab}
       </p>
 
       <BuyPartsButton type="suspension" />

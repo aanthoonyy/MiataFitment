@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { STRINGS, t } from "@/i18n/strings";
 
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
@@ -29,19 +30,8 @@ export default function LoginPage() {
     if (user) navigate("/");
   }, [user, navigate]);
 
-  const heading =
-    mode === "login"
-      ? "Welcome back"
-      : mode === "signup"
-      ? "Create your account"
-      : "Reset password";
-
-  const subheading =
-    mode === "login"
-      ? "Sign in to access your saved setups and the visualizer."
-      : mode === "signup"
-      ? "Create an account to save wheel/tire setups and come back anytime."
-      : "We’ll send you a reset link to get back in.";
+  const heading = STRINGS.auth.headings[mode];
+  const subheading = STRINGS.auth.subheadings[mode];
 
   const canSubmit = useMemo(() => {
     if (mode === "login") return email.length > 0 && password.length > 0;
@@ -67,10 +57,10 @@ export default function LoginPage() {
 
     if (error) {
       setMessageType("error");
-      setMessage(`Error: ${error.message}`);
+      setMessage(t(STRINGS.auth.errorDetail, { message: error.message }));
     } else {
       setMessageType("success");
-      setMessage("Success! Account created. You can now sign in.");
+      setMessage(STRINGS.auth.accountCreated);
       setMode("login");
       setPassword("");
     }
@@ -87,12 +77,12 @@ export default function LoginPage() {
 
     if (error) {
       setMessageType("error");
-      setMessage(`Error: ${error.message}`);
+      setMessage(t(STRINGS.auth.errorDetail, { message: error.message }));
     } else {
       const meta = (data.user?.user_metadata ?? {}) as { displayName?: string };
-      const name = meta.displayName || data.user?.email || "User";
+      const name = meta.displayName || data.user?.email || STRINGS.account.fallbackName;
       setMessageType("success");
-      setMessage(`Logged in as: ${name}`);
+      setMessage(t(STRINGS.auth.loggedInAs, { name }));
     }
   };
 
@@ -106,10 +96,10 @@ export default function LoginPage() {
 
     if (error) {
       setMessageType("error");
-      setMessage(`Error: ${error.message}`);
+      setMessage(t(STRINGS.auth.errorDetail, { message: error.message }));
     } else {
       setMessageType("success");
-      setMessage("Password reset email sent! Check your inbox.");
+      setMessage(STRINGS.auth.resetEmailSent);
     }
   };
 
@@ -135,7 +125,7 @@ export default function LoginPage() {
           <Link to="/" className="inline-flex items-center gap-2">
             <img
               src="/faviconNoBG.png"
-              alt="Miata Fitment Logo"
+              alt={STRINGS.brand.logoAlt}
               className="h-10 w-auto"
             />
           </Link>
@@ -154,7 +144,7 @@ export default function LoginPage() {
             {/* Brand icon only */}
             <img
               src="/faviconNoBG.png"
-              alt="Miata Fitment"
+              alt={STRINGS.brand.name}
               className="h-8 w-auto opacity-95"
             />
           </div>
@@ -164,7 +154,7 @@ export default function LoginPage() {
           <form onSubmit={onSubmit} className="space-y-4">
             <div className="space-y-1.5">
               <Label htmlFor="email" className={label}>
-                Email Address
+                {STRINGS.auth.email}
               </Label>
               <Input
                 id="email"
@@ -182,7 +172,7 @@ export default function LoginPage() {
             {mode === "signup" && (
               <div className="space-y-1.5">
                 <Label htmlFor="displayName" className={label}>
-                  Display name
+                  {STRINGS.auth.displayName}
                 </Label>
                 <Input
                   id="displayName"
@@ -199,7 +189,7 @@ export default function LoginPage() {
             {(mode === "login" || mode === "signup") && (
               <div className="space-y-1.5">
                 <Label htmlFor="password" className={label}>
-                  Password
+                  {STRINGS.auth.password}
                 </Label>
                 <Input
                   id="password"
@@ -221,11 +211,7 @@ export default function LoginPage() {
               className={`w-full ${primaryBtn}`}
               disabled={loading || !canSubmit}
             >
-              {mode === "login"
-                ? "Sign In"
-                : mode === "signup"
-                ? "Create Account"
-                : "Send Reset Email"}
+              {STRINGS.auth.submit[mode]}
             </Button>
 
             <div className="space-y-1">
@@ -240,7 +226,7 @@ export default function LoginPage() {
                     setMessage("");
                   }}
                 >
-                  Forgot password?
+                  {STRINGS.auth.forgotPassword}
                 </Button>
               )}
 
@@ -252,8 +238,8 @@ export default function LoginPage() {
                 onClick={toggleMode}
               >
                 {mode === "login"
-                  ? "Need an account? Sign up"
-                  : "Have an account? Sign in"}
+                  ? STRINGS.auth.needAccount
+                  : STRINGS.auth.haveAccount}
               </Button>
 
               {mode === "reset" && (
@@ -267,7 +253,7 @@ export default function LoginPage() {
                     setMessage("");
                   }}
                 >
-                  Back to sign in
+                  {STRINGS.auth.backToSignIn}
                 </Button>
               )}
             </div>
@@ -275,7 +261,7 @@ export default function LoginPage() {
             {message && (
               <Alert variant={messageType === "error" ? "destructive" : "default"}>
                 <AlertTitle>
-                  {messageType === "error" ? "Error" : "Success"}
+                  {messageType === "error" ? STRINGS.common.error : STRINGS.common.success}
                 </AlertTitle>
                 <AlertDescription>{message}</AlertDescription>
               </Alert>
