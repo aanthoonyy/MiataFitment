@@ -13,7 +13,6 @@ const App = () => {
         <Route path="/" element={<LandingPage />} />
         <Route path="visualizer" element={<VisualizerPage />} />
         <Route path="login" element={<LoginPage />} />
-        {/* Entered from a Supabase password-reset email, not in-app nav */}
         <Route path="reset-password" element={<ResetPasswordPage />} />
         <Route path="*" element={<LandingPage />} />
       </Routes>
