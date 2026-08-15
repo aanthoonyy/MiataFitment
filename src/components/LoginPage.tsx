@@ -110,7 +110,6 @@ export default function LoginPage() {
     else void handleResetPassword();
   };
 
-  // styling cues from your other panels
   const panel =
     "rounded-xl bg-zinc-50 p-6 shadow-sm shadow-black/10";
   const label = "text-xs text-muted-foreground";

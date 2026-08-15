@@ -14,7 +14,6 @@ export default function UserSettings() {
   const setMetric = useUserSettingsStore((s) => s.setMetric);
   const fetchSettings = useUserSettingsStore((s) => s.fetchSettings);
 
-  // Fetch settings on mount when user is available
   React.useEffect(() => {
     if (user?.id) {
       fetchSettings(user.id);

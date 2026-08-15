@@ -8,6 +8,9 @@ import { useFitmentStore } from "@/stores/fitmentStore";
 import { buildShareUrl } from "@/utils/shareableUrl";
 import { STRINGS } from "@/i18n/strings";
 
+// How long the share button stays showing "Copied!" before reverting.
+const COPIED_FEEDBACK_MS = 2000;
+
 const Header = () => {
   const navigate = useNavigate();
   const toggleSettings = useUIStore((s) => s.toggleSettings);
@@ -19,7 +22,7 @@ const Header = () => {
     const url = buildShareUrl({ model, settings });
     await navigator.clipboard.writeText(url);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setTimeout(() => setCopied(false), COPIED_FEEDBACK_MS);
   };
 
   return (

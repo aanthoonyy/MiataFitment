@@ -274,10 +274,8 @@ export function makeWheels(
     sideCylinder2.position.y = -barrelOffsetFt;
     wheel.add(sideCylinder2);
 
-    // Calculate wheel position and rotation
     const wheelData = calculateWheelPosition(position, settings, model);
 
-    // Apply position and rotation
     wheel.rotation.x = wheelData.rotation.x;
     wheel.rotation.z = wheelData.rotation.z;
     wheel.position.x = wheelData.position.x;

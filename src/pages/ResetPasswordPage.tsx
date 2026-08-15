@@ -34,6 +34,13 @@ function isRecoveryUrl(): boolean {
   );
 }
 
+// Supabase enforces a six character minimum; checked here too so the user
+// finds out before the round trip.
+const MIN_PASSWORD_LENGTH = 6;
+
+// Long enough to read the success message before the redirect fires.
+const REDIRECT_DELAY_MS = 1200;
+
 export default function ResetPasswordPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -115,7 +122,7 @@ export default function ResetPasswordPage() {
     validate();
   }, [authLoading, authSession, cameFromRecovery]);
 
-  const canSubmit = password.length >= 6 && password === confirmPassword;
+  const canSubmit = password.length >= MIN_PASSWORD_LENGTH && password === confirmPassword;
 
   const handleUpdatePassword = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -126,7 +133,7 @@ export default function ResetPasswordPage() {
       return;
     }
 
-    if (password.length < 6) {
+    if (password.length < MIN_PASSWORD_LENGTH) {
       setMessageType("error");
       setMessage(STRINGS.resetPassword.tooShort);
       return;
@@ -152,7 +159,7 @@ export default function ResetPasswordPage() {
     setTimeout(async () => {
       await supabase.auth.signOut();
       navigate("/login");
-    }, 1200);
+    }, REDIRECT_DELAY_MS);
   };
 
   const panel = "rounded-xl bg-zinc-50 p-6 shadow-sm shadow-black/10";

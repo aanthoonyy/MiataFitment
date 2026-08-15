@@ -4,6 +4,10 @@ import { inchesToFeet } from '@/utils/unitConversions';
 
 const INCH_SCALE = inchesToFeet(1);
 
+// The mesh the .glb is attached to. It is a zero-sized box and never drawn, so
+// the colour only shows if a model fails to attach.
+const CAR_PLACEHOLDER_COLOR = 0xff0000;
+
 const CAR_MODELS = {
   na: '/na_render.glb',
   nb: '/nb_render.glb',
@@ -11,7 +15,7 @@ const CAR_MODELS = {
 };
 
 export function makeCar(y: number, model: string = 'na') {
-    const material = new THREE.MeshPhysicalMaterial({ color: 0xff0000 }); // this is red
+    const material = new THREE.MeshPhysicalMaterial({ color: CAR_PLACEHOLDER_COLOR });
     const geometry = new THREE.BoxGeometry(0, 0, 0);
     const car = new THREE.Mesh(geometry, material);
 

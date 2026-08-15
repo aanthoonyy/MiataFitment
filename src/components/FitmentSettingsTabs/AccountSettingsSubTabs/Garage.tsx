@@ -7,6 +7,8 @@ import {
   selectCanSaveName,
   selectNameTaken,
   selectSaveHelperText,
+  MIN_CONFIG_NAME_LENGTH,
+  DEFAULT_MAX_SAVES,
 } from "@/stores/garageStore";
 import { useFitmentStore } from "@/stores/fitmentStore";
 import { GarageHeader } from "./GarageHeader";
@@ -16,7 +18,7 @@ import { EmptyState } from "./GarageEmptyState";
 import { SaveConfigRow } from "./GarageSaveConfigRow";
 import { payloadToFitmentConfig } from "@/services/fitmentNormalize";
 
-export const Garage: React.FC<GarageProps> = ({ userId, maxSaves = 5 }) => {
+export const Garage: React.FC<GarageProps> = ({ userId, maxSaves = DEFAULT_MAX_SAVES }) => {
   const loadConfig = useFitmentStore((s) => s.loadConfig);
   const model = useFitmentStore((s) => s.model);
   const settings = useFitmentStore((s) => s.settings);
@@ -32,18 +34,15 @@ export const Garage: React.FC<GarageProps> = ({ userId, maxSaves = 5 }) => {
   const overwriteConfig = useGarageStore((s) => s.overwriteConfig);
   const deleteConfig = useGarageStore((s) => s.deleteConfig);
 
-  // Derived selectors
   const isAtLimit = useGarageStore(selectIsAtLimit);
   const canSaveName = useGarageStore(selectCanSaveName);
   const nameTaken = useGarageStore(selectNameTaken);
   const saveHelperText = useGarageStore(selectSaveHelperText);
 
-  // Set max saves on mount/change
   React.useEffect(() => {
     setMaxSaves(maxSaves);
   }, [maxSaves, setMaxSaves]);
 
-  // Fetch configs on mount
   React.useEffect(() => {
     if (userId) {
       fetchConfigs(userId);
@@ -68,7 +67,7 @@ export const Garage: React.FC<GarageProps> = ({ userId, maxSaves = 5 }) => {
 
   const handleOverwriteByName = async () => {
     const name = saveName.trim();
-    if (!name || name.length < 2) return;
+    if (!name || name.length < MIN_CONFIG_NAME_LENGTH) return;
 
     const existing = configs.find(
       (c) => c.name.toLowerCase() === name.toLowerCase()

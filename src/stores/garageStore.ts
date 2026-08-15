@@ -7,13 +7,21 @@ import {
 } from "@/services/garageAPI";
 import type { GarageStore } from "@/types/stores";
 
+// Short enough to allow a terse name, long enough that a stray keystroke is
+// not saved as a config.
+export const MIN_CONFIG_NAME_LENGTH = 2;
 
-// Derived state selectors (use these to prevent re-renders)
+// Free tier allowance, overridable per mount.
+export const DEFAULT_MAX_SAVES = 5;
+
+
+// Selectors rather than derived values in the component, so a change to an
+// unrelated part of the store does not re-render every consumer.
 export const selectIsAtLimit = (state: GarageStore) =>
   state.configs.length >= state.maxSaves;
 
 export const selectCanSaveName = (state: GarageStore) =>
-  state.saveName.trim().length >= 2;
+  state.saveName.trim().length >= MIN_CONFIG_NAME_LENGTH;
 
 export const selectNameTaken = (state: GarageStore) =>
   state.configs.some(
@@ -63,7 +71,7 @@ export const useGarageStore = create<GarageStore>((set, get) => ({
     const state = get();
     const trimmedName = name.trim();
 
-    if (!trimmedName || trimmedName.length < 2) return;
+    if (!trimmedName || trimmedName.length < MIN_CONFIG_NAME_LENGTH) return;
     if (selectNameTaken(state)) return;
     if (selectIsAtLimit(state)) return;
 
