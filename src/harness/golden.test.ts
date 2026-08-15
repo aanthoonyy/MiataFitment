@@ -18,6 +18,9 @@ describe("goldens", () => {
         expect(Object.keys(actual.suspension).sort()).toEqual(
             Object.keys(expected.suspension).sort(),
         );
+        expect(Object.keys(actual.bounceRotations).sort()).toEqual(
+            Object.keys(expected.bounceRotations).sort(),
+        );
     });
 });
 
@@ -43,6 +46,16 @@ describe("suspension geometry", () => {
     for (const key of Object.keys(expected.suspension)) {
         it(key, () => {
             expect(actual.suspension[key]).toEqual(expected.suspension[key]);
+        });
+    }
+});
+
+describe("bounce rotation", () => {
+    for (const key of Object.keys(expected.bounceRotations)) {
+        it(key, () => {
+            expect(actual.bounceRotations[key]).toEqual(
+                expected.bounceRotations[key],
+            );
         });
     }
 });

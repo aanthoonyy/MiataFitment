@@ -4358,5 +4358,127 @@
       "camberAtLowestDeg": -0.358065,
       "digest": "9c2732d232584664c1b9431cb56ea05b49467f9ab46d767ba9c14b1b58e3459b"
     }
+  },
+  "bounceRotations": {
+    "stock/FL": {
+      "camberAtLandmarkDeg": -1.37326,
+      "toeAtLandmarkRad": 0,
+      "digest": "6c6b9ac272003347be72b7ce39a8fe64417622e8128b077d74bc40fae7735e52"
+    },
+    "stock/FR": {
+      "camberAtLandmarkDeg": -1.37326,
+      "toeAtLandmarkRad": 0,
+      "digest": "d6aad4800cd6b46097ed58d136a170abbaa6d4afe216bffde1114172561307e4"
+    },
+    "stock/BL": {
+      "camberAtLandmarkDeg": -1.29551,
+      "toeAtLandmarkRad": 0,
+      "digest": "14ccf81d1a59b449e15da571de40454706483c34041e89d2bf5bce2da565c886"
+    },
+    "stock/BR": {
+      "camberAtLandmarkDeg": -1.29551,
+      "toeAtLandmarkRad": 0,
+      "digest": "0e2139855aaee961d579670dae40e7c40a0d7597f6655197cd15796c701b3114"
+    },
+    "stretched/FL": {
+      "camberAtLandmarkDeg": -3.87326,
+      "toeAtLandmarkRad": 0,
+      "digest": "72630282f5072c70d814328bc5a82b6e87ce3a5343c9a3f456301abf177f86b5"
+    },
+    "stretched/FR": {
+      "camberAtLandmarkDeg": -3.87326,
+      "toeAtLandmarkRad": 0,
+      "digest": "a75e70e60a322f13f9812978639e48fe37ee54b4fd8a4454c3109d39446ff090"
+    },
+    "stretched/BL": {
+      "camberAtLandmarkDeg": -3.79551,
+      "toeAtLandmarkRad": 0,
+      "digest": "93d5b9f4b1c374e457eebc0ff91b58d07bc02ac00c73eaeec406b7f891a959ca"
+    },
+    "stretched/BR": {
+      "camberAtLandmarkDeg": -3.79551,
+      "toeAtLandmarkRad": 0,
+      "digest": "882fa5ca6a3e0aa73ef26a4bbcc5674b2534faf4cd440dd41c03be42b3fb19e6"
+    },
+    "squeezed/FL": {
+      "camberAtLandmarkDeg": -1.37326,
+      "toeAtLandmarkRad": 0,
+      "digest": "6c6b9ac272003347be72b7ce39a8fe64417622e8128b077d74bc40fae7735e52"
+    },
+    "squeezed/FR": {
+      "camberAtLandmarkDeg": -1.37326,
+      "toeAtLandmarkRad": 0,
+      "digest": "d6aad4800cd6b46097ed58d136a170abbaa6d4afe216bffde1114172561307e4"
+    },
+    "squeezed/BL": {
+      "camberAtLandmarkDeg": -1.29551,
+      "toeAtLandmarkRad": 0,
+      "digest": "14ccf81d1a59b449e15da571de40454706483c34041e89d2bf5bce2da565c886"
+    },
+    "squeezed/BR": {
+      "camberAtLandmarkDeg": -1.29551,
+      "toeAtLandmarkRad": 0,
+      "digest": "0e2139855aaee961d579670dae40e7c40a0d7597f6655197cd15796c701b3114"
+    },
+    "staggered/FL": {
+      "camberAtLandmarkDeg": -2.914536,
+      "toeAtLandmarkRad": 0.03877,
+      "digest": "a8acd73823217e0ed2a0a0259110aa2612b3d1f34eab111263d61c39960049c4"
+    },
+    "staggered/FR": {
+      "camberAtLandmarkDeg": -2.914536,
+      "toeAtLandmarkRad": -0.03877,
+      "digest": "26a226b9f41fc692750c089ec026990e3c1318587e765db21a07620a1a52ad07"
+    },
+    "staggered/BL": {
+      "camberAtLandmarkDeg": -2.236348,
+      "toeAtLandmarkRad": -0.019239,
+      "digest": "958f8da64e18886f4f6f392d0dc39de0a44e8d2971f267d8f0022842695a3919"
+    },
+    "staggered/BR": {
+      "camberAtLandmarkDeg": -2.236348,
+      "toeAtLandmarkRad": 0.019239,
+      "digest": "1101ace2b83f071cfb5de4de2aa7b343c3accb938147ac08eecb3336477c6f32"
+    },
+    "slammed/FL": {
+      "camberAtLandmarkDeg": -11.802904,
+      "toeAtLandmarkRad": 0.076882,
+      "digest": "76ccdc3f2867ab569f5289c9c348e061e7be1d0ee9a72e56914c70b08c15ead7"
+    },
+    "slammed/FR": {
+      "camberAtLandmarkDeg": -11.802904,
+      "toeAtLandmarkRad": -0.076882,
+      "digest": "856789ccc1440cbb848e9cedb6fbfabfc2a022171382409acfec2b810f143580"
+    },
+    "slammed/BL": {
+      "camberAtLandmarkDeg": -10.381378,
+      "toeAtLandmarkRad": -0.076882,
+      "digest": "00cdc1f55f8962dbbb3c101e0526af31b9be9f6a40e6c500af8fbb91abfd47cc"
+    },
+    "slammed/BR": {
+      "camberAtLandmarkDeg": -10.381378,
+      "toeAtLandmarkRad": 0.076882,
+      "digest": "69fcf1702c7539743b05a42315e077ab560ee1db21281107cf5bd6879e59f673"
+    },
+    "clamped/FL": {
+      "camberAtLandmarkDeg": -20.87326,
+      "toeAtLandmarkRad": 0,
+      "digest": "f2796780a496cd34c1c2aee37236a722d49d8afebf72c64e58dd2054eb4f8871"
+    },
+    "clamped/FR": {
+      "camberAtLandmarkDeg": -20.87326,
+      "toeAtLandmarkRad": 0,
+      "digest": "b1e9887dfcb1b5ed67356a1f13195a806c294fb1cd04115292d145831092d8c5"
+    },
+    "clamped/BL": {
+      "camberAtLandmarkDeg": -20.79551,
+      "toeAtLandmarkRad": 0,
+      "digest": "34119301ad6123b02ea8326171f32e8e5b30beb6ebe3ef8b5f3e3a3cb4d6e826"
+    },
+    "clamped/BR": {
+      "camberAtLandmarkDeg": -20.79551,
+      "toeAtLandmarkRad": 0,
+      "digest": "7a80c309744d1e92e9542c3c45cd71d0f316aac0fb96c1870d8dcfb3032ba021"
+    }
   }
 }

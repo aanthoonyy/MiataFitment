@@ -31,6 +31,10 @@ the diff is reviewable.
 - **4 bounce traces** — 600 steps at 1/60s across the spring-rate range.
 - **2 suspension sweeps** — hub-to-fender and camber over the full ride-height
   range, front and rear.
+- **24 bounce rotations** — the camber and toe the bounce loop applies to each
+  corner, swept over a body drop wider than a real bounce reaches. Nothing else
+  covers this: the corner captures are all at rest, and the bounce traces only
+  say how far the body moves, not what that does to the wheels.
 
 Cases cover both axles deliberately. Most paired settings are equal front to
 rear, so a harness that only checked the front would pass an axle-sourcing bug

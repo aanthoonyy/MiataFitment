@@ -6,10 +6,12 @@ import rollingDiameter from "@/assets/common/rollingDiameter";
 import { CAR_MODELS, type CarModel, type WheelPosition } from "@/constants/wheelPositions";
 import { DEFAULT_WHEEL_DESIGN } from "@/constants/wheelDesigns";
 import {
+    BUMP_AT_DEFAULT_RATE,
     createBounceState,
     isBounceSettled,
     stepBounce,
 } from "@/utils/bounceSimulation";
+import { bounceCornerRotation } from "@/utils/bounceFrame";
 import {
     RIDE_HEIGHT_RANGE,
     STOCK_RIDE_HEIGHT,
@@ -40,6 +42,16 @@ const BOUNCE_STEPS = 600;
 // curve is pinned at both stops and in the middle.
 const CAPTURED_SPRING_RATES_LB_IN = [2000, 6000, 12000, 40000];
 
+// Body drop swept well past what a real bounce reaches, in both directions, so
+// the rebound overshoot above ride height is covered as well as compression.
+const BOUNCE_DROP_MIN_IN = -1;
+const BOUNCE_DROP_MAX_IN = 3;
+const BOUNCE_DROP_STEP_IN = 0.01;
+
+// The drop the default spring rate peaks at, so the landmark values below are
+// readable as "what this corner looks like at the top of a normal bump".
+const LANDMARK_DROP_IN = BUMP_AT_DEFAULT_RATE;
+
 export interface CornerCapture {
     axle: Record<string, number>;
     placement: Record<string, number>;
@@ -62,10 +74,17 @@ export interface SuspensionCapture {
     digest: string;
 }
 
+export interface BounceRotationCapture {
+    camberAtLandmarkDeg: number;
+    toeAtLandmarkRad: number;
+    digest: string;
+}
+
 export interface Goldens {
     corners: Record<string, CornerCapture>;
     bounce: Record<string, BounceCapture>;
     suspension: Record<string, SuspensionCapture>;
+    bounceRotations: Record<string, BounceRotationCapture>;
 }
 
 export const cornerKey = (
@@ -167,6 +186,46 @@ export function captureSuspension(isRear: boolean): SuspensionCapture {
     };
 }
 
+// The per-corner rotation the bounce loop applies each frame. Nothing else in
+// the harness reaches it: the corner captures above are all at rest, and the
+// bounce traces only cover how far the body moves, not what that does to the
+// wheels.
+export function captureBounceRotation(
+    fitmentCase: FitmentCase,
+    corner: WheelPosition,
+): BounceRotationCapture {
+    const swept: number[] = [];
+    const stepCount = Math.round(
+        (BOUNCE_DROP_MAX_IN - BOUNCE_DROP_MIN_IN) / BOUNCE_DROP_STEP_IN,
+    );
+    for (let index = 0; index <= stepCount; index++) {
+        const bodyDropIn = BOUNCE_DROP_MIN_IN + index * BOUNCE_DROP_STEP_IN;
+        const { xRad, zRad } = bounceCornerRotation(
+            corner,
+            fitmentCase.settings,
+            bodyDropIn,
+        );
+        swept.push(xRad, zRad);
+    }
+
+    const atLandmark = bounceCornerRotation(
+        corner,
+        fitmentCase.settings,
+        LANDMARK_DROP_IN,
+    );
+    // Backed out of the rotation so the golden reads as an alignment figure
+    // rather than a raw axle angle.
+    const camberRad = corner.endsWith("L")
+        ? atLandmark.xRad - Math.PI / 2
+        : Math.PI / 2 - atLandmark.xRad;
+
+    return {
+        camberAtLandmarkDeg: forReading((camberRad * 180) / Math.PI),
+        toeAtLandmarkRad: forReading(atLandmark.zRad),
+        digest: digestNumbers(swept),
+    };
+}
+
 export function captureGoldens(): Goldens {
     const corners: Record<string, CornerCapture> = {};
     for (const fitmentCase of FITMENT_CASES) {
@@ -183,6 +242,14 @@ export function captureGoldens(): Goldens {
         bounce[`${springRateLbIn}lbin`] = captureBounce(springRateLbIn);
     }
 
+    const bounceRotations: Record<string, BounceRotationCapture> = {};
+    for (const fitmentCase of FITMENT_CASES) {
+        for (const corner of CORNERS) {
+            bounceRotations[`${fitmentCase.name}/${corner}`] =
+                captureBounceRotation(fitmentCase, corner);
+        }
+    }
+
     return {
         corners,
         bounce,
@@ -190,5 +257,6 @@ export function captureGoldens(): Goldens {
             front: captureSuspension(false),
             rear: captureSuspension(true),
         },
+        bounceRotations,
     };
 }
