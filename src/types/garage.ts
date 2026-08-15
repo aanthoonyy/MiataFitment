@@ -1,28 +1,11 @@
+// What is actually sitting in the database, which is arbitrary JSON written by
+// whatever version of the app saved it. Rows predating the units rename hold
+// the old field names, so readers run it through withCurrentSettingKeys rather
+// than trusting any particular shape.
 export type SavedConfigPayload = {
       version?: number;
       model?: string;
-      settings?: {
-        frontCamber?: number;
-        rearCamber?: number;
-        frontToe?: number;
-        rearToe?: number;
-        frontCaster?: number;
-
-        frontWheelWidth?: number;
-        frontWheelDiameter?: number;
-        frontWheelOffset?: number;
-        frontWheelSpacer?: number;
-
-        rearWheelWidth?: number;
-        rearWheelDiameter?: number;
-        rearWheelOffset?: number;
-        rearWheelSpacer?: number;
-
-        frontTireWidth?: number;
-        frontTireSidewall?: number;
-        rearTireWidth?: number;
-        rearTireSidewall?: number;
-      };
+      settings?: Readonly<Record<string, number | undefined>>;
 };
 
 export type SavedConfig = {

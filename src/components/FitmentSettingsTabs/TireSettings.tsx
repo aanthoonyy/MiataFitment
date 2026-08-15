@@ -9,13 +9,13 @@ const TIRE_FIELDS: readonly AxleFieldSpec[] = [
     id: "tire-width",
     label: "Width",
     unit: "mm",
-    keys: { front: "frontTireWidth", rear: "rearTireWidth" },
+    keys: { front: "frontTireWidthMm", rear: "rearTireWidthMm" },
   },
   {
     id: "tire-sidewall",
     label: "Sidewall",
     unit: "%",
-    keys: { front: "frontTireSidewall", rear: "rearTireSidewall" },
+    keys: { front: "frontTireSidewallPct", rear: "rearTireSidewallPct" },
   },
 ];
 
@@ -24,17 +24,17 @@ const TireSettings = () => {
   const setMatchTires = useFitmentStore((state) => state.setMatchTires);
 
   // The shop link quotes both axles, so it needs the wheel diameters too.
-  const frontWidth = useFitmentStore((state) => state.settings.frontTireWidth);
+  const frontWidth = useFitmentStore((state) => state.settings.frontTireWidthMm);
   const frontRatio = useFitmentStore(
-    (state) => state.settings.frontTireSidewall,
+    (state) => state.settings.frontTireSidewallPct,
   );
   const frontDiameter = useFitmentStore(
-    (state) => state.settings.frontWheelDiameter,
+    (state) => state.settings.frontWheelDiameterIn,
   );
-  const rearWidth = useFitmentStore((state) => state.settings.rearTireWidth);
-  const rearRatio = useFitmentStore((state) => state.settings.rearTireSidewall);
+  const rearWidth = useFitmentStore((state) => state.settings.rearTireWidthMm);
+  const rearRatio = useFitmentStore((state) => state.settings.rearTireSidewallPct);
   const rearDiameter = useFitmentStore(
-    (state) => state.settings.rearWheelDiameter,
+    (state) => state.settings.rearWheelDiameterIn,
   );
 
   return (

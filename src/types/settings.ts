@@ -1,56 +1,59 @@
 import { STOCK_RIDE_HEIGHT } from "@/utils/suspensionGeometry";
 import { DEFAULT_SPRING_RATE_LB_IN } from "@/utils/bounceSimulation";
 
-export interface Settings {
-  frontCamber: number;
-  rearCamber: number;
-  frontCaster: number;
-  frontToe: number;
-  rearToe: number;
-  rideHeightFront: number;
-  rideHeightRear: number;
+// A type alias rather than an interface on purpose: it gets an implicit index
+// signature, which is what lets a Settings object be written straight into the
+// loosely typed payload that goes to the database.
+export type Settings = {
+  frontCamberDeg: number;
+  rearCamberDeg: number;
+  frontCasterDeg: number;
+  frontToeRad: number;
+  rearToeRad: number;
+  rideHeightFrontFt: number;
+  rideHeightRearFt: number;
   springRateLbIn: number;
-  frontTireWidth: number;
-  frontTireSidewall: number;
-  frontWheelWidth: number;
-  frontWheelDiameter: number;
-  frontWheelOffset: number;
-  frontWheelSpacer: number;
-  rearTireWidth: number;
-  rearTireSidewall: number;
-  rearWheelWidth: number;
-  rearWheelDiameter: number;
-  rearWheelOffset: number;
-  rearWheelSpacer: number;
+  frontTireWidthMm: number;
+  frontTireSidewallPct: number;
+  frontWheelWidthIn: number;
+  frontWheelDiameterIn: number;
+  frontWheelOffsetMm: number;
+  frontWheelSpacerMm: number;
+  rearTireWidthMm: number;
+  rearTireSidewallPct: number;
+  rearWheelWidthIn: number;
+  rearWheelDiameterIn: number;
+  rearWheelOffsetMm: number;
+  rearWheelSpacerMm: number;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
-  frontCamber: -0.5,
-  rearCamber: -0.5,
-  frontCaster: 5,
-  frontToe: 0,
-  rearToe: 0,
+  frontCamberDeg: -0.5,
+  rearCamberDeg: -0.5,
+  frontCasterDeg: 5,
+  frontToeRad: 0,
+  rearToeRad: 0,
 
   // SuspensionSettings compares ride height against STOCK_RIDE_HEIGHT with
   // === to show the "Stock (…)" label, so these must stay exactly equal.
-  rideHeightFront: STOCK_RIDE_HEIGHT,
-  rideHeightRear: STOCK_RIDE_HEIGHT,
+  rideHeightFrontFt: STOCK_RIDE_HEIGHT,
+  rideHeightRearFt: STOCK_RIDE_HEIGHT,
 
   springRateLbIn: DEFAULT_SPRING_RATE_LB_IN,
 
-  frontTireWidth: 185,
-  frontTireSidewall: 60,
+  frontTireWidthMm: 185,
+  frontTireSidewallPct: 60,
 
-  frontWheelWidth: 6,
-  frontWheelDiameter: 14,
-  frontWheelOffset: 45,
-  frontWheelSpacer: 0,
+  frontWheelWidthIn: 6,
+  frontWheelDiameterIn: 14,
+  frontWheelOffsetMm: 45,
+  frontWheelSpacerMm: 0,
 
-  rearTireWidth: 185,
-  rearTireSidewall: 60,
+  rearTireWidthMm: 185,
+  rearTireSidewallPct: 60,
 
-  rearWheelWidth: 6,
-  rearWheelDiameter: 14,
-  rearWheelOffset: 45,
-  rearWheelSpacer: 0,
+  rearWheelWidthIn: 6,
+  rearWheelDiameterIn: 14,
+  rearWheelOffsetMm: 45,
+  rearWheelSpacerMm: 0,
 };

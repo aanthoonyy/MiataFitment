@@ -1,6 +1,7 @@
 import type { FitmentConfig } from "@/types/stores";
 import type { CarModel } from "@/constants/wheelPositions";
 import { DEFAULT_SETTINGS } from "@/types/settings";
+import { legacySettingKey } from "./settingsMigration";
 
 const VALID_MODELS: CarModel[] = ["na", "nb", "nc", "nd"];
 
@@ -23,8 +24,14 @@ export function parseShareParams(
   const settings = { ...DEFAULT_SETTINGS };
 
   for (const key of Object.keys(DEFAULT_SETTINGS) as (keyof typeof DEFAULT_SETTINGS)[]) {
-    const raw = searchParams.get(key);
+    // Links shared before units were added to the field names carry the old
+    // ones, and a bookmarked URL cannot be rewritten, so both are accepted.
+    const legacyKey = legacySettingKey(key);
+    const raw =
+      searchParams.get(key) ??
+      (legacyKey ? searchParams.get(legacyKey) : null);
     if (raw === null) continue;
+
     const parsed = parseFloat(raw);
     if (Number.isFinite(parsed)) {
       (settings as Record<string, number>)[key] = parsed;

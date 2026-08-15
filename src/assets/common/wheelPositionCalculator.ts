@@ -36,7 +36,7 @@ export function calculateWheelPosition(
     const anchor = cornerAnchor(model, position);
     const casterShift =
         "casterOffset" in anchor
-            ? mmToFeet(settings.frontCaster / anchor.casterOffset)
+            ? mmToFeet(settings.frontCasterDeg / anchor.casterOffset)
             : 0;
 
     const camberRad = (clampCamber(camber) * Math.PI) / 180;

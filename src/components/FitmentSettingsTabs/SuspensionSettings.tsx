@@ -31,14 +31,14 @@ const ALIGNMENT_KEYS: Record<
   { rideHeight: keyof Settings; camber: keyof Settings; toe: keyof Settings }
 > = {
   front: {
-    rideHeight: "rideHeightFront",
-    camber: "frontCamber",
-    toe: "frontToe",
+    rideHeight: "rideHeightFrontFt",
+    camber: "frontCamberDeg",
+    toe: "frontToeRad",
   },
   rear: {
-    rideHeight: "rideHeightRear",
-    camber: "rearCamber",
-    toe: "rearToe",
+    rideHeight: "rideHeightRearFt",
+    camber: "rearCamberDeg",
+    toe: "rearToeRad",
   },
 };
 
@@ -77,7 +77,7 @@ const SuspensionSettings = ({ title, axle }: SuspensionSettingsProps) => {
   const [rideHeight, setRideHeight] = useSetting(keys.rideHeight);
   const [camber, setCamber] = useSetting(keys.camber);
   const [toe, setToe] = useSetting(keys.toe);
-  const [caster, setCaster] = useSetting("frontCaster");
+  const [caster, setCaster] = useSetting("frontCasterDeg");
 
   // Single source of truth — kept in sync with the Account tab's toggle.
   const isMetric = useUserSettingsStore((state) => state.metric);

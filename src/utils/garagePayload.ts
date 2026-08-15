@@ -1,4 +1,5 @@
 import type { SavedConfigPayload } from "@/types/garage";
+import { withCurrentSettingKeys } from "./settingsMigration";
 
 function isNum(v: unknown): v is number {
   return typeof v === "number" && Number.isFinite(v);
@@ -25,28 +26,33 @@ export function payloadToPreview(payload?: SavedConfigPayload): string | null {
   if (!payload || typeof payload !== "object") return null;
 
   const model = up(payload.model);
-  const s = payload.settings ?? {};
+  // Rows saved before units were added to the field names still use the old
+  // ones; without this every preview below comes out blank.
+  const s = withCurrentSettingKeys(payload.settings) as Record<
+    string,
+    number | undefined
+  >;
 
   // Wheels
-  const fw = fmtIn(s.frontWheelWidth);
-  const fd = fmtIn(s.frontWheelDiameter);
-  const rw = fmtIn(s.rearWheelWidth);
-  const rd = fmtIn(s.rearWheelDiameter);
+  const fw = fmtIn(s.frontWheelWidthIn);
+  const fd = fmtIn(s.frontWheelDiameterIn);
+  const rw = fmtIn(s.rearWheelWidthIn);
+  const rd = fmtIn(s.rearWheelDiameterIn);
 
   const frontWheel = fw && fd ? `${fd}x${fw}F` : null;
   const rearWheel = rw && rd ? `${rd}x${rw}R` : null;
 
   // Alignment
-  const fc = fmtDeg(s.frontCamber);
-  const rc = fmtDeg(s.rearCamber);
-  const ft = fmtDeg(s.frontToe);
-  const rt = fmtDeg(s.rearToe);
+  const fc = fmtDeg(s.frontCamberDeg);
+  const rc = fmtDeg(s.rearCamberDeg);
+  const ft = fmtDeg(s.frontToeRad);
+  const rt = fmtDeg(s.rearToeRad);
 
   // Offset/spacer (mm)
-  const fOff = fmtMm(s.frontWheelOffset);
-  const rOff = fmtMm(s.rearWheelOffset);
-  const fSp = fmtMm(s.frontWheelSpacer);
-  const rSp = fmtMm(s.rearWheelSpacer);
+  const fOff = fmtMm(s.frontWheelOffsetMm);
+  const rOff = fmtMm(s.rearWheelOffsetMm);
+  const fSp = fmtMm(s.frontWheelSpacerMm);
+  const rSp = fmtMm(s.rearWheelSpacerMm);
 
   const parts: string[] = [];
 

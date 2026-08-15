@@ -3,6 +3,7 @@ import { DEFAULT_SETTINGS } from "@/types/settings";
 import type { FitmentConfig } from "@/types/stores";
 import type { SavedConfigPayload } from "@/types/garage";
 import { isCarModel } from "@/constants/wheelPositions";
+import { withCurrentSettingKeys } from "@/utils/settingsMigration";
 
 const SETTINGS_KEYS = Object.keys(DEFAULT_SETTINGS) as (keyof Settings)[];
 
@@ -22,9 +23,14 @@ function toNumber(v: unknown): number | undefined {
 function pickSettings(input: unknown): Partial<Settings> {
   if (!isObject(input)) return {};
 
+  // Anything saved before units were added to the field names still uses the
+  // old ones, so translate before reading or every field misses and the config
+  // silently comes back as the defaults.
+  const migrated = withCurrentSettingKeys(input);
+
   const out: Partial<Record<keyof Settings, number>> = {};
   for (const key of SETTINGS_KEYS) {
-    const n = toNumber(input[key]);
+    const n = toNumber(migrated[key]);
     if (n !== undefined) out[key] = n;
   }
   return out;

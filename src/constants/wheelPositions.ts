@@ -63,7 +63,7 @@ export function isCarModel(value: unknown): value is CarModel {
 // All measurements are in feet (1 unit = 1 foot in Three.js)
 // X: Positive values move wheels towards rear of car, negative towards front
 // Z: Positive values move wheels towards left side, negative towards right
-// Y (ride height): Controlled by settings.rideHeightFront/Rear
+// Y (ride height): Controlled by settings.rideHeightFrontFt/Rear
 // Right = left looking at the front of the car
 // Left = right looking at the front of the car
 

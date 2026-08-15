@@ -6,6 +6,7 @@ import { DEFAULT_WHEEL_DESIGN } from "@/constants/wheelDesigns";
 import { SPRING_MASS } from "@/utils/bounceSimulation";
 import type { FitmentStore } from "@/types/stores";
 import type { Settings } from "@/types/settings";
+import { withCurrentSettingKeys } from "@/utils/settingsMigration";
 
 export type { CarModel };
 
@@ -14,15 +15,15 @@ type SettingPair = readonly [keyof Settings, keyof Settings];
 // The front/rear pairs each match toggle keeps equal. A new paired setting has
 // to be listed here too, or the toggle will quietly leave it unmatched.
 const MATCHED_WHEEL_KEYS: readonly SettingPair[] = [
-  ["frontWheelWidth", "rearWheelWidth"],
-  ["frontWheelDiameter", "rearWheelDiameter"],
-  ["frontWheelOffset", "rearWheelOffset"],
-  ["frontWheelSpacer", "rearWheelSpacer"],
+  ["frontWheelWidthIn", "rearWheelWidthIn"],
+  ["frontWheelDiameterIn", "rearWheelDiameterIn"],
+  ["frontWheelOffsetMm", "rearWheelOffsetMm"],
+  ["frontWheelSpacerMm", "rearWheelSpacerMm"],
 ];
 
 const MATCHED_TIRE_KEYS: readonly SettingPair[] = [
-  ["frontTireWidth", "rearTireWidth"],
-  ["frontTireSidewall", "rearTireSidewall"],
+  ["frontTireWidthMm", "rearTireWidthMm"],
+  ["frontTireSidewallPct", "rearTireSidewallPct"],
 ];
 
 function mirrorToRear(
@@ -102,19 +103,24 @@ export const useFitmentStore = create<FitmentStore>()(
       merge: (persistedState, currentState) => {
         const typedState = persistedState as FitmentStore | undefined;
         if (!typedState) return currentState;
-        const legacyHz = (typedState.settings as { springRateHz?: number })
-          ?.springRateHz;
+
+        const persisted = withCurrentSettingKeys(
+          typedState.settings as unknown as Record<string, unknown>,
+        );
+
+        const legacyHz = persisted.springRateHz;
         // Inverse of omega = sqrt(k / m) — recover lb/in from a legacy Hz value.
         const legacySpringRateLbIn =
           typeof legacyHz === "number" && Number.isFinite(legacyHz)
             ? Math.round(Math.pow(2 * Math.PI * legacyHz, 2) * SPRING_MASS)
             : undefined;
+
         return {
           ...currentState,
           ...typedState,
           settings: {
             ...DEFAULT_SETTINGS,
-            ...(typedState.settings ?? {}),
+            ...(persisted as unknown as Partial<Settings>),
             springRateLbIn:
               typedState.settings?.springRateLbIn ??
               legacySpringRateLbIn ??
